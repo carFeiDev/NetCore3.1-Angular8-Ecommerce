@@ -352,3 +352,5 @@ MigrationBackup/
 .vscode/settings.json
 .vscode/tasks.json
 
+Proyect.TakuGames.Web/appsettings.Development.json
+Proyect.TakuGames.Web/wwwroot/Upload
