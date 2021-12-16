@@ -1,0 +1,94 @@
+.loading-indicator {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+  
+  /* Transparent Overlay */
+  .loading-indicator:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+  }
+
+  .card-deck-container {
+    display: flex;
+    flex-flow: row wrap;
+    -webkit-box-orient: horizontal;
+    -ms-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-box-direction: normal;
+    -moz-box-direction: normal;
+  
+    -webkit-box-flex: 1;
+    -ms-box-flex: 1;
+    -moz-box-flex: 1;
+    width: 100%;
+    position: absolute;
+    margin: 10px;
+    justify-content: flex-start;
+  }
+  
+  .card-item {
+    padding: 5px;
+  }
+  
+  .filter-container {
+    position: fixed;
+    width: 250px;
+    padding-top: 14px;
+  }
+  
+  .nodata {
+    margin-top: 20px;
+  }
+  
+  .card-deck-container {
+    display: flex;
+    flex-flow: row wrap;
+    -webkit-box-orient: horizontal;
+    -ms-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-box-direction: normal;
+    -moz-box-direction: normal;
+  
+    -webkit-box-flex: 1;
+    -ms-box-flex: 1;
+    -moz-box-flex: 1;
+    width: 100%;
+    position: absolute;
+    margin: 10px;
+    justify-content: flex-start;
+  }
+  
+  .card-item {
+    padding: 5px;
+  }
+  
+  .filter-container {
+    position: fixed;
+    width: 250px;
+    padding-top: 14px;
+  }
+  
+  .nodata {
+    margin-top: 20px;
+  }
+  .preview-image {
+    height: 150px;
+    width: 130px;
+  }

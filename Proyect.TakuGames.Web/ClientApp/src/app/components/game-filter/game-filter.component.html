@@ -1,0 +1,14 @@
+
+  <div class="category-container">
+    <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+      <mat-chip [class.active-category]="!category" routerLink="/product-search">
+        <a>Todos</a>
+      </mat-chip>
+      <mat-chip [class.active-category]="category== (c.categoryName | lowercase)"
+                *ngFor="let c of categoryList" routerLink="/product-search"
+                [queryParams]="{category:c.categoryName | lowercase}">
+                {{c.categoryName}}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+

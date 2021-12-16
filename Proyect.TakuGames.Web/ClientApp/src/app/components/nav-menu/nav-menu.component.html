@@ -1,0 +1,126 @@
+
+<nav class="navbar navbar-expand-lg docs-navbar-header ">
+  <div style="width: 10%">
+    <div class="navbar-brand" href="#">
+      <mat-icon [routerLink]='["/"]'>games</mat-icon> 
+    </div>  
+  </div> 
+  
+  <div style="width: 60%">
+    <div class="navbar-brand" style="width: 8em;">
+      <app-search></app-search>
+    </div>
+  </div>
+
+  <div style="width: 13%">
+    <button class="navbar-toggler" type="button" style="color: aliceblue;" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span>
+        <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
+          <mat-icon>menu
+            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+              <span (mouseleave)="menuTrigger.closeMenu()">
+                <button *ngIf="userData.isLoggedIn" mat-menu-item [routerLink]='["/"]'>
+                  <mat-icon>account_circle</mat-icon>        
+                  <span>{{userData.userName}}</span>
+                </button>
+                <button mat-menu-item [routerLink]='["/"]'>
+                  <mat-icon>home</mat-icon>
+                  <span>Inicio</span>
+                </button>                                 
+                <button *ngIf="userData.isLoggedIn" mat-menu-item [routerLink]='["/myorders"]'>
+                  <mat-icon>shop</mat-icon>
+                  <span>Mis compras</span>
+                </button>
+                <button mat-menu-item  *ngIf="!userData.isLoggedIn" [routerLinkActive]='["link-active"]' (click)="openDialog()">
+                  <mat-icon>how_to_reg</mat-icon>
+                  <span>Login</span>
+                </button>
+                <button mat-menu-item [routerLink]="['product-search']">
+                  <mat-icon>games</mat-icon>
+                  <span>Juegos</span>
+                </button>          
+                <button mat-menu-item *ngIf="userData.isLoggedIn" [routerLinkActive]='["link-active"]'[routerLink]='["/favoritelist"]'>
+                  <mat-icon matBadge="{{favoriteListCount$ | async}}" matBadgeColor="warn">
+                    favorite
+                  </mat-icon>              
+                  <span>Favoritos</span>
+                </button>
+                <button mat-menu-item *ngIf="userData.userTypeId==userType.admin" [routerLink]='["/admin/games"]'>
+                  <mat-icon matBadge="{{favoriteListCount$ | async}}" matBadgeColor="warn">
+                    business
+                  </mat-icon>              
+                  <span>Administracion</span>
+                </button>
+                <button *ngIf="userData.isLoggedIn" mat-menu-item (click)=logout()>
+                  <mat-icon>exit_to_app</mat-icon>
+                  <span>Cerrar sesión</span>
+                </button>               
+              </span>
+            </mat-menu>
+          </mat-icon>       
+        </button>
+      </span>
+    </button>
+  </div>
+
+  <div  style="width: 13%">
+    <button  class="navbar-toggler" mat-icon-button [routerLinkActive]='["link-active"]' [routerLink]='["/shopping-cart"]' >
+      <mat-icon matBadge="{{cartItemCount$ | async}}" matBadgeColor="warn">
+        shopping_cart
+      </mat-icon>
+    </button>
+  </div>  
+  
+  <div class="col-auto">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="mat-menu-categories">
+        <button mat-button [matMenuTriggerFor]="categories">Categorias</button>
+          <mat-menu #categories="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="tecnologies">Tecnologia</button>
+          </mat-menu>
+          <mat-menu #tecnologies="matMenu">
+            <a mat-menu-item [routerLink]="['/product-search']">Videos Juegos</a>
+          </mat-menu>       
+      </div>
+
+      <button mat-button *ngIf="!userData.isLoggedIn" [routerLinkActive]='["link-active"]' (click)="openDialog()">
+        Login
+      </button>
+      <button mat-icon-button [routerLinkActive]='["link-active"]' [routerLink]='["/shopping-cart"]'>
+        <mat-icon matBadge="{{cartItemCount$ | async}}" matBadgeColor="warn">
+          shopping_cart
+        </mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="userData.isLoggedIn" [routerLinkActive]='["link-active"]'[routerLink]='["/favoritelist"]'>
+        <mat-icon matBadge="{{favoriteListCount$ | async}}" matBadgeColor="warn">
+          favorite
+        </mat-icon>
+      </button>
+      <button mat-button *ngIf="userData.userTypeId==userType.admin" [routerLink]='["/admin/games"]'>
+        Administracion
+      </button>
+        <ng-container *ngIf="userData.isLoggedIn">
+          <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>account_circle</mat-icon>
+              {{userData.userName}}
+            <mat-icon>
+              arrow_drop_down
+            </mat-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item [routerLink]='["/myorders"]'>
+                Mis Ordenes
+              </button>
+              <button mat-menu-item (click)=logout()>
+                Logout
+              </button>
+            </mat-menu>         
+          </button>          
+        </ng-container>  
+      </div>
+  </div>
+</nav>
+
+
+
+
+

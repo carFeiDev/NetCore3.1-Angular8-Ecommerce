@@ -1,0 +1,43 @@
+.mat-radio-button {
+  margin: 5px;
+}
+
+.container{
+    width:510px;
+}
+
+.btn-yellow {
+  border: 2px solid #F9A825;
+  background-color: #F9A825;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px
+}
+
+.btn-yellow:hover {
+  background-color: #F57F17;
+  border: 2px solid #F57F17
+}
+
+.btn-inverse {
+  border: 2px solid #F9A825;
+  background-color: transparent;
+  color: #F9A825;
+  font-weight: bold;
+  letter-spacing: 1px
+}
+
+.btn-inverse:hover {
+  background-color: #F57F17;
+  color: #fff;
+  border: 2px solid #F57F17
+}
+
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer
+}
+
+

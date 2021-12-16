@@ -1,0 +1,22 @@
+<div class="">
+    <div class="">
+      <div class="">
+        <h4>Filtro por precio</h4>
+      </div>
+    </div>
+    <div class="">
+      <mat-slider [max]="max"
+                  [min]="min" 
+                  [step]="step" 
+                  [thumbLabel]="thumbLabel"
+                  [displayWith]="formatLabel"
+                  [(ngModel)]="value" 
+                  (change)="onChange($event)">
+      </mat-slider>
+    </div>
+    <div class="d-flex justify-content-around price-range">
+      <div><strong>{{min | currency: 'INR'}}</strong></div>
+      <div>to</div>
+      <div><strong>{{value | currency: 'INR'}}</strong></div>
+    </div>
+  </div>

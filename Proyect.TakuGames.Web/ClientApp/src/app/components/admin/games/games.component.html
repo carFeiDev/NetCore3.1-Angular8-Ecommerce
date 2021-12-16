@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row" style="padding-bottom:1em">
+    <div class="col">
+      <button mat-raised-button color="accent" [routerLink]='["/admin/games/old-manager-games"]'><mat-icon>menu</mat-icon>Version  manager antigua</button>
+    </div> 
+    <div class="col">
+      <button mat-raised-button color="primary" (click)="opengDialogAddGame()">
+        <mat-icon aria-label="Add">add</mat-icon>Agregar Juuego
+      </button>    
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" mat-raised-button onclick="window.location.href='/swagger';">Swagger</button>
+    </div>
+  </div>
+  <div class="row">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"[(ngModel)]="adminfiltergames">
+  </div> 
+  <div class="card border-light mb-3" (click)="onSelectedGame(game)">
+    <div class="row">
+      <div class="col-sm-2" *ngFor="let game of games | adminFilterGames: adminfiltergames">
+        <span class="badge bg-danger" (click)="openDialogDeleteGame(game)">Eliminar</span>
+        <img class="card-img-top" [routerLink]="['/games/details/', game.gameId]" src="/Upload/{{game.coverFileName}}">
+        <div class="card-body">
+          <span class="badge badge-success" (click)="opengDialogEditGame(game)">Editar</span>
+          <p class="card-title"> {{game.title}}</p>
+          <p>{{game.price | currency : 'INR'}}</p>
+        </div>
+      </div>
+    </div>    
+  </div>
+</div>

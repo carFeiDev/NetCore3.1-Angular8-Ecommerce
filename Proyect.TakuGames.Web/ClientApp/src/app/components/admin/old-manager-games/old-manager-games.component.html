@@ -1,0 +1,79 @@
+<div  class="container">         
+    <h2>Manage Juegos</h2>                           
+    <div class="docs-example-viewer-body">
+        <div class="full-width">
+            <mat-card-content>
+                <div class="row">
+                    <div class="col">
+                        <button mat-raised-button color="accent" [routerLink]='["/admin/games"]'>
+                            <mat-icon> menu</mat-icon> Version nueva
+                        </button>
+                    </div>           
+                    <div class="col">
+                        <button mat-raised-button color="primary" (click)="opengDialogAddGame()">
+                            <mat-icon aria-label="Add">add</mat-icon>Agregar Juuego
+                        </button>                       
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" mat-raised-button onclick="window.location.href='/swagger';">Swagger</button>
+                    </div>
+                </div>
+                <mat-form-field><input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter"></mat-form-field>               
+                <div table-container class="mat-elevation-z2">
+                    <table mat-table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                            <td mat-cell *matCellDef="let row"> {{row.gameId}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="coverFileName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
+                            <td mat-cell *matCellDef="let row">  <img class="card-img-top" [routerLink]="['/games/details/', row.gameId]" src="/Upload/{{row.coverFileName}}" />  </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="title">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+                            <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                            <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="developer">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Desarrolador </th>
+                            <td mat-cell *matCellDef="let row"> {{row.developer}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="publisher">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Publcidad </th>
+                            <td mat-cell *matCellDef="let row"> {{row.publisher}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="platform">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                            <td mat-cell *matCellDef="let row"> {{row.platform}} </td>
+                        </ng-container> 
+
+                        <ng-container matColumnDef="category">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+                            <td mat-cell *matCellDef="let row"> {{row.category}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+                            <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="operation">
+                            <th mat-header-cell *matHeaderCellDef> Operation </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="primary" (click)="opengDialogEditGame(row)"><mat-icon aria-label="Edit">edit</mat-icon></button>                                                                                                        
+                                <button mat-icon-button color="accent" (click)="openDialogDeleteGame(row)"><mat-icon>delete</mat-icon></button>                                                                                                    
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[ 5, 10, 25, 50 ]"></mat-paginator>
+                </div>
+            </mat-card-content>
+        </div>
+    </div>    
+</div>

@@ -1,0 +1,64 @@
+
+<div class="container">
+  <div>
+    <h1>Mis compras</h1>
+  </div>
+
+  <div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div *ngIf="listCustomerOrder == 0; then empty else noEmpty"></div>
+    <ng-template #empty>
+      <div class="row">
+        <div class="col">
+          <div style="padding-top:2em">
+            <mat-divider></mat-divider>
+          </div>
+            <div class="m-0 vh-10 row justify-content-center align-items-center">
+              <h1 style="padding-top:2em">No tienes compras hechas</h1>
+            </div>
+        </div>
+        <div style="padding-top:2em">
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+      <div style="padding-top:10em; padding-bottom:3em">
+        <mat-divider></mat-divider>
+      </div>
+      <div style="padding-top:3em;  padding-bottom:3em">
+        <button class="btn-primary btn-sm float-right" [routerLink]='["/"]'>Volver</button>
+      </div>   
+    </ng-template>
+
+    <ng-template #noEmpty>
+      <div *ngFor="let customerOrder of listCustomerOrder">
+        <mat-card class="card-list-item-containe"> 
+          <div>Fecha de compra : {{customerOrder.dateCreated | date :'fullDate'}}</div>        
+            <div *ngFor="let orderDetails of customerOrder.customerOrderDetails">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-12 mat-divider-padding">
+                  <mat-divider></mat-divider>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3 item-padding">
+                  <img class="preview-image" mar-card-image src="/Upload/{{orderDetails.coverFileName}}"alt="Game cover image">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 item-padding">Unidades:{{orderDetails.quantity}}</div>
+                <div class="col-xs-12 col-sm-6 col-md-2 item-padding">Precio  ${{orderDetails.price}}</div>
+                <div class="col-xs-12 col-sm-6 col-md-2 item-padding">Total:${{orderDetails.totalPrice}}</div>
+                <div class="col-xs-12 col-sm-6 col-md-3 item-padding">
+                  <button class ="btn btn-primary" [routerLink]="['/games', 'details' , orderDetails.productId]">Volver a comprar</button>
+                </div>         
+              </div>         
+            </div>
+        </mat-card>
+      </div>
+    </ng-template>  
+</div>
+
+
+
+
+

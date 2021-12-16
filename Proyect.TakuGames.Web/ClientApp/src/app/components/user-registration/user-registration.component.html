@@ -1,0 +1,105 @@
+
+<div class="container px-4 px-md-4 py-5 mx-auto">
+  <div class="row d-flex justify-content-between align">
+    <div class="row">
+      <div class="col">
+        <mat-card>
+          <h3>Formulario registro</h3>
+            <form [formGroup]="registerForm" (ngSubmit)="registerUser($event)">
+              <!--------------------------Nombre------------------------------>
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"/>
+                <div *ngIf="submitted && f.firstName.errors " class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required"> Nombre es requerido</div>
+                </div>
+              </div>
+              <!--------------------------Apellido---------------------------->
+              <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
+                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">Apellido es requerido</div>
+                </div>
+              </div>
+              <!-------------------------Nombre de  usuario------------------->
+              <div class="form-group">
+                <label>Nombre de usuario</label>
+                <input type="text" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }"/>
+                <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+                  <div *ngIf="f.userName.errors.required">Nombre de usuario requerido</div>
+                  <div *ngIf="!f.userName.valid">El nombre de usuarios ingresado ya existe</div>
+                </div>              
+              </div>
+              <!--------------------------Email------------------------------->
+              <!--<div class="form-group">
+                <label>Email</label>
+                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                </div>
+              </div>-->
+              <!--------------------------Genero-------------------------------->
+              <div class="form-group">
+                <mat-radio-group formControlName="gender" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                  <mat-radio-button class="" value="Male">Hombre</mat-radio-button>
+                  <mat-radio-button class="" value="Female">Mujer</mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                  <div *ngIf="f.gender.errors.required">Genero es requerido</div>
+                </div>
+              </div>
+              <!--------------------------Contraseña------------------------------>
+              <div class="form-group">
+                <label>Password</label>
+                <input [type]="!showPassword ? 'password' : 'text'" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+                <mat-icon matSuffix (click)="showPassword = !showPassword">
+                  {{ !showPassword ? 'visibility_off' :'visibility' }}
+                </mat-icon>
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Contraseña es requerida</div>
+                  <div *ngIf="f.password.errors.minlength">Contraseña debe tener al menos  6 letras</div>
+                </div>
+              </div>
+              <!--------------------------Confirmar contraseña-------------------->
+              <div class="form-group">
+                <label>Confirmar Contraseña</label>
+                <input [type]="!showConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"/>
+                <mat-icon matSuffix (click)="showConfirmPassword = !showConfirmPassword">
+                  {{ !showConfirmPassword ? 'visibility_off' : 'visibility'}}
+                </mat-icon>
+                <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.confirmPassword.errors.required">Confirmar contraseña es requerido</div>
+                  <div *ngIf="f.confirmPassword.errors.mustMatch">Contraseña debe coincidir</div>
+                </div>
+              </div>
+              <!--------------------------Check terminos y condiciones---------->
+              <div class="form-group">
+                <mat-checkbox color="primary" formControlName="check" [ngClass]="{ 'is-invalid': submitted && f.check.errors}" >Estoy de acuerdo con los terminos y condiciones</mat-checkbox>
+                <div *ngIf="submitted && f.check.errors" class="invalid-feedback">
+                  <div *ngIf="f.check.errors.required">Tienes que aceptar los terminos y condiciones</div>
+                </div>
+              </div>
+              <!--------------------------Registro----------------------------->
+              <!-- <div class="row px-3 mt-5">
+                <button type="submit" class="btn btn-yellow px-3 mr-3">Registar</button>
+                <small class="text-muted mr-3 mt-2">Iniciar sesiòn con</small>
+                <img class="icon mr-2 mt-2" src="https://i.imgur.com/j8ZGqG2.png">
+                <img class="icon ml-2 mt-2" src="https://i.imgur.com/AX2lVgH.png">
+                <button mat-stroked-button color="primary"(click)="openLoginDialog()">Inicio de sesión</button>
+              </div> -->
+              <div class="row">
+                <div class="col"><button type="submit" class="btn btn-primary">Registar</button></div>
+                <div class="col"><small class="text-muted mr-3 mt-2">Iniciar sesiòn con</small>     <img class="icon mr-2 mt-2" src="https://i.imgur.com/j8ZGqG2.png">
+                  <img class="icon ml-2 mt-2" src="https://i.imgur.com/AX2lVgH.png">
+                </div>
+                <div class="col"><button mat-stroked-button color="primary"(click)="openLoginDialog()">Volver a Inicio de sesión</button></div>
+              </div>
+            </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+

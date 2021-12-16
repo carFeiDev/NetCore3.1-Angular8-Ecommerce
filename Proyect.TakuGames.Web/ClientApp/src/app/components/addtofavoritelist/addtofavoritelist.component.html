@@ -1,0 +1,12 @@
+<ng-container *ngIf="showButton; else showIcon">
+  <button [ngClass]="{'favoritelisted': toggle, 'not-favoritelisted': !toggle}" class="btn btn-outline-dark" (click)="toggleValue()">
+    {{buttonText}}
+  </button>
+</ng-container>
+<ng-template #showIcon >
+    <span (click)="toggleValue()" [ngClass]="{'favorite-selected': toggle, 'favorite-unselected': !toggle}" class="material-icons ">  
+      {{ !toggle ? 'favorite_border' : 'favorite'}}
+    </span>
+</ng-template>
+
+

@@ -1,0 +1,48 @@
+
+<div class="card-body">
+  <h5 class="card-title text-center">Inicio de sesión</h5>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+      <!-- Entrada -->
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Nombre de usuario" formControlName="username" required>
+        <mat-error *ngIf="username.touched && username.invalid"> Nombre de usuarios es requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Contraseña" formControlName="password" [type]="!showPassword ? 'password': 'text' " required>
+        <mat-icon matSuffix (click)="showPassword = !showPassword">{{!showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="password.touched && password.invalid">Contraseña es requerida</mat-error>
+      </mat-form-field>
+      <mat-card-subtitle>
+        <mat-error *ngIf="loginForm.errors">Nombre de usuario  o  contraseña es requerida</mat-error>
+      </mat-card-subtitle>
+      <mat-card-actions align="right">
+        <div class="custom-control custom-checkbox mb-3">
+          <input type="checkbox" class="custom-control-input" id="customCheck1">
+          <label class="custom-control-label" for="customCheck1">Recordar contraseña?</label>
+        </div>
+        <!-- Inicio -->
+        <div>
+          <button class="btn btn-lg btn-primary btn-block text-uppercase"  type="submit">Iniciar</button>
+        </div>
+          <!-- <hr class="my-4">
+        <div>
+          <button class="btn btn-lg btn-google btn-block text-uppercase"   type="submit">Iniciar con  Google</button>
+        </div>
+        <div>
+          <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit">Iniciar con  Facebook</button>
+        </div> -->
+        <div class="px-4 pt-5"><hr></div>
+        <!-- Registro -->
+        <div class="pt-2">
+          <div class="row justify-content-center">
+            <h5>¿No tienes una cuenta?<span><a href="#" class="text-danger"> Registrarse ahora!!</a></span></h5>
+          </div>
+          <div class="row justify-content-center align-items-center pt-4 pb-5">
+            <div class="col-4"  class="btn btn-block btn-info" (click)="routerLinkRegisterUser()"> Registrar  </div>
+          </div>
+        </div>
+      </mat-card-actions>
+    </form>
+</div>
+
+

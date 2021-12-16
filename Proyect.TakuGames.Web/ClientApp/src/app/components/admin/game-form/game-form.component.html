@@ -1,0 +1,70 @@
+<div class="">
+  <div class="">
+    <h3>{{formTitle}} Juego</h3>
+  </div>
+  <div class="">
+    <mat-card>
+      <mat-card-content>
+        <form enctype="multipart/form-data" [formGroup]="gameForm" (ngSubmit)="saveGameData()">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Titulo" formControlName="title" required>
+            <mat-error *ngIf="title.touched && title.invalid">Titulo es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Descripción" formControlName="description" required>
+            <mat-error *ngIf="description.touched && description.invalid">Descripón es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Desarrolladora" formControlName="developer" required>
+            <mat-error *ngIf="developer.touched && developer.invalid">Desarrolladora es requerida</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Editor" formControlName="publisher" required>
+            <mat-error *ngIf="publisher.touched && publisher.invalid">Editor es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Plataforma" formControlName="platform" required>
+            <mat-error *ngIf="platform.touched && platform.invalid">Plataforma es requerida</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Genero" formControlName="category" required>
+              <mat-option *ngFor="let category of categoryList" [value]="category.categoryName">
+                {{category.categoryName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="category.touched && category.invalid">Genero es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Precio" formControlName="price" type="number" required>
+            <span matPrefix>&nbsp;</span>
+            <mat-error *ngIf="price.touched && price.hasError('required')">Precio es requerido</mat-error>
+            <mat-error *ngIf="price.touched && price.hasError('min')">Precio no puede ser menor a 1</mat-error>
+          </mat-form-field>
+
+          <mat-card-content class="image-card">
+            <h6>Image Preview</h6>
+          </mat-card-content>
+          <mat-card-content class="image-card">
+            <img class="preview-image" mat-card-image src={{coverImagePath}} alt="No image available">
+          </mat-card-content>
+          <mat-card-content>
+            <div class="upload-btn-wrapper mat-elevation-z2">
+              <button class="btn-upload" type="button" mat-raised-button>Upload image</button>
+              <input type="file" (change)="uploadImage($event)" />
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="right">
+            <div fxFlex></div>
+            <button type="submit" mat-raised-button color="primary">Guardar</button>
+            <button type="button" mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+          </mat-card-actions>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+
+
+

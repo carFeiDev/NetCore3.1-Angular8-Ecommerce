@@ -1,0 +1,39 @@
+$color-white: #FFFFFF;
+$color-upload: #26A69A;
+
+.image-card {
+  padding: 10px 10px 0 10px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-image {
+  max-height: 180px;
+  max-width: 100px;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-upload {
+  color: $color-white;
+  background-color: $color-upload;
+}
+
+.upload-btn-wrapper input[type=file] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.container{
+    width:100%;
+
+}
+.full-width{
+    width:100%
+}

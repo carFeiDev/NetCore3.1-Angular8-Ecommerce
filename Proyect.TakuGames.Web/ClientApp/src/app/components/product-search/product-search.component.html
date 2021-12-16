@@ -1,0 +1,66 @@
+<div *ngIf="showSpinner" class="spinner-container"  fxLayoutAlign="center" style="height:100%">
+  <div class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" ></mat-progress-spinner>
+  </div>
+</div>
+<div class="container">
+  <h1>Buscar juegos</h1>
+  <div class="row">
+    <div class="col-md-3">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="filtergames">
+      <h3>Filtros por genero</h3>
+      <app-game-filter [category]="category"></app-game-filter>
+      <app-price-filter (priceValue)="filterPrice($event)"></app-price-filter>
+    </div>
+    <div class="col">
+      <!-- <mat-card  (mouseover)="changeText=true" (mouseout)="changeText=false"> -->
+      <mat-card>
+        <div *ngIf="games == 0 ; then thenBlock else elseBlock"></div>         
+        <ng-template #thenBlock>
+          <h1>No se encontraron elementos con el filtro seleccionado</h1>
+        </ng-template> 
+        <ng-template #elseBlock>
+          <div class="">
+            <div  *ngFor="let item of games | filterGames: filtergames"   style="padding-top:2em">      
+              <mat-divider></mat-divider>
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">              
+                <div class="col-md-3" style="padding-top:2em">
+                  <img class="preview-image" mar-card-image src="/Upload/{{item.coverFileName}}" [routerLink]="['/games/details/', item.gameId]" alt="Game cover image">
+                </div>               
+                <div class="col-md-8"  style="padding-top:2em">
+                  <div [routerLink]="['/games/details/', item.gameId]">
+                    {{item.title}}
+                  </div>
+                  <div>
+                    $ {{item.price}}
+                  </div>                              
+                </div>               
+                <div class="col-md-1" style="padding-top:2em">
+                  <span *ngIf="changeText"><app-addtofavoritelist [gameId]="item.gameId"></app-addtofavoritelist></span>  
+                  <app-addtofavoritelist [gameId]="item.gameId"></app-addtofavoritelist>                 
+                </div>        
+              </div>    
+            </div>           
+          </div>     
+        </ng-template>              
+      </mat-card>    
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+
+<div *ngIf="showSpinner  ; then thenBlock else elseBlock" ></div>
+  <ng-template #thenBlock>
+    <div class="d-flex justify-content-center">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+  <ng-template #elseBlock >
+      <button  class="btn btn-outline-dark" (click)="addOneItemToCart()" >
+        <span><mat-icon>shopping_cart</mat-icon></span>Agregar
+      </button>
+      <button  class="btn btn-dark" (click)="addToCartAndGo()" >
+        <span><mat-icon>shopping_cart</mat-icon></span>Comprar
+      </button>
+  </ng-template>
