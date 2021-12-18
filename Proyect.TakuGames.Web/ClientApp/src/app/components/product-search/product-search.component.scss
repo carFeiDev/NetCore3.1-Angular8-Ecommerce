@@ -10,7 +10,6 @@
     bottom: 0;
     right: 0;
   }
-  
   /* Transparent Overlay */
   .loading-indicator:before {
     content: '';
@@ -22,73 +21,36 @@
     height: 100%;
     background-color: rgba(0,0,0,0.3);
   }
+  .category-game-container {
+    border:10px solid black;
+  }
 
-  .card-deck-container {
-    display: flex;
-    flex-flow: row wrap;
-    -webkit-box-orient: horizontal;
-    -ms-box-orient: horizontal;
-    -moz-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-box-direction: normal;
-    -moz-box-direction: normal;
-  
-    -webkit-box-flex: 1;
-    -ms-box-flex: 1;
-    -moz-box-flex: 1;
-    width: 100%;
-    position: absolute;
-    margin: 10px;
-    justify-content: flex-start;
+  .card-game-container {
+    border: 10px solid black;
+    margin-top:10px ;
   }
+  // .card-game {
+    
+  // }
   
-  .card-item {
-    padding: 5px;
-  }
-  
-  .filter-container {
-    position: fixed;
-    width: 250px;
-    padding-top: 14px;
-  }
-  
-  .nodata {
-    margin-top: 20px;
-  }
-  
-  .card-deck-container {
-    display: flex;
-    flex-flow: row wrap;
-    -webkit-box-orient: horizontal;
-    -ms-box-orient: horizontal;
-    -moz-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-box-direction: normal;
-    -moz-box-direction: normal;
-  
-    -webkit-box-flex: 1;
-    -ms-box-flex: 1;
-    -moz-box-flex: 1;
-    width: 100%;
-    position: absolute;
-    margin: 10px;
-    justify-content: flex-start;
-  }
-  
-  .card-item {
-    padding: 5px;
-  }
-  
-  .filter-container {
-    position: fixed;
-    width: 250px;
-    padding-top: 14px;
-  }
-  
-  .nodata {
-    margin-top: 20px;
+  .preview-image-container {
+    margin-top:1em;
+    margin-bottom: 1em;
   }
   .preview-image {
-    height: 150px;
-    width: 130px;
+    height: 100%;
+    width: 100%;  
   }
+  .game-description-container {
+     padding-top:2em;
+  }
+  .game-favorite-container {
+    padding-top:2em;
+  }
+  .game-title { 
+    text-align: justify;
+  }
+  .game-price {
+    font-size: 23px;
+  }
+  
