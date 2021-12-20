@@ -1,20 +1,27 @@
-.preview-image {
-  height: 50px;
-  width: 50px;
-}
 $color-row-hover: #777777;
 
-.card-list-item-containe{
-    margin-bottom: 20px;
-  }
-
-.card-item{
-    height: 13%;
-  }
-.mat-divider-padding{
+.mat-divider-padding {
   padding-top: 1em;
 }
-.item-padding{
+.card-orders {
+  border: 5px solid black;
+  margin-bottom: 20px;
+}
+.card-orders-empty {
+  border: 5px solid black;
+  width: 100%;
+  height: auto;
+  padding-top: 208px;
+  padding-bottom:208px ; 
+  
+}
+.item-column {
   padding-top: 1em;
+  width: 100%;
+  height: 100%;
+  text-align:center;
+}
+.text-empty-game{
+  text-align: center;
 }
   
