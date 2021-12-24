@@ -1,6 +1,8 @@
 .preview-image {
-  height: 150px;
-  width: 130px;
+  height: 100%;
+  width: 100%;
+  padding-top:2em;
+  padding-bottom:2em
 }
 .loading-indicator {
   position: fixed;
@@ -26,6 +28,84 @@
   height: 100%;
   background-color: rgba(0,0,0,0.3);
 }
+
+.card-game{
+  border: 5px solid black;
+  margin-bottom: 20px;
+  width: 100%;
+  height: auto;
+  
+}
+.card-shopping-cart-empty {
+  border: 5px solid black;
+  width: 100%;
+  height: auto;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  padding-top: 208px;
+  padding-bottom:208px ; 
+  
+}
+.item-column {
+  padding-top: 1em;
+  width: 100%;
+  height: 100%;
+  text-align:center;
+}
+.text-empty-shopping-cart{
+  text-align: center;
+  
+}
+.input-number {
+  display: flex;
+  align-items: center;
+  padding-top:2em
+  
+}
+// .input-number__delete {
+  
+// }
+.input-number__quantity {
+  background-color: black;
+}
+// .input-number__delete__button {
+  
+// }
+// .input-number__text__quantity {
+
+// }
+// .input-number__text {
+
+// }
+// .input-number__text__quantity {
+
+// }
+// .input-number__add {
+
+// }
+// .input-number__add__button {
+
+// }
+.price {
+  padding-top:2.6em;
+}
+.delete {
+  padding-top:2.3em;
+}
+.checkout-button {
+  padding-top: 3em;
+  padding-bottom: 8em;
+  padding-right: 3em;
+}
+.divider {
+  padding:3em;
+}
+.name-game{
+  text-align: center;
+  padding-top:2em;
+}
+  
+
 
 
 
