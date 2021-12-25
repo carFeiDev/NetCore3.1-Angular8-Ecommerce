@@ -29,27 +29,11 @@ namespace Project.TakuGames.Business
 
         public UserMaster AuthenticateUser(UserMaster loginCredentials)
         {
-            UserMaster user = new UserMaster();
-            
-            var userDetails = UnitOfWork.UserMasterRepository
-                                .Get(u => u.UserName == loginCredentials.UserName && u.Password == loginCredentials.Password)
-                                .FirstOrDefault();
-
-            if (userDetails != null)
-            {
-                user = new UserMaster
-                {
-                    UserName = userDetails.UserName,
-                    UserId = userDetails.UserId,
-                    UserTypeId = userDetails.UserTypeId
-                };
-                return user;
-            }
-            else
-            {
-                return userDetails;
-            }
-
+            UserMaster user = UnitOfWork.UserMasterRepository
+                                .Get(user => user.UserName == loginCredentials.UserName 
+                                          && user.Password == Encrypt.GetSHA256(loginCredentials.Password))
+                                .FirstOrDefault();                             
+            return user;
         }
 
         public bool CheckUserAwaillabity(string userName)
