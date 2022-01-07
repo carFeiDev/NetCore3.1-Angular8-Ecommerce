@@ -18,37 +18,36 @@ namespace Project.TakuGames.Business
     public class UserBusiness : BaseBusiness, IUserBusiness
     {
         readonly IConfiguration _config;
-        public UserBusiness(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            ILogger<UserBusiness> logger,
-            IConfiguration config) : base(unitOfWork, mapper, logger)
+        public UserBusiness(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserBusiness> logger, IConfiguration config)
+                        : base(unitOfWork, mapper, logger)
         {
             this._config = config;
         }
-
         public UserMaster AuthenticateUser(UserMaster loginCredentials)
         {
-            UserMaster user = UnitOfWork.UserMasterRepository
-                                .Get(user => user.UserName == loginCredentials.UserName 
-                                          && user.Password == Encrypt.GetSHA256(loginCredentials.Password))
-                                .FirstOrDefault();                             
-            return user;
+            return  UnitOfWork.UserMasterRepository
+                            .Get(user => user.UserName == loginCredentials.UserName 
+                                      && user.Password == Encrypt.GetSHA256(loginCredentials.Password))
+                            .FirstOrDefault();                                         
         }
-
-        public bool CheckUserAwaillabity(string userName)
-        {     
-            string user = UnitOfWork.UserMasterRepository.Get(x => x.UserName == userName).FirstOrDefault()?.ToString();
-            if (user != null)
-            {
-                return true;
+         public  int? RegisterUser(UserMaster userData)
+        {          
+            try
+            {                
+                string spassword = Encrypt.GetSHA256(userData.Password);
+                bool user = isUserExists(userData.UserName);
+                if(user) return null;          
+                userData.UserTypeId = 2;
+                userData.Password = spassword;
+                UnitOfWork.UserMasterRepository.Insert(userData);
+                UnitOfWork.Save();
+                return 1;
             }
-            else
+            catch
             {
-                return false;
-            }
+                throw;
+            }                 
         }
-
         public string GenerateJSONWebToken(UserMaster userInfo)
         {
             var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
@@ -70,39 +69,23 @@ namespace Project.TakuGames.Business
               );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-        public  int? RegisterUser(UserMaster userData)
-        {
-                     
-            try
-            {                
-                string spassword = Encrypt.GetSHA256(userData.Password);
-                var user = UnitOfWork.UserMasterRepository.Get().Where(d => d.UserName == userData.UserName).FirstOrDefault();
-                if(!(user == null)) return null;          
-                userData.UserTypeId = 2;
-                userData.Password = spassword;
-                UnitOfWork.UserMasterRepository.Insert(userData);
-                UnitOfWork.Save();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }            
-       
+        public bool isUserExists (string userName)
+        {     
+            UserMaster user = GetUSerWithUserName(userName);
+            return user != null;
         }
-         public bool isUserExists(int userId)
+         public bool CheckUserAwaillabity(int userId)
         {
-            string user = UnitOfWork.UserMasterRepository.Get(x => x.UserId == userId).FirstOrDefault()?.ToString();
-
-            if (user != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            UserMaster user = GetUserWithId(userId);
+            return  user != null;            
+        }
+        private UserMaster GetUserWithId(int userId)
+        {
+            return UnitOfWork.UserMasterRepository.Get(x => x.UserId == userId).FirstOrDefault();
+        }
+        private UserMaster GetUSerWithUserName(string userName)
+        {
+            return UnitOfWork.UserMasterRepository.Get(x => x.UserName == userName).FirstOrDefault();
         }
     }
 }

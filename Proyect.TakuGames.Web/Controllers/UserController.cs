@@ -60,7 +60,8 @@ namespace Proyect.TakuGames.Web.Controllers
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         public ActionResult<bool> ValidateUserName(string userName)
         {
-            var response = userBusiness.CheckUserAwaillabity(userName); 
+            // var response = userBusiness.CheckUserAwaillabity(userName); 
+             var response = userBusiness.isUserExists(userName); 
             return response;
         }
         /// <summary>

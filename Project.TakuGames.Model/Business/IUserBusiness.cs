@@ -7,8 +7,8 @@ namespace Project.TakuGames.Model.Business
     {
         UserMaster AuthenticateUser(UserMaster loginCredentials);
         int? RegisterUser(UserMaster userData);
-        bool CheckUserAwaillabity(string userName);
+        bool isUserExists(string userName);
         string GenerateJSONWebToken(UserMaster userMaster);
-        bool isUserExists(int userId);
+        bool CheckUserAwaillabity(int userId);
     }
 }

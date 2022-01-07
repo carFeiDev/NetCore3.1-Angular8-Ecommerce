@@ -49,7 +49,7 @@ namespace Proyect.TakuGames.Test.Controller
         {
             //arrange
             var user1 = new UserMaster() { UserId = 1, UserName = "lala" };
-            _mockUserBusiness.Setup(b => b.CheckUserAwaillabity(user1.UserName)).Returns(true);
+            _mockUserBusiness.Setup(b => b.isUserExists(user1.UserName)).Returns(true);
 
             var ctl = new UserController(_mockUserBusiness.Object, _mockCartBusiness.Object, mapper, logger.Object);
 
@@ -66,7 +66,7 @@ namespace Proyect.TakuGames.Test.Controller
         {
             //arrange
             var user1 = new UserMaster() { UserId = 1, UserName = "lala" };
-            _mockUserBusiness.Setup(b => b.CheckUserAwaillabity(user1.UserName)).Returns(false);
+            _mockUserBusiness.Setup(b => b.isUserExists(user1.UserName)).Returns(false);
 
             var ctl = new UserController(_mockUserBusiness.Object, _mockCartBusiness.Object, mapper, logger.Object);
 

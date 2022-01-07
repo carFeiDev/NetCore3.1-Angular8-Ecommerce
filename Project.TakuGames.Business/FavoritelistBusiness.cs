@@ -69,7 +69,7 @@ namespace Project.TakuGames.Business
          
         public List<Game> GetUserFavoritelist(int userId)
         {
-            bool user = userBusiness.isUserExists(userId);
+            bool user = userBusiness.CheckUserAwaillabity(userId);
             if (user)
             {
                 string favoritelistid = GetFavoritelistId(userId);

@@ -57,7 +57,7 @@ namespace Proyect.TakuGames.Test.Business
             var userbusiness = new UserBusiness(uow, mapper, logger.Object, mockConfig.Object);
 
             //action
-            var resp = userbusiness.CheckUserAwaillabity(user.UserName);
+            var resp = userbusiness.isUserExists(user.UserName);
 
             //assert
             Assert.True(resp);
@@ -71,7 +71,7 @@ namespace Proyect.TakuGames.Test.Business
 
             //action
             var userbusiness = new UserBusiness(uow, mapper, logger.Object,mockConfig.Object);
-            var resp = userbusiness.CheckUserAwaillabity(user.UserName);
+            var resp = userbusiness.isUserExists(user.UserName);
 
             //assert
             Assert.False(resp);
