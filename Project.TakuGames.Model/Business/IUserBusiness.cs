@@ -6,9 +6,8 @@ namespace Project.TakuGames.Model.Business
     public interface IUserBusiness
     {
         UserMaster AuthenticateUser(UserMaster loginCredentials);
-        int? RegisterUser(UserMaster userData);
-        bool isUserExists(string userName);
+        UserMaster RegisterUser(UserMaster userData);
         string GenerateJSONWebToken(UserMaster userMaster);
-        bool CheckUserAwaillabity(int userId);
+        
     }
 }

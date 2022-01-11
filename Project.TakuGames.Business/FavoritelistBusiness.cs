@@ -65,11 +65,10 @@ namespace Project.TakuGames.Business
             {
                 throw;
             }
-        }
-         
+        } 
         public List<Game> GetUserFavoritelist(int userId)
         {
-            bool user = userBusiness.CheckUserAwaillabity(userId);
+            bool user = CheckUserAwaillabity(userId);
             if (user)
             {
                 string favoritelistid = GetFavoritelistId(userId);
@@ -81,7 +80,18 @@ namespace Project.TakuGames.Business
             }
 
         }
-
+        #region Validations
+        private bool isUserExists (string userName)
+        {     
+            UserMaster user = GetUSerWithUserName(userName);
+            return user != null;
+        }
+        private bool CheckUserAwaillabity(int userId)
+        {
+            UserMaster user = GetUserWithId(userId);
+            return  user != null;            
+        }
+        #endregion
         #region Helper    
         public string GetFavoritelistId(int userId)
         {
@@ -104,7 +114,6 @@ namespace Project.TakuGames.Business
                 throw;
             }
         }
-
         private string CreateFavoritelist(int userId)
         {
             try
@@ -132,8 +141,7 @@ namespace Project.TakuGames.Business
          private FavoritelistItems GetFavoritelistWithUserIdAndFavoritelistId(int gameId, string favoritelistId)
         {
             return GetListFavoritelistItems().Where(x => x.ProductId == gameId && x.FavoritelistId == favoritelistId).FirstOrDefault();
-        }
-        
+        }  
         private List<FavoritelistItems> GetListFavoritelistItemsWithId(string favoritelistId)
         {
             return GetListFavoritelistItems().Where(x => x.FavoritelistId == favoritelistId).ToList();
@@ -142,10 +150,17 @@ namespace Project.TakuGames.Business
         {
             return UnitOfWork.FavoritelistRepository.Get().ToList();   
         } 
-        
         private List<FavoritelistItems> GetListFavoritelistItems()
         {
             return UnitOfWork.FavoritelistItemsRepository.Get().ToList();
+        }
+         private UserMaster GetUserWithId(int userId)
+        {
+            return UnitOfWork.UserMasterRepository.Get(x => x.UserId == userId).FirstOrDefault();
+        }
+        private UserMaster GetUSerWithUserName(string userName)
+        {
+            return UnitOfWork.UserMasterRepository.Get(x => x.UserName == userName).FirstOrDefault();
         }
          #endregion       
     }

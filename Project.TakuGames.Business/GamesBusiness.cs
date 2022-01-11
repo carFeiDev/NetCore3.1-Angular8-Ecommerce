@@ -66,7 +66,7 @@ namespace Project.TakuGames.Business
             var gam = BuscarGame(game.GameId);
             if (gam == null)
             {
-                throw new BadRequestException();
+                // throw new BadRequestException();
             }
         }
 

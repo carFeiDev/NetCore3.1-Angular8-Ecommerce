@@ -24,12 +24,5 @@ export class UserService {
   getCartItemCount(userId: number): Observable<number> {
     return this.http.get<number>(this.baseUrl + userId);
   }
-  
-  validateUserName(userName: string) {
-    return this.http.get(this.baseUrl + 'validateUserName/' + userName  )
-      .pipe(map(response => {
-        return response;
-      }));
-  }
 
 }

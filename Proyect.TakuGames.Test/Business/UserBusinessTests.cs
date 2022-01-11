@@ -43,39 +43,9 @@ namespace Proyect.TakuGames.Test.Business
             var respUser = uow.UserMasterRepository.Get().Where(x => x.UserId == user.UserId).FirstOrDefault();
             
             //assert
-            Assert.Equal(1, resp);
+            Assert.Equal(1, resp.UserId);
             Assert.Equal(2, respUser.UserTypeId);
     
-        }
-        [Fact]
-        public void ChekearUserDisponibleTest()
-        {
-            //arrange
-            var user = new UserMaster { UserId = 1, UserName = "admin", FirstName = "firstname", LastName = "lastname" };
-            uow.UserMasterRepository.Insert(user);
-            
-            var userbusiness = new UserBusiness(uow, mapper, logger.Object, mockConfig.Object);
-
-            //action
-            var resp = userbusiness.isUserExists(user.UserName);
-
-            //assert
-            Assert.True(resp);
-
-        }
-        [Fact]
-        public void ChekearUserNoDisponibleTest()
-        {
-            //arrange
-            var user = new UserMaster { UserId = 1, UserName = "admin", FirstName = "firstname", LastName = "lastname" };
-
-            //action
-            var userbusiness = new UserBusiness(uow, mapper, logger.Object,mockConfig.Object);
-            var resp = userbusiness.isUserExists(user.UserName);
-
-            //assert
-            Assert.False(resp);
-
         }
     }
 }

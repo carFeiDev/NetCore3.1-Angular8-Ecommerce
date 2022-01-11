@@ -43,15 +43,12 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
         .subscribe
         (
           (data) => {
-            if(data != null){
-              this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
-              this.router.navigate(['/login']);
-            } else {            
-              this.registerForm.controls['userName'].setErrors({ 'incorrect': true});              
-            }   
+            this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
+            this.router.navigate(['/']);
           }, error => {
             this.snackbarService.showSnackBar('Error ocurrido !! intentalo otra vez');
-            console.log('Error ocurred while user register: ', error);
+            this.registerForm.controls['userName'].setErrors({ 'incorrect': true});   
+            console.log('Error ocurred while user register: ', error);          
           }
         );
     } else {
@@ -67,17 +64,17 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
 
   private buildForm(): void {
     this.registerForm = this.formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        userName: ['', Validators.required],
-        /*email: ['', [Validators.required, Validators.email]],*/
-        gender: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required],
-        check:[false, Validators.requiredTrue]
-      }, {
-        validator: this.MustMatch('password', 'confirmPassword')
-      });
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      userName: ['', Validators.required],
+      /*email: ['', [Validators.required, Validators.email]],*/
+      gender: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      check:[false, Validators.requiredTrue]
+    }, {
+      validator: this.MustMatch('password', 'confirmPassword')
+    });
   }
 
   private MustMatch(controlName: string, matchingControlName: string) {

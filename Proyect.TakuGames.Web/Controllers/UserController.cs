@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
+using Project.TakuGames.Model.ViewModels;
 using Project.TakuGames.Model.Helpers;
 using System.Net;
 
@@ -50,31 +51,18 @@ namespace Proyect.TakuGames.Web.Controllers
             return response;
         }
         /// <summary>
-        /// Verifique la disponibilidad del nombre de usuario
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("validateUserName/{userName}")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
-        public ActionResult<bool> ValidateUserName(string userName)
-        {
-            // var response = userBusiness.CheckUserAwaillabity(userName); 
-             var response = userBusiness.isUserExists(userName); 
-            return response;
-        }
-        /// <summary>
         /// Se registra un nuevo usuario
         /// </summary>
-        /// <param name="userData"></param>
+        /// <param name="userMaster"></param>
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
-        public ActionResult<int> Post([FromBody] UserMaster userData)
+        public ActionResult<UserMasterVM> Post( UserMasterVM userMaster)
         {
-            var response = userBusiness.RegisterUser(userData); 
-            return response;
+            var userNew = _mapper.Map<UserMasterVM, UserMaster>(userMaster);
+            var createdUser = userBusiness.RegisterUser(userNew);
+            UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(createdUser); 
+            return Created($"{Request.Path}/{response.UserId}",response);
         }
     }
 }

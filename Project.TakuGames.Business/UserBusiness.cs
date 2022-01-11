@@ -12,6 +12,8 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Project.TakuGames.Model.Exceptions;
+using System.Collections.Generic;
 
 namespace Project.TakuGames.Business
 {
@@ -30,24 +32,15 @@ namespace Project.TakuGames.Business
                                       && user.Password == Encrypt.GetSHA256(loginCredentials.Password))
                             .FirstOrDefault();                                         
         }
-         public  int? RegisterUser(UserMaster userData)
-        {          
-            try
-            {                
-                string spassword = Encrypt.GetSHA256(userData.Password);
-                bool user = isUserExists(userData.UserName);
-                if(user) return null;          
-                userData.UserTypeId = 2;
-                userData.Password = spassword;
-                UnitOfWork.UserMasterRepository.Insert(userData);
-                UnitOfWork.Save();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }                 
-        }
+         public UserMaster RegisterUser(UserMaster newUser)
+        {                   
+            ValidateUserCreate(newUser);          
+            newUser.UserTypeId = 2;
+            newUser.Password = Encrypt.GetSHA256(newUser.Password);;
+            UnitOfWork.UserMasterRepository.Insert(newUser);
+            UnitOfWork.Save();
+            return newUser;                       
+        }    
         public string GenerateJSONWebToken(UserMaster userInfo)
         {
             var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
@@ -69,23 +62,35 @@ namespace Project.TakuGames.Business
               );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public bool isUserExists (string userName)
-        {     
-            UserMaster user = GetUSerWithUserName(userName);
-            return user != null;
-        }
-         public bool CheckUserAwaillabity(int userId)
+
+         #region Validations
+        private void ValidateUserCreate(UserMaster user)
         {
-            UserMaster user = GetUserWithId(userId);
-            return  user != null;            
+            ValidateUserExists(user);
+            if (!ComponentError.IsValid)
+            {
+                throw new BadRequestException(ComponentError);
+            }
         }
-        private UserMaster GetUserWithId(int userId)
+        private void ValidateUserExists(UserMaster user)
         {
-            return UnitOfWork.UserMasterRepository.Get(x => x.UserId == userId).FirstOrDefault();
+            var userExists = ListAllFromDatabase().Any(b => b.UserName.ToUpperInvariant() == user.UserName.ToUpperInvariant());
+            if (userExists)
+            {
+                ComponentError.AddModelError(nameof(user.UserName), new ApplicationException($"Ya existe un usuario:{user.UserName}"));
+            }
         }
-        private UserMaster GetUSerWithUserName(string userName)
+        #endregion
+
+        #region helpers
+        private List<UserMaster> ListAllFromDatabase()
         {
-            return UnitOfWork.UserMasterRepository.Get(x => x.UserName == userName).FirstOrDefault();
+            var resp = UnitOfWork.UserMasterRepository.Get().ToList();
+            return resp;
         }
-    }
+        #endregion
+    }    
 }
+
+
+      
