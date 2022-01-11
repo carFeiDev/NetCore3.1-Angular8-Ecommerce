@@ -67,7 +67,7 @@ namespace Project.TakuGames.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustumerOrders",
+                name: "CustomerOrders",
                 columns: table => new
                 {
                     OrderId = table.Column<string>(unicode: false, maxLength: 36, nullable: false),
@@ -128,20 +128,6 @@ namespace Project.TakuGames.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Games",
-                columns: table => new
-                {
-                    GameId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Company = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Games", x => x.GameId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserMaster",
                 columns: table => new
                 {
@@ -150,7 +136,7 @@ namespace Project.TakuGames.Dal.Migrations
                     FirstName = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
                     LastName = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
                     UserName = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
-                    Password = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
+                    Password = table.Column<string>(unicode: false, maxLength: 255, nullable: false),
                     Gender = table.Column<string>(unicode: false, maxLength: 6, nullable: false),
                     UserTypeId = table.Column<int>(nullable: false)
                 },
@@ -188,7 +174,7 @@ namespace Project.TakuGames.Dal.Migrations
                 name: "CustomerOrderDetails");
 
             migrationBuilder.DropTable(
-                name: "CustumerOrders");
+                name: "CustomerOrders");
 
             migrationBuilder.DropTable(
                 name: "Favoritelist");
@@ -198,9 +184,6 @@ namespace Project.TakuGames.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "Game");
-
-            migrationBuilder.DropTable(
-                name: "Games");
 
             migrationBuilder.DropTable(
                 name: "UserMaster");

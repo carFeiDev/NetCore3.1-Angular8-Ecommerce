@@ -28,19 +28,6 @@ namespace Project.TakuGames.Dal
             }
         }
 
-        private IGenericRepository<Games> gamesRepository;
-        public IGenericRepository<Games> GamesRepository
-        {
-            get
-            {
-
-                if (this.gamesRepository == null)
-                {
-                    this.gamesRepository = new GenericRepository<Games>(context);
-                }
-                return gamesRepository;
-            }
-        }
         private IGenericRepository<Categories> categoriesRepository;
         public  IGenericRepository<Categories> CategoriesRepository
         {

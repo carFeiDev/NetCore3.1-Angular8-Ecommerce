@@ -6,7 +6,6 @@ namespace Project.TakuGames.Dal
 {
     public  partial class DataBaseContext : DbContext
     {
-        public virtual DbSet<Games>Games { get; set; }
         public virtual DbSet<Game> Game { get; set; }
         public virtual DbSet<Cart> Cart { get; set; }
         public virtual DbSet<CartItems> CardItems { get; set; }

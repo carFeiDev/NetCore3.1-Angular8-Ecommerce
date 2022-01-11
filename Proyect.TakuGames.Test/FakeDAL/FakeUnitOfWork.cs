@@ -6,8 +6,6 @@ namespace Proyect.TakuGames.Test.FakeDAL
 {
     public class FakeUnitOfWork : IDisposable, IUnitOfWork
     {
-        
-        public IGenericRepository<Games> GamesRepository { get; set; }
         public IGenericRepository<Game> GameRepository { get; set; }
         public IGenericRepository<Categories> CategoriesRepository { get; set; }
         public IGenericRepository<CartItems> CartItemsRepository { get; set; }
@@ -22,7 +20,6 @@ namespace Proyect.TakuGames.Test.FakeDAL
 
         public FakeUnitOfWork()
         {
-            GamesRepository = new FakeRepository<Games>();
             GameRepository = new FakeRepository<Game>();
             CategoriesRepository = new FakeRepository<Categories>();
             CartItemsRepository = new FakeRepository<CartItems>();

@@ -30,7 +30,6 @@ namespace Proyect.TakuGames.Web
         {
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(configuration.GetConnectionString("TakuGamesDatabase")));                                 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IGamesBusiness, GamesBusiness>();
             services.AddTransient<IGameBusiness, GameBusiness>();
             services.AddTransient<ICartBusiness, CartBusiness>();
             services.AddTransient<IOrderBusiness, OrderBusiness>();

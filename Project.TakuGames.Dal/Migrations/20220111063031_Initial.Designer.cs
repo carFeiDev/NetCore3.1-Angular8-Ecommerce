@@ -10,7 +10,7 @@ using Project.TakuGames.Dal;
 namespace Project.TakuGames.Dal.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20210708230941_Initial")]
+    [Migration("20220111063031_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,7 +121,7 @@ namespace Project.TakuGames.Dal.Migrations
                     b.ToTable("CustomerOrderDetails");
                 });
 
-            modelBuilder.Entity("Project.TakuGames.Model.Domain.CustumerOrders", b =>
+            modelBuilder.Entity("Project.TakuGames.Model.Domain.CustomerOrders", b =>
                 {
                     b.Property<string>("OrderId")
                         .HasColumnType("varchar(36)")
@@ -141,7 +141,7 @@ namespace Project.TakuGames.Dal.Migrations
                     b.HasKey("OrderId")
                         .HasName("PK_Customer_C3905BCF96C8F1E7");
 
-                    b.ToTable("CustumerOrders");
+                    b.ToTable("CustomerOrders");
                 });
 
             modelBuilder.Entity("Project.TakuGames.Model.Domain.Favoritelist", b =>
@@ -236,24 +236,6 @@ namespace Project.TakuGames.Dal.Migrations
                     b.ToTable("Game");
                 });
 
-            modelBuilder.Entity("Project.TakuGames.Model.Domain.Games", b =>
-                {
-                    b.Property<int>("GameId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Company")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("GameId");
-
-                    b.ToTable("Games");
-                });
-
             modelBuilder.Entity("Project.TakuGames.Model.Domain.UserMaster", b =>
                 {
                     b.Property<int>("UserId")
@@ -282,8 +264,8 @@ namespace Project.TakuGames.Dal.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasMaxLength(20)
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255)
                         .IsUnicode(false);
 
                     b.Property<string>("UserName")

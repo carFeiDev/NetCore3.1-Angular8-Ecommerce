@@ -5,7 +5,6 @@ namespace Project.TakuGames.Model.Dal
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<Games> GamesRepository { get;}
         IGenericRepository<Game> GameRepository { get; }
         IGenericRepository<Categories> CategoriesRepository { get; }
         IGenericRepository<CartItems> CartItemsRepository { get; }
