@@ -39,23 +39,23 @@ namespace Proyect.TakuGames.Test.Controller
              mockhostingEnvironment = new Mock<IWebHostEnvironment>();
 
         }
-        [Fact]
-        public void ObtenerCantidadTotalDeItemsTest()
-        {
-            //arrange
-            var user1 = new UserMaster() { UserId = 1, UserName = "lala" };
-            _mockCartBusiness.Setup(b => b.GetCartItemCount(user1.UserId)).Returns(2);
+        //  [Fact(Skip = "testear")]
+        // public void ObtenerCantidadTotalDeItemsTest()
+        // {
+        //     //arrange
+        //     var user1 = new UserMaster() { UserId = 1, UserName = "lala" };
+        //     _mockCartBusiness.Setup(b => b.GetCartItemCount(user1.UserId)).Returns(2);
 
-            var ctl = new UserController(_mockUserBusiness.Object,_mockCartBusiness.Object, mockConfiguration.Object, mockhostingEnvironment.Object,  mapper, logger.Object);
+        //     var ctl = new UserController(_mockUserBusiness.Object,_mockCartBusiness.Object, mockConfiguration.Object, mockhostingEnvironment.Object,  mapper, logger.Object);
 
-            //action
-            var resp = ctl.Get(user1.UserId);
+        //     //action
+        //     var resp = ctl.Get(user1.UserId);
 
-            //assert
-            var okResult = Assert.IsType<ActionResult<int>>(resp);
-            var returnValue = Assert.IsType<int>(okResult.Value);
-            Assert.Equal(2, returnValue);
-        }
+        //     //assert
+        //     var okResult = Assert.IsType<ActionResult<int>>(resp);
+        //     var returnValue = Assert.IsType<int>(okResult.Value);
+        //     Assert.Equal(2, returnValue);
+        // }
         [Fact(Skip = "testear")]
         // [Fact]
         public void PostRegistrarUsuarioTest()
