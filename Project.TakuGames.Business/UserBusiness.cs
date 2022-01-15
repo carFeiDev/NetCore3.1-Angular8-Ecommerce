@@ -41,6 +41,16 @@ namespace Project.TakuGames.Business
             UnitOfWork.Save();
             return newUser;                       
         }    
+        public UserMaster GetUser(int userId)
+        {
+            return UserSearch(userId);
+        }
+        private  UserMaster UserSearch(int userId)
+        {
+            return ListAllFromDatabase()
+                  .Where(x => x.UserId == userId)
+                  .FirstOrDefault();
+        }
         public string GenerateJSONWebToken(UserMaster userInfo)
         {
             var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));

@@ -180,6 +180,10 @@ namespace Project.TakuGames.Dal
                 .HasMaxLength(20)
                 .IsUnicode(false);
 
+                entity.Property(e => e.UserImage)
+                .IsRequired()
+                .IsUnicode(false);
+
             });
 
             modelBuilder.Entity<Favoritelist>(entity =>

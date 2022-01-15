@@ -5,4 +5,5 @@ export class User {
   userName: string;
   userTypeId: number;
   isLoggedIn: boolean;
+  image:string;
 }

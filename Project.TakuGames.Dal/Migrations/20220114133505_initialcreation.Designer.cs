@@ -10,8 +10,8 @@ using Project.TakuGames.Dal;
 namespace Project.TakuGames.Dal.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20220111063031_Initial")]
-    partial class Initial
+    [Migration("20220114133505_initialcreation")]
+    partial class initialcreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -266,6 +266,11 @@ namespace Project.TakuGames.Dal.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)")
                         .HasMaxLength(255)
+                        .IsUnicode(false);
+
+                    b.Property<string>("UserImage")
+                        .IsRequired()
+                        .HasColumnType("varchar(max)")
                         .IsUnicode(false);
 
                     b.Property<string>("UserName")

@@ -17,6 +17,11 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   private unsubscribes$ = new Subject<void>();
   registerForm: FormGroup;
   submitted = false;
+  private formData = new FormData();
+
+
+  files;
+  coverImagePath;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,13 +37,26 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     this.unsubscribes$.next();
     this.unsubscribes$.complete();
   }
-
+  uploadImage(event) {
+    this.files = event.target.files;
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (myevent: ProgressEvent) => {
+      this.coverImagePath = (myevent.target as FileReader).result;
+    };
+  }
   registerUser(event: Event): void {
+    if (this.files && this.files.length > 0) {
+      for (let i = 0; i < this.files.length; i++) {
+        this.formData.append('file' + i, this.files[i]);
+      }
+    }
+    this.formData.append('UserFormData', JSON.stringify(this.registerForm.value));
     // preventDefaultCancela comportamiento del html  que viene por defecto
     event.preventDefault();
     this.submitted = true;
     if (this.registerForm.valid) {
-      this.useService.registerUser(this.registerForm.value)
+      this.useService.registerUser(this.formData)
         .pipe(takeUntil(this.unsubscribes$))
         .subscribe
         (

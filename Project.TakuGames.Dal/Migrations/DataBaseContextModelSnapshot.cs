@@ -266,6 +266,11 @@ namespace Project.TakuGames.Dal.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false);
 
+                    b.Property<string>("UserImage")
+                        .IsRequired()
+                        .HasColumnType("varchar(max)")
+                        .IsUnicode(false);
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("varchar(20)")

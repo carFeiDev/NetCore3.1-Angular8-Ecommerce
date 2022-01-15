@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Project.TakuGames.Dal.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initialcreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -138,7 +138,8 @@ namespace Project.TakuGames.Dal.Migrations
                     UserName = table.Column<string>(unicode: false, maxLength: 20, nullable: false),
                     Password = table.Column<string>(unicode: false, maxLength: 255, nullable: false),
                     Gender = table.Column<string>(unicode: false, maxLength: 6, nullable: false),
-                    UserTypeId = table.Column<int>(nullable: false)
+                    UserTypeId = table.Column<int>(nullable: false),
+                    UserImage = table.Column<string>(unicode: false, nullable: false)
                 },
                 constraints: table =>
                 {

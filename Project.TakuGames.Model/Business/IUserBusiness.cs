@@ -8,6 +8,7 @@ namespace Project.TakuGames.Model.Business
         UserMaster AuthenticateUser(UserMaster loginCredentials);
         UserMaster RegisterUser(UserMaster userData);
         string GenerateJSONWebToken(UserMaster userMaster);
+        UserMaster GetUser(int userId);
         
     }
 }

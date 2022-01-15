@@ -23,6 +23,8 @@ export class NavMenuComponent implements OnDestroy {
   userData = new User();
   favoriteListCount$: Observable<number>;
   userType = UserType;
+  userImage
+  
 
   constructor(private router: Router,
     private authService: AuthenticationService,
@@ -41,12 +43,16 @@ export class NavMenuComponent implements OnDestroy {
     this.userService.getCartItemCount(this.userId).subscribe((data: number) => {
     this.subscriptionService.cartItemcount$.next(data);
     });
+    this.getGameDetails();
   }
   ngOnInit(): void {
+    this.getGameDetails();
     this.userDataSubcription = this.subscriptionService.userData.asObservable().subscribe(data => {
       this.userData = data;
     });
     this.cartItemCount$ = this.subscriptionService.cartItemcount$;
+    this.getGameDetails();
+    
   }
 
   logout(): void {
@@ -63,6 +69,15 @@ export class NavMenuComponent implements OnDestroy {
       height: '620px',
 
     });
+  }
+  getGameDetails() {
+    this.userService.getUserById(this.userId).subscribe(
+      (result: User) => {
+        this.userImage = result;
+      }, error => {
+        console.log("Error ocurred while fetching game data:", error);
+      }
+    )
   }
 
 }

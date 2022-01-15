@@ -81,8 +81,9 @@ namespace Project.TakuGames.Model.ViewModels
         .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
         .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
         .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
-        .ForMember(dest => dest.UserTypeId, opt => opt.MapFrom(src => src.UserTypeId));
-
+        .ForMember(dest => dest.UserTypeId, opt => opt.MapFrom(src => src.UserTypeId))
+        .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.UserImage));
+        
         CreateMap<UserMaster, UserMasterVM>()
         .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
         .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
@@ -90,7 +91,8 @@ namespace Project.TakuGames.Model.ViewModels
         .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
         .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
         .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
-        .ForMember(dest => dest.UserTypeId, opt => opt.MapFrom(src => src.UserTypeId));
+        .ForMember(dest => dest.UserTypeId, opt => opt.MapFrom(src => src.UserTypeId))
+        .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.UserImage));
 
       CreateMap<FavoritelistItems, FavoritelistItemsVM>()
         .ForMember(dest => dest.FavoritelistItemId, opt => opt.MapFrom(src => src.FavoritelistItemId))

@@ -6,6 +6,21 @@
         <mat-card>
           <h3>Formulario registro</h3>
             <form [formGroup]="registerForm" (ngSubmit)="registerUser($event)">
+              <!--------------------------Imagen------------------------------> 
+              
+
+              <div class="form-group">
+                <label>Image Preview</label>
+                <img class="preview-image" mat-card-image src={{coverImagePath}} alt="No image available">
+                <div class="upload-btn-wrapper mat-elevation-z2">
+                  <button class="btn-upload" type="button" mat-raised-button>Upload image</button>
+                  <input type="file" (change)="uploadImage($event)" />
+                </div>
+              </div>
+
+
+
+
               <!--------------------------Nombre------------------------------>
               <div class="form-group">
                 <label>Nombre</label>

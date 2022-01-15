@@ -11,5 +11,6 @@ namespace Project.TakuGames.Model.Domain
         public string Password { get; set; }
         public string Gender { get; set; }
         public int UserTypeId { get; set; }
+        public  string UserImage{get;set;}
     }
 }
