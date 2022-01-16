@@ -18,8 +18,6 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   submitted = false;
   private formData = new FormData();
-
-
   files;
   coverImagePath;
 
@@ -46,26 +44,27 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     };
   }
   registerUser(event: Event): void {
-    if (this.files && this.files.length > 0) {
-      for (let i = 0; i < this.files.length; i++) {
-        this.formData.append('file' + i, this.files[i]);
-      }
-    }
-    this.formData.append('UserFormData', JSON.stringify(this.registerForm.value));
+    
     // preventDefaultCancela comportamiento del html  que viene por defecto
     event.preventDefault();
     this.submitted = true;
     if (this.registerForm.valid) {
+      if (this.files && this.files.length > 0) {
+        for (let i = 0; i < this.files.length; i++) {
+          this.formData.append('file' + i, this.files[i]);
+        }
+      }
+      this.formData.append('UserFormData', JSON.stringify(this.registerForm.value));
       this.useService.registerUser(this.formData)
         .pipe(takeUntil(this.unsubscribes$))
         .subscribe
         (
-          (data) => {
+          (data) => {       
             this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
             this.router.navigate(['/']);
           }, error => {
             this.snackbarService.showSnackBar('Error ocurrido !! intentalo otra vez');
-            this.registerForm.controls['userName'].setErrors({ 'incorrect': true});   
+            this.registerForm.controls['userName'].setErrors({ 'incorrect': true});         
             console.log('Error ocurred while user register: ', error);          
           }
         );
