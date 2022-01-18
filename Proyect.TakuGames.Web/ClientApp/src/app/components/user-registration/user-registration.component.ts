@@ -26,7 +26,8 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     private useService: UserService,
     private router: Router,
     private snackbarService: SnackbarService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog) 
+    {
       this.buildForm()
     }
 
@@ -44,7 +45,6 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     };
   }
   registerUser(event: Event): void {
-    
     // preventDefaultCancela comportamiento del html  que viene por defecto
     event.preventDefault();
     this.submitted = true;
@@ -57,17 +57,17 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
       this.formData.append('UserFormData', JSON.stringify(this.registerForm.value));
       this.useService.registerUser(this.formData)
         .pipe(takeUntil(this.unsubscribes$))
-        .subscribe
-        (
-          (data) => {       
-            this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
-            this.router.navigate(['/']);
-          }, error => {
-            this.snackbarService.showSnackBar('Error ocurrido !! intentalo otra vez');
-            this.registerForm.controls['userName'].setErrors({ 'incorrect': true});         
-            console.log('Error ocurred while user register: ', error);          
-          }
-        );
+          .subscribe
+          (
+            () => {       
+              this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
+              this.router.navigate(['/']);
+            }, error => {
+              this.registerForm.controls['userName'].setErrors({ 'incorrect': true});         
+              this.formData.delete('UserFormData');
+              console.log('Error ocurred while user register: ', error);                  
+            }
+          );
     } else {
       this.registerForm.markAllAsTouched();
     }
@@ -134,5 +134,5 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
       return this.registerForm.get('confirmPassword');
     }
     get f() { return this.registerForm.controls; }
-  
+ 
 }

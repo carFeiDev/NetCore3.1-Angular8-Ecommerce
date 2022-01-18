@@ -7,8 +7,6 @@
           <h3>Formulario registro</h3>
             <form [formGroup]="registerForm" (ngSubmit)="registerUser($event)">
               <!--------------------------Imagen------------------------------> 
-              
-
               <div class="form-group">
                 <label>Image Preview</label>
                 <img class="preview-image" mat-card-image src={{coverImagePath}} alt="No image available">
@@ -17,10 +15,6 @@
                   <input type="file" (change)="uploadImage($event)" />
                 </div>
               </div>
-
-
-
-
               <!--------------------------Nombre------------------------------>
               <div class="form-group">
                 <label>Nombre</label>
