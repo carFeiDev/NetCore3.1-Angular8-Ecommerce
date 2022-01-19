@@ -31,7 +31,9 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
       this.buildForm()
     }
 
-  ngOnInit():void {}
+  ngOnInit():void {
+    this.coverImagePath= '/UserImage/' + 'Default_image.jpg';
+  }
   ngOnDestroy(): void {
     this.unsubscribes$.next();
     this.unsubscribes$.complete();
