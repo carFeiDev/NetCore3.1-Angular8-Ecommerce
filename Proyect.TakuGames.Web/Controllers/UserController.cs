@@ -1,27 +1,17 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System;
+using System.IO;
 using Microsoft.Extensions.Logging;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.ViewModels;
 using Project.TakuGames.Model.Helpers;
-using System.Net;
-
-
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
-
 using Microsoft.Extensions.Configuration;
-
-using System;
-
-using System.IO;
-
 using System.Net.Http.Headers;
-
 using Newtonsoft.Json;
-
-
-
 
 namespace Proyect.TakuGames.Web.Controllers
 {
@@ -68,21 +58,7 @@ namespace Proyect.TakuGames.Web.Controllers
             }
         }
 
-        //   [HttpGet("{UserId:int}")]
-        // [ProducesResponseType((int)HttpStatusCode.OK)]
-        // [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
-        // [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        // public ActionResult<UserMasterVM> GetUser(int UserId)
-        // {
-        //    var resp = userBusiness.GetUser(UserId);   
-        //    if (resp == null )
-        //     {
-        //         return NotFound();
-        //     }
-        //     UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(resp);
-        //     return response;
-        // }
-        /// <summary>
+               /// <summary>
         /// Obtiene el recuento del artículo en el carrito de compras
         /// </summary>
         /// <param name="Id"></param>
