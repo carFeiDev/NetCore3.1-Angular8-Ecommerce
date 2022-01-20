@@ -60,6 +60,7 @@ namespace Project.TakuGames.Business
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
                 new Claim("userid", userInfo.UserId.ToString(System.Globalization.CultureInfo.InvariantCulture)),
                 new Claim("userTypeId", userInfo.UserTypeId.ToString(CultureInfo.InvariantCulture)),
+                new Claim("userImage", userInfo.UserImage.ToString(CultureInfo.InvariantCulture)),
                 new Claim(ClaimTypes.Role, userInfo.UserTypeId.ToString(CultureInfo.InvariantCulture)),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };

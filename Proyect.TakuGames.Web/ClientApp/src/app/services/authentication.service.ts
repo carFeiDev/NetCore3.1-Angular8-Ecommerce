@@ -37,6 +37,7 @@ export class AuthenticationService {
       userDetails.userName = decodeUserdetails.sub;
       userDetails.userTypeId = Number(decodeUserdetails.userTypeId);
       userDetails.isLoggedIn = true;
+      userDetails.image='/UserImage/' + decodeUserdetails.userImage;
 
       this.subscriptionService.userData.next(userDetails);
     }

@@ -25,15 +25,12 @@ export class NavMenuComponent implements OnDestroy {
   userType = UserType;
   userImage
   
-
   constructor(private router: Router,
     private authService: AuthenticationService,
     private userService: UserService,
     private subscriptionService: SubscriptionService,
     private favoritelistService: FavoritelistService,
-    public dialog: MatDialog
-   ) {
-
+    public dialog: MatDialog ) {
     this.userDataSubcription = this.subscriptionService.userData.asObservable()
       .subscribe(data => {
         this.userData = data;
@@ -43,16 +40,14 @@ export class NavMenuComponent implements OnDestroy {
     this.userService.getCartItemCount(this.userId).subscribe((data: number) => {
     this.subscriptionService.cartItemcount$.next(data);
     });
-    this.getGameDetails();
+   
   }
   ngOnInit(): void {
-    this.getGameDetails();
     this.userDataSubcription = this.subscriptionService.userData.asObservable().subscribe(data => {
       this.userData = data;
     });
     this.cartItemCount$ = this.subscriptionService.cartItemcount$;
-    this.getGameDetails();
-    
+    console.log(this.userData);
   }
 
   logout(): void {

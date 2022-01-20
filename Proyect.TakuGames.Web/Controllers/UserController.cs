@@ -72,7 +72,7 @@ namespace Proyect.TakuGames.Web.Controllers
         // [ProducesResponseType((int)HttpStatusCode.OK)]
         // [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         // [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        // public ActionResult<UserMasterVM> Get(int UserId)
+        // public ActionResult<UserMasterVM> GetUser(int UserId)
         // {
         //    var resp = userBusiness.GetUser(UserId);   
         //    if (resp == null )
