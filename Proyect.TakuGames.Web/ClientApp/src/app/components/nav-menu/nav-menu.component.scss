@@ -1,16 +1,17 @@
-.docs-navbar-header {
+.navbar-header {
   background-color: black;
   color: aliceblue;
 }
 
-.navbar-spacer {
-  flex: 1 1 auto;
-}
 .avatar-image {
   height: 50px;
   width: 50px;
   border-radius: 50%;
 }
+.navbar-toggler{
+  color: white; 
+}
+
 
 
 

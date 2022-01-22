@@ -1,9 +1,15 @@
-<form class="form-inline my-2 my-lg-0">
-    <input (keydown.enter)="searchStore($event)" class="form-control mr-sm-2" type="search" aria-label="search"
-           placeholder="Busca juegos or editoras" [formControl]="searchControl" [matAutocomplete]="auto">
+<form>
+    <input (keydown.enter)="searchStore($event)"
+            class="form-control"
+            type="search"
+            aria-label="search"
+            placeholder="Busca juegos or editoras" 
+            [formControl]="searchControl" 
+            [matAutocomplete]="auto"
+    >
     <mat-autocomplete (optionSelected)="searchStore($event)" #auto="matAutocomplete">
-      <mat-option *ngFor="let game of filteredGames | async" [value]="game.title">
+      <mat-option *ngFor="let game of filteredGames | async" [value]ss="game.title">
         {{game.title}}
       </mat-option>
     </mat-autocomplete>
-  </form>
+</form>
