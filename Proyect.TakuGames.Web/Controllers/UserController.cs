@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-<<<<<<< HEAD
-using System.Net;
-using System;
-using System.IO;
-=======
 using System;
 using System.IO;
 using System.Net;
@@ -11,21 +6,12 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
->>>>>>> develop
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.ViewModels;
 using Project.TakuGames.Model.Helpers;
-<<<<<<< HEAD
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-=======
->>>>>>> develop
 
 namespace Proyect.TakuGames.Web.Controllers
 {
@@ -72,9 +58,6 @@ namespace Proyect.TakuGames.Web.Controllers
             }
         }
 
-<<<<<<< HEAD
-               /// <summary>
-=======
         /// <summary>
         /// Obtiene los datos del Usuario por el id 
         /// </summary>
@@ -98,7 +81,6 @@ namespace Proyect.TakuGames.Web.Controllers
             return response;
         }
         /// <summary>
->>>>>>> develop
         /// Obtiene el recuento del artículo en el carrito de compras
         /// </summary>
         /// <param name="Id"></param>
