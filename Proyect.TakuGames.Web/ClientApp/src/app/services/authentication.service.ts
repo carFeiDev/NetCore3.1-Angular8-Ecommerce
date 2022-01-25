@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
 import { SubscriptionService } from './subscription.service';
@@ -9,16 +10,19 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  oldUserId;
+  oldUserId:number;
+  private serviceUrl = "api/login";
   constructor(private http: HttpClient,
-    private userService: UserService,
-    private subscriptionService: SubscriptionService) { }
+              private userService: UserService,
+              private subscriptionService: SubscriptionService,
+              @Inject('BASE_URL') private baseUrl: string) { }
 
-  login(user) {
-    return this.http.post<any>('/api/login', user)
-      .pipe(map(response => {
+  login(user:User){
+    const url = `${this.baseUrl}${this.serviceUrl}`;
+    return this.http.post<any>(url, user)
+        .pipe(map(response => {
         if (response && response.token) {
-          this.oldUserId = localStorage.getItem('userId');
+          this.oldUserId = parseInt(localStorage.getItem('userId'));
           localStorage.setItem('authToken', response.token);
           this.setUserDetails();
           localStorage.setItem('userId', response.userDetails.userId);
@@ -26,6 +30,7 @@ export class AuthenticationService {
         }
         return response;
       }));
+
   }
 
   setUserDetails() {

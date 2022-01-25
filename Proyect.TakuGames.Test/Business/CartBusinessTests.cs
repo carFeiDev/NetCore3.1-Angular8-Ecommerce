@@ -1,13 +1,13 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Project.TakuGames.Dal;
+﻿using Project.TakuGames.Dal;
 using Project.TakuGames.Model.Dal;
 using Project.TakuGames.Model.Domain;
 using Proyect.TakuGames.Test.Helpers;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using Xunit;
+using Moq;
+using AutoMapper;
 
 namespace Proyect.TakuGames.Test.Business
 {

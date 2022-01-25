@@ -1,19 +1,18 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
-using Microsoft.Extensions.Logging;
 using Moq;
+using Xunit;
+using Microsoft.Extensions.Logging;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.Dto;
 using Proyect.TakuGames.Test.Helpers;
 using Proyect.TakuGames.Web.Controllers;
-using System.Collections.Generic;
-using Xunit;
 
 namespace Proyect.TakuGames.Test.Controller
 {
-    [Collection("Mapper Collection")]
-    
+    [Collection("Mapper Collection")]    
     public class CheckOutControllerTests
     {
         private readonly Mock<IOrderBusiness> mockOrderBusiness;
@@ -33,7 +32,7 @@ namespace Proyect.TakuGames.Test.Controller
         public void CreacionDeUnaOrdenTest()
         {
             //arrange
-            var game1 = new Game(){GameId = 1,Title="title1"};
+            var game1 = new Game() {GameId = 1,Title="title1"};
             var user1 = new UserMaster() { UserId = 1, UserName = "lala" };
             
             List<CustomerOrderDetails> listOrderDetails = new List<CustomerOrderDetails>()
@@ -42,9 +41,9 @@ namespace Proyect.TakuGames.Test.Controller
                 new CustomerOrderDetails{OrderDetailsId = 2}
             };
 
-            var cart = new Cart{CartId= "1",UserId= 1,DateCreated= DateTime.Now.Date};           
-            var orderdto= new OrdersDto(){ OrderId= "1"};
-            var cartItems = new CartItems{ CartId = "1",ProductId = game1.GameId, Quantity = 2  };
+            var cart = new Cart() { CartId= "1",UserId= 1,DateCreated= DateTime.Now.Date};           
+            var orderdto= new OrdersDto() { OrderId= "1"};
+            var cartItems = new CartItems() { CartId = "1",ProductId = game1.GameId, Quantity = 2  };
 
 
             mockOrderBusiness.Setup(b => b.CreateOrder(user1.UserId,orderdto)).Verifiable();
@@ -58,7 +57,6 @@ namespace Proyect.TakuGames.Test.Controller
             mockOrderBusiness.Verify();
             mockCartBusiness.Verify();
           
-        }
-        
+        }        
     }
 }

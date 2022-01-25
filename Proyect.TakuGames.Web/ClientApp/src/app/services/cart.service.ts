@@ -2,58 +2,49 @@ import { HttpClient } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Game } from '../models/game';
 import { ShoppingCart } from '../models/shoppingcart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  cartItemCount = 0;
-  baseUrl: string;
+  
+  private serviceUrl = "api/shoppingcart";
 
-  constructor(private http: HttpClient) {
-
-    this.baseUrl = '/api/shoppingcart/';
-  }
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string){}
 
   addItemToCart(userId: number, gameId: number): Observable<number>{
-    return this.http.post<number>(this.baseUrl + `addToCart/${userId}/${gameId}`, {});
+    const url = `${this.baseUrl}${this.serviceUrl}/${"addToCart"}/${userId}/${gameId}`;
+    return this.http.post<number>(url,{});
   }
   getCartItems(userId: number): Observable<ShoppingCart[]> {
-    return this.http.get<ShoppingCart[]>(this.baseUrl + userId, {});
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}`
+    return this.http.get<ShoppingCart[]>(url,{});
   }
 
   removeCartItems(userId: number, gameId: number): Observable<number> {
-    return this.http.delete<number>(this.baseUrl + `${userId}/${gameId}`, {});
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}/${gameId}`;
+    return this.http.delete<number>(url,{});
   }
 
   deleteOneCartItem(userId: number, gameId: number): Observable<number> {
-    return this.http.put<number>(this.baseUrl + `${userId}/${gameId}`, {});
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}/${gameId}`;
+    return this.http.put<number>(url,{});
   }
 
   clearCart(userId: number): Observable<number> {
-    return this.http.delete<number>(this.baseUrl + `${userId}`, {});
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}`;
+    return this.http.delete<number>(url,{});
   }
 
   setCart(oldUserId: number, newUserId: number): Observable<any> {
-    return this.http.get(this.baseUrl + `SetShoppingCart/${oldUserId}/${newUserId}`, {})
-      .pipe(map((response: any) => {
-        this.cartItemCount = response;
-        return response
-      }));
+    const url = `${this.baseUrl}${this.serviceUrl}/${"SetShoppingCart"}/${oldUserId}/${newUserId}`;
+    return this.http.get<number>(url,{});
   }
 
   BuyCart(userId:number): Observable<number> {
-    return this.http.post<number>(this.baseUrl + `BuyCart/${userId}`, {});
-  }
- 
-  getAllOrderruItems(userId: number): Observable<any[]> {
-    return this.http.get(this.baseUrl + `${userId}`, {})
-      .pipe(map((response: any[]) => {
-        return response;
-      }));
+    const url = `${this.baseUrl}${this.serviceUrl}/${"BuyCart"}/${userId}`;
+    return this.http.post<number>(url,{});
   }
 }
 

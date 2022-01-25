@@ -11,17 +11,19 @@ import { CustomerOrder } from '../models/customerorder';
 })
 export class OrderService
 {
-  baseUrl: string;
-  constructor(private http: HttpClient) {
-    this.baseUrl = '/api/customerorder/';
-  }
+  
+  private serviceUrl = "api/customerorder";
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   getAllCustomerOrderUser(userId: number) :Observable<CustomerOrder[]>{
-    return this.http.get<CustomerOrder[]>(this.baseUrl + `${userId}`, {})
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}`;
+    return this.http.get<CustomerOrder[]>(url,{});
   }
 
   myOrderDetails(userId: number) {
-    return this.http.get(this.baseUrl + userId);
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}`;
+    return this.http.get<number>(url,{});
   }
 
 }

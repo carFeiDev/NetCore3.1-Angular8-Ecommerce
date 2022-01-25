@@ -1,17 +1,31 @@
 ﻿using AutoMapper;
+<<<<<<< HEAD
 using System.Net;
 using System;
 using System.IO;
+=======
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+>>>>>>> develop
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.ViewModels;
 using Project.TakuGames.Model.Helpers;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+=======
+>>>>>>> develop
 
 namespace Proyect.TakuGames.Web.Controllers
 {
@@ -58,16 +72,42 @@ namespace Proyect.TakuGames.Web.Controllers
             }
         }
 
+<<<<<<< HEAD
                /// <summary>
+=======
+        /// <summary>
+        /// Obtiene los datos del Usuario por el id 
+        /// </summary>
+        /// <returns>Datos del Usuario</returns>
+        /// <param name="UserId"></param>
+        /// <response code="200">Datos del Usuario</response>
+        /// <response code="400">No ha pasado las validaciones</response>    
+        /// <response code="404">No se encontró al usuario</response>    
+        [HttpGet("GetUser/{gameId}",Name = "GetUser")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public ActionResult<UserMasterVM> GetUser(int UserId)
+        {
+           var resp = userBusiness.GetUser(UserId);   
+           if (resp == null )
+            {
+                return NotFound();
+            }
+            UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(resp);
+            return response;
+        }
+        /// <summary>
+>>>>>>> develop
         /// Obtiene el recuento del artículo en el carrito de compras
         /// </summary>
         /// <param name="Id"></param>
         /// <returns>El recuento de artículos en el carrito de compras.</returns>
 
-        [HttpGet("{Id:int}" )]
+        [HttpGet("{Id}",Name = "GetCartItemNumber")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
-        public ActionResult<int> Get(int Id)
+        public ActionResult<int> GetCartItemNumber(int Id)
         {
             var response = cartBusiness.GetCartItemCount(Id);
             return response;
@@ -105,8 +145,6 @@ namespace Proyect.TakuGames.Web.Controllers
                 gam.UserImage = config["DefaultCoverImageFile"];
             }
 
-
-            // var userNew = _mapper.Map<UserMasterVM, UserMaster>(userMaster);
             var createdUser = userBusiness.RegisterUser(gam);
             UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(createdUser); 
             return Created($"{Request.Path}/{response.UserId}",response);

@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
+using System;
+using System.Linq;
+using System.Text;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Dal;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.Helpers;
-using System;
-using System.Linq;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.Extensions.Configuration;
 using Project.TakuGames.Model.Exceptions;
-using System.Collections.Generic;
 
 namespace Project.TakuGames.Business
 {
@@ -21,7 +21,7 @@ namespace Project.TakuGames.Business
     {
         readonly IConfiguration _config;
         public UserBusiness(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserBusiness> logger, IConfiguration config)
-                        : base(unitOfWork, mapper, logger)
+                            : base(unitOfWork, mapper, logger)
         {
             this._config = config;
         }
@@ -48,8 +48,8 @@ namespace Project.TakuGames.Business
         private  UserMaster UserSearch(int userId)
         {
             return ListAllFromDatabase()
-                  .Where(x => x.UserId == userId)
-                  .FirstOrDefault();
+                    .Where(x => x.UserId == userId)
+                    .FirstOrDefault();
         }
         public string GenerateJSONWebToken(UserMaster userInfo)
         {
@@ -74,7 +74,7 @@ namespace Project.TakuGames.Business
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-         #region Validations
+        #region Validations
         private void ValidateUserCreate(UserMaster user)
         {
             ValidateUserExists(user);
