@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Inject } from '@angular/core';
 import { map } from 'rxjs/internal/operators/map';
 import { Game } from '../models/game';
 import { SubscriptionService } from './subscription.service';
@@ -9,41 +10,39 @@ import { SubscriptionService } from './subscription.service';
 })
 export class FavoritelistService {
 
-  baseURL: string;
-
-  constructor(
-    private http: HttpClient,
-    private subscriptionService: SubscriptionService) {
-    this.baseURL = '/api/favoritelist/';
-  }
+  private serviceUrl = "api/favoritelist";
+  
+  constructor(private http: HttpClient,private subscriptionService: SubscriptionService, @Inject('BASE_URL') private baseUrl: string) { }
 
   toggleFavoritelistItem(userId: number, gameId: number) {
-    return this.http.post<Game[]>(this.baseURL + `ToggleFavoritelist/${userId}/${gameId}`, {})
+    const url = `${this.baseUrl}${this.serviceUrl}/${"ToggleFavoritelist"}/${userId}/${gameId}`;
+    return this.http.post<Game[]>(url,{})
       .pipe(map((response: Game[]) => {
         this.setFavoritelist(response);
         return response;
-      }));
+       }));
   }
 
   getFavoritelistItems(userId: number) {
-    return this.http.get(this.baseURL + userId)
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}`;
+    return this.http.get(url)
       .pipe(map((response: Game[]) => {
         this.setFavoritelist(response);
         return response;
-      }));
+    }));
+  }
+
+  clearFavoritelist(userId: number) {
+    const url = `${this.baseUrl}${this.serviceUrl}/${userId}`;
+    return this.http.delete<number>(url, {})
+      .pipe(map((response: number) => {
+        this.subscriptionService.favoritelistItem$.next([]);
+        return response;
+    }));
   }
 
   setFavoritelist(response: Game[]) {
     this.subscriptionService.favoritelistItemcount$.next(response.length);
     this.subscriptionService.favoritelistItem$.next(response);
-  }
-
-  clearFavoritelist(userId: number) {
-    return this.http.delete<number>(this.baseURL + `${userId}`, {}).pipe(
-      map((response: number) => {
-        this.subscriptionService.favoritelistItem$.next([]);
-        return response;
-      })
-    );
   }
 }

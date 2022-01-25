@@ -1,28 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User} from '../models/user'
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl: string;
-  cartItemcount$ = new Subject<any>();
 
-  constructor(private http: HttpClient) {
-    this.baseUrl = '/api/user/';
-  }
+  cartItemcount$ = new Subject<any>();
+  private apiURL = "api/user";
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   registerUser(userdetails) {
-    return this.http.post(this.baseUrl, userdetails) ;
+    const url = `${this.baseUrl}${this.apiURL}`;
+    return this.http.post<User>(url, userdetails);
   }
   
-  getCartItemCount(id: number): Observable<number> {
-    return this.http.get<number>(this.baseUrl + id);
+  getCartItemCount(Id: number): Observable<number> {
+    const url = `${this.baseUrl}${this.apiURL}/${Id}`;
+    return this.http.get<number>(url);
   }
   getUserById<Use>(UserId:number): Observable<User> {
-    return this.http.get<User>(this.baseUrl + UserId);
+    const url = `${this.baseUrl}${this.apiURL}/${"GetUser"}/${UserId}`;
+    return this.http.get<User>(url);
   }
 
 }
