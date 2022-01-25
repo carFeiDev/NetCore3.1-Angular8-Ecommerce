@@ -1,17 +1,15 @@
 using AutoMapper;
+using Moq;
+using Xunit;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.ViewModels;
 using Proyect.TakuGames.Test.Helpers;
 using Proyect.TakuGames.Web.Controllers;
-using System.Collections.Generic;
-using Xunit;
-using System.Threading.Tasks;
-
-
 
 namespace Proyect.TakuGames.Test.Controller
 {
@@ -22,16 +20,15 @@ namespace Proyect.TakuGames.Test.Controller
         private readonly IMapper mapper;
         private readonly Mock<ILogger<FavoritelistController>> logger;     
         public FavoriteControllerTests(MapperFixture mapperFixture)
-        {
-            
-             mapper = mapperFixture.mapper;
-             logger = new Mock<ILogger<FavoritelistController>>();
-             mockFavoriteBusiness = new Mock<IFavoritelistBusiness>();
-             
+        {            
+            mapper = mapperFixture.mapper;
+            logger = new Mock<ILogger<FavoritelistController>>();
+            mockFavoriteBusiness = new Mock<IFavoritelistBusiness>();            
         }
 
          [Fact]
-         public async Task GetAllFavoriteUserTest(){
+         public async Task GetAllFavoriteUserTest()
+         {
            
             //arrange
             var user1 = new UserMaster() { UserId = 1, UserName = "lala" };
@@ -52,8 +49,7 @@ namespace Proyect.TakuGames.Test.Controller
             // Assert
             var actionResult = Assert.IsType<ActionResult<List<GameVM>>>(result);
             var returnValue = Assert.IsType<List<GameVM>>(actionResult.Value);
-            Assert.NotEmpty(returnValue);
-           
+            Assert.NotEmpty(returnValue);    
          }
 
         [Fact]
@@ -80,8 +76,7 @@ namespace Proyect.TakuGames.Test.Controller
             // Assert
             var actionResult = Assert.IsType<ActionResult<List<GameVM>>>(result);
             var returnValue = Assert.IsType<List<GameVM>>(actionResult.Value);
-            Assert.NotEmpty(returnValue);
-           
+            Assert.NotEmpty(returnValue);      
          }
 
         [Fact]
@@ -99,9 +94,7 @@ namespace Proyect.TakuGames.Test.Controller
             // Assert
             var actionResult = Assert.IsType<ActionResult<int>>(result);
             var returnValue = Assert.IsType<int>(actionResult.Value);
-            Assert.Equal(0,returnValue);
-           
+            Assert.Equal(0,returnValue);          
          }
-
     }
 }

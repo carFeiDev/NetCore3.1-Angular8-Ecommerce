@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
+using Moq;
+using Xunit;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.Dto;
 using Project.TakuGames.Model.ViewModels;
 using Proyect.TakuGames.Test.Helpers;
 using Proyect.TakuGames.Web.Controllers;
-using System.Collections.Generic;
-using Xunit;
 
 namespace Proyect.TakuGames.Test.Controller
 {

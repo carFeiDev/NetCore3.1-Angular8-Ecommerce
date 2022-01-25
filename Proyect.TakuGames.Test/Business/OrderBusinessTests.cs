@@ -1,15 +1,14 @@
-
-using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
 using Project.TakuGames.Model.Dal;
 using Proyect.TakuGames.Test.Helpers;
 using Project.TakuGames.Business;
-using System.Collections.Generic;
-using System;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.Dto;
+using Microsoft.Extensions.Logging;
+using AutoMapper;
+using Moq;
+using Xunit;
+using System.Collections.Generic;
+using System;
 
 namespace Proyect.TakuGames.Test.Business
 {
@@ -47,12 +46,11 @@ namespace Proyect.TakuGames.Test.Business
 
             //assert
             Assert.NotEmpty(resp);
-
             Assert.Equal(customerOrder1, resp[0]);
             Assert.Equal(customerOrder2, resp[1]);
             Assert.Equal(customerOrder3, resp[2]);
-       
         }
+
         [Fact]
         public void ListarOrderDtoUserTest()
         {
@@ -101,8 +99,7 @@ namespace Proyect.TakuGames.Test.Business
             Assert.Equal(customerOrderDetails3.ProductId , resp[2].CustomerOrderDetails[0].ProductId);
             Assert.Equal(customerOrderDetails3.Quantity , resp[2].CustomerOrderDetails[0].Quantity);
             Assert.Equal(customerOrderDetails3.Price , resp[2].CustomerOrderDetails[0].Price);
-            Assert.Equal(customerOrderDetails3.TotalPrice , resp[2].CustomerOrderDetails[0].TotalPrice);
-               
+            Assert.Equal(customerOrderDetails3.TotalPrice , resp[2].CustomerOrderDetails[0].TotalPrice);               
         }
     }
 }

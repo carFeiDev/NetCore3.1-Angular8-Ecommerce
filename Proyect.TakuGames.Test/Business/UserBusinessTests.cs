@@ -1,16 +1,14 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
-using Project.TakuGames.Model.Dal;
+﻿using Project.TakuGames.Model.Dal;
 using Proyect.TakuGames.Test.Helpers;
 using Project.TakuGames.Business;
 using Project.TakuGames.Model.Domain;
-using System.Linq;
-using Microsoft.Extensions.Configuration;
 using Project.TakuGames.Model.Helpers;
-
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using AutoMapper;
+using Moq;
+using Xunit;
+using System.Linq;
 
 namespace Proyect.TakuGames.Test.Business
 {
@@ -27,8 +25,7 @@ namespace Proyect.TakuGames.Test.Business
             mapper = mapperFixture.mapper;
             logger = new Mock<ILogger<UserBusiness>>();
             uow = new FakeDAL.FakeUnitOfWork();
-            mockConfig = new Mock<IConfiguration>();
-           
+            mockConfig = new Mock<IConfiguration>();           
         }
         
         [Fact]

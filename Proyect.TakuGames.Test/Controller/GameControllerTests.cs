@@ -1,17 +1,16 @@
-﻿
+﻿using Xunit;
+using Moq;
 using AutoMapper;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.ViewModels;
 using Proyect.TakuGames.Test.Helpers;
 using Proyect.TakuGames.Web.Controllers;
-using System.Collections.Generic;
-using Xunit;
 
 namespace Proyect.TakuGames.Test.Controller
 {
@@ -22,9 +21,8 @@ namespace Proyect.TakuGames.Test.Controller
         private readonly Mock<ILogger<GameController>> logger;
         private readonly Mock<IGameBusiness> mockGameBusiness;
         private readonly Mock<IConfiguration> mockConfiguration;
-        private readonly Mock<IWebHostEnvironment> mockhostingEnvironment ;
-        readonly string coverImageFolderPath = string.Empty;
-        
+        private readonly Mock<IWebHostEnvironment> mockIWebHostEnvironment ;
+        readonly string coverImageFolderPath = string.Empty;        
         public GameControllerTests(MapperFixture mapperFixture)
         {
             
@@ -32,10 +30,10 @@ namespace Proyect.TakuGames.Test.Controller
              logger = new Mock<ILogger<GameController>>();
              mockGameBusiness = new Mock<IGameBusiness>();
              mockConfiguration = new Mock<IConfiguration>();
-             mockhostingEnvironment = new Mock<IWebHostEnvironment>();
+             mockIWebHostEnvironment = new Mock<IWebHostEnvironment>();
         }
 
-         [Fact(Skip = "Testear: Error en el GameController")]    
+         [Fact (Skip = "WebHostEnvironment es null")]    
         public void ObtenerListaTest()
         {
           //arrange   
@@ -52,7 +50,7 @@ namespace Proyect.TakuGames.Test.Controller
            };
             mockGameBusiness.Setup(b => b.GetAllGames()).Returns(new List<Game>() { game1 });
 
-            var ctl = new GameController(mockGameBusiness.Object, mockConfiguration.Object, mockhostingEnvironment.Object, mapper, logger.Object);
+            var ctl = new GameController(mockGameBusiness.Object, mockConfiguration.Object, mockIWebHostEnvironment.Object, mapper, logger.Object);
             //action
             var resp = ctl.Get();
 

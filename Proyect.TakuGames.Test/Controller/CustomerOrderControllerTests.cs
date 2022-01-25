@@ -1,24 +1,22 @@
 using System;
+using System.Collections.Generic;
+using Xunit;
+using Moq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.Dto;
 using Project.TakuGames.Model.ViewModels;
 using Proyect.TakuGames.Test.Helpers;
 using Proyect.TakuGames.Web.Controllers;
-using System.Collections.Generic;
-using Xunit;
-
 
 namespace Proyect.TakuGames.Test.Controller
 {
     [Collection("Mapper Collection")]
     public class CustomerOrderControllerTests
     {
-
         private readonly Mock<IOrderBusiness> mockOrderBusiness;
         private readonly IMapper mapper;
         private readonly Mock<ILogger<CustomerOrderController>> logger;
@@ -27,8 +25,7 @@ namespace Proyect.TakuGames.Test.Controller
         {
             mapper = mapperFixture.mapper;
             logger = new Mock<ILogger<CustomerOrderController>>();
-            mockOrderBusiness = new Mock<IOrderBusiness>();
-            
+            mockOrderBusiness = new Mock<IOrderBusiness>();        
         }
 
         [Fact]
@@ -54,15 +51,12 @@ namespace Proyect.TakuGames.Test.Controller
             //action
             var result =  ctl.Get(user1.UserId);
 
-        
             //assert
             var actionResult = Assert.IsType<ActionResult<List<OrdersUserDtoVM>>>(result);
             var returnValue  = Assert.IsType<List<OrdersUserDtoVM>>(actionResult.Value);
             mockOrderBusiness.Verify();
             Assert.NotEmpty(returnValue);
 
-        }
-    
+        }    
     }
-
 }

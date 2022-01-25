@@ -1,11 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
-using Project.TakuGames.Model.Dal;
+﻿using Project.TakuGames.Model.Dal;
 using Proyect.TakuGames.Test.Helpers;
 using Project.TakuGames.Business;
 using Project.TakuGames.Model.Domain;
+using Microsoft.Extensions.Logging;
+using AutoMapper;
+using Moq;
+using Xunit;
 using System;
 
 namespace Proyect.TakuGames.Test.Business
@@ -47,6 +47,7 @@ namespace Proyect.TakuGames.Test.Business
             //assert
             Assert.NotEmpty(resp);
         }
+
         [Fact]
         public void ObtenerGamePorIdTest()
         {
@@ -68,6 +69,7 @@ namespace Proyect.TakuGames.Test.Business
             Assert.Equal(idgame, resp.GameId);
 
         }
+
         [Fact]
         public void CrearGameTest()
         {
@@ -102,6 +104,7 @@ namespace Proyect.TakuGames.Test.Business
             Assert.Equal(3000, resp.Price);
             Assert.Equal("coverfilname", resp.CoverFileName);
         }
+
         [Fact]
         public void ModificarTodosLosElementosGameTest()
         {
@@ -134,7 +137,6 @@ namespace Proyect.TakuGames.Test.Business
             unitOfWork.GameRepository.Insert(game);
             var gamebusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
 
-
             //action
             var resp = gamebusiness.UpdateGame(newgame);
 
@@ -150,6 +152,7 @@ namespace Proyect.TakuGames.Test.Business
             Assert.Equal("coverfilnamenew", resp.CoverFileName);
             Assert.Equal(1, resp.GameId);
         }
+
         [Fact]
         public void ModificarAlgunosElementosGameTest()
         {
@@ -198,6 +201,7 @@ namespace Proyect.TakuGames.Test.Business
             Assert.Equal("coverfilname", resp.CoverFileName);
             Assert.Equal(1, resp.GameId);
         }
+
         [Fact]
         public void EliminarGameTest()
         {
@@ -229,6 +233,7 @@ namespace Proyect.TakuGames.Test.Business
 
             
         }
+
         [Fact]
         public void ObtenerTodasLasCategoriasTest()
         {
@@ -251,6 +256,7 @@ namespace Proyect.TakuGames.Test.Business
             Assert.Equal(2, listCategories[1].CategoryId);
             Assert.Equal("categoryname2", listCategories[1].CategoryName);
         }
+
         [Fact]
         public void ObtenerItemsDelCartTest()
         {
@@ -301,6 +307,7 @@ namespace Proyect.TakuGames.Test.Business
             Assert.Equal(game2, listCart[1].Game);
             Assert.Equal(cartItems2.Quantity, listCart[1].Quantity);
         }
+        
         [Fact]
         public void ObtenerGamesSimilaresTest()
         {
