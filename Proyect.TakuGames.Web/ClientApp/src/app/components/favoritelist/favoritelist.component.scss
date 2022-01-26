@@ -3,6 +3,33 @@ img {
   height: 150px;
   width: 130px;
 }
-
-
+.card-favorite {
+  border: 5px solid black;
+  margin-bottom:4em;
+}
+.preview-image {
+  height: 100%;
+  width: 100%;
+}
+.delete-all{
+  padding-top:1em;
+}
+.buttom-delete-all{
+  width:100%;
+  // 
+}
+.button-back{
+  width: 100%;
+}
+.back{
+  padding-top:1em;
+  padding-bottom:1em;
+}
+.add{
+  padding-top:1em;
+  text-align:center
+}
+.button-add{
+  width: 100%;
+}
 
