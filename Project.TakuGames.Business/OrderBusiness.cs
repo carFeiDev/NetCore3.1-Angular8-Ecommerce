@@ -108,13 +108,15 @@ namespace Project.TakuGames.Business
         }
         private List<CustomerOrders> ListAllCustumerOrdersFromDatabase()
         {
-            var resp = UnitOfWork.CustomerOrdersRepository.Get().ToList();
-            return resp;
+            return  UnitOfWork.CustomerOrdersRepository.Get().ToList();
+            
         }
         private List<CustomerOrders> GetAllCustumerOrdersWithUserId(int userId)
         {
-
-            return ListAllCustumerOrdersFromDatabase().Where(x => x.UserId == userId).ToList();
+            return ListAllCustumerOrdersFromDatabase()
+                    .Where( x => x.UserId == userId )
+                    .OrderByDescending( x => x.DateCreated )
+                    .ToList();
         }
         
         #endregion

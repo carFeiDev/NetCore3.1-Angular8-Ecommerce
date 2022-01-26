@@ -43,7 +43,7 @@ namespace Proyect.TakuGames.Test.Controller
             var ctl = new UserController(_mockUserBusiness.Object,_mockCartBusiness.Object, _mockConfiguration.Object, _mockWebHostEnvironment.Object,  mapper, logger.Object);
 
             //action
-            var resp = ctl.Get(user1.UserId);
+            var resp = ctl.GetCartItemNumber(user1.UserId);
 
             //assert
             var okResult = Assert.IsType<ActionResult<int>>(resp);
