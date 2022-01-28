@@ -11,12 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.TakuGames.Dal", "Pr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.TakuGames.Model", "Project.TakuGames.Model\Project.TakuGames.Model.csproj", "{84D45013-AA4A-460D-90F2-91B2E4B3D601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyect.TakuGames.Test", "Proyect.TakuGames.Test\Proyect.TakuGames.Test.csproj", "{2FF6CA63-03A2-4341-A4C2-231C8A4AFBFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proyect.TakuGames.Test", "Proyect.TakuGames.Test\Proyect.TakuGames.Test.csproj", "{2FF6CA63-03A2-4341-A4C2-231C8A4AFBFD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CEA3D50E-D81B-4D36-B1B8-75B3142DBA1B} = {CEA3D50E-D81B-4D36-B1B8-75B3142DBA1B}
 		{84D45013-AA4A-460D-90F2-91B2E4B3D601} = {84D45013-AA4A-460D-90F2-91B2E4B3D601}
 		{969CC08B-ECF4-47FA-9C22-653E205BB0E2} = {969CC08B-ECF4-47FA-9C22-653E205BB0E2}
 	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F65CDD21-B071-4DAF-8B5D-C369C215BAA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{2FF6CA63-03A2-4341-A4C2-231C8A4AFBFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FF6CA63-03A2-4341-A4C2-231C8A4AFBFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FF6CA63-03A2-4341-A4C2-231C8A4AFBFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65CDD21-B071-4DAF-8B5D-C369C215BAA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65CDD21-B071-4DAF-8B5D-C369C215BAA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65CDD21-B071-4DAF-8B5D-C369C215BAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65CDD21-B071-4DAF-8B5D-C369C215BAA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

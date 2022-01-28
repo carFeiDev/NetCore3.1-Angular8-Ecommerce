@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  proyect.takugames.web:
+    image: ${DOCKER_REGISTRY-}proyecttakugamesweb
+    build:
+      context: .
+      dockerfile: Proyect.TakuGames.Web/Dockerfile
