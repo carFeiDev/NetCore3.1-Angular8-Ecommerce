@@ -1,31 +1,72 @@
-<div class="container">
-  <div class="row" style="padding-bottom:1em">
-    <div class="col">
-      <button mat-raised-button color="accent" [routerLink]='["/admin/games/old-manager-games"]'><mat-icon>menu</mat-icon>Version  manager antigua</button>
+<div class="container">  
+  <div class="row">
+    <div class="col-12 col-sm">
+      <button mat-raised-button color="accent" class ="panel-button" [routerLink]='["/admin/games/old-manager-games"]'>
+        <mat-icon>menu</mat-icon>Version  manager antigua
+      </button>
     </div> 
-    <div class="col">
-      <button mat-raised-button color="primary" (click)="opengDialogAddGame()">
+    <div class="col-12 col-sm">
+      <button mat-raised-button color="primary" class ="panel-button"  (click)="opengDialogAddGame()">
         <mat-icon aria-label="Add">add</mat-icon>Agregar Juuego
       </button>    
     </div>
-    <div class="col">
-      <button class="btn btn-primary" mat-raised-button onclick="window.location.href='/swagger';">Swagger</button>
+    <div class="col-12 col-sm">
+      <button  class ="panel-button"  mat-raised-button color="warn" onclick="window.location.href='/swagger';">
+        <mat-icon>menu</mat-icon>Swagger
+      </button>
     </div>
   </div>
-  <div class="row">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"[(ngModel)]="adminfiltergames">
-  </div> 
-  <div class="card border-light mb-3" (click)="onSelectedGame(game)">
-    <div class="row">
-      <div class="col-sm-2" *ngFor="let game of games | adminFilterGames: adminfiltergames">
-        <span class="badge bg-danger" (click)="openDialogDeleteGame(game)">Eliminar</span>
-        <img class="card-img-top" [routerLink]="['/games/details/', game.gameId]" src="/Upload/{{game.coverFileName}}">
-        <div class="card-body">
-          <span class="badge badge-success" (click)="opengDialogEditGame(game)">Editar</span>
-          <p class="card-title"> {{game.title}}</p>
-          <p>{{game.price | currency : 'INR'}}</p>
-        </div>
+    <div *ngIf="games == 0 ; then thenBlock else elseBlock"></div>    
+      <div class="row">   
+        <ng-template #thenBlock> 
+          <mat-card class="card-admin-empty">          
+            <div class="col-12">
+              <div class="text-empty-admin">
+                <h1>No hay juegos</h1>
+              </div>                 
+            </div>           
+          </mat-card>                               
+        </ng-template> 
       </div>
-    </div>    
-  </div>
+        <ng-template #elseBlock>  
+          <mat-card class="card-game " (click)="onSelectedGame(game)">
+            <div class="row">
+              <div class="col-12">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"[(ngModel)]="adminfiltergames">
+              </div>   
+            </div>
+            <div class="row" *ngFor="let game of games | adminFilterGames: adminfiltergames">
+              <div class="col-12 col-sm-3 col-md-2">
+                <img class="preview-image" [routerLink]="['/games/details/', game.gameId]" src="/Upload/{{game.coverFileName}}">
+              </div>
+              <div class="col-4 col-sm-9 col-md-4 name-game">
+                <p class="card-title"> {{game.title}}</p>
+              </div>
+              <div class="col-4 col-sm-6 col-md-2" >
+                <div class="edit">
+                  <div class="button-edit">
+                    <button type="button" mat-icon-button color="primary" (click)="opengDialogEditGame(game)">
+                      <mat-icon aria-label="Edit">edit</mat-icon>Editar
+                    </button>   
+                  </div>    
+                </div>
+              </div>
+              <div class="col-4 col-sm-2  col-md-2 ">              
+                <button type="button" mat-icon-button color="accent" (click)="openDialogDeleteGame(game)">
+                  <mat-icon>delete</mat-icon>Eliminar
+                </button>
+              </div>
+              <mat-divider></mat-divider>
+            </div>          
+          </mat-card> 
+        </ng-template>
 </div>
+
+
+
+
+
+
+
+
+
