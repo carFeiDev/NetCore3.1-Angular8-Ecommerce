@@ -25,9 +25,9 @@ namespace Proyect.TakuGames.Web.Controllers
     {
         private readonly IUserBusiness userBusiness;
         private readonly ICartBusiness cartBusiness;
-         readonly IWebHostEnvironment hostingEnvironment;
-        readonly IConfiguration config;
-        readonly string coverImageFolderPath = string.Empty;
+        private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IConfiguration config;
+        private readonly string coverImageFolderPath = string.Empty;
         
         /// <summary>
         ///  Controller
@@ -103,11 +103,17 @@ namespace Proyect.TakuGames.Web.Controllers
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         public ActionResult<UserMasterVM> Post( )
         {
-            UserMasterVM gamevm = JsonConvert.DeserializeObject<UserMasterVM>(Request.Form["UserFormData"].ToString());
-            var gam = _mapper.Map<UserMasterVM, UserMaster>(gamevm);
-
-
-            if (Request.Form.Files.Count > 0)
+           
+            UserMasterVM newUserVm = JsonConvert.DeserializeObject<UserMasterVM>(Request.Form["UserFormData"].ToString());
+            UserMasterVM newUserWithImageVm = UploadImage(newUserVm);
+            UserMaster newUser = _mapper.Map<UserMasterVM, UserMaster>(newUserWithImageVm);
+            UserMaster createdUser = userBusiness.RegisterUser(newUser);
+            UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(createdUser); 
+            return Created($"{Request.Path}/{response.UserId}",response);
+        }
+        private UserMasterVM UploadImage(UserMasterVM newUserVm)
+        { 
+           if (Request.Form.Files.Count > 0)
             {
                 var file = Request.Form.Files[0];
 
@@ -119,17 +125,14 @@ namespace Proyect.TakuGames.Web.Controllers
                     {
                         file.CopyTo(stream);
                     }
-                    gam.UserImage = fileName;
+                    newUserVm.UserImage = fileName;
                 }
             }
             else
             {
-                gam.UserImage = config["DefaultCoverImageFile"];
+                newUserVm.UserImage = config["DefaultCoverImageFile"];
             }
-
-            var createdUser = userBusiness.RegisterUser(gam);
-            UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(createdUser); 
-            return Created($"{Request.Path}/{response.UserId}",response);
+            return newUserVm;
         }
     }
 }
