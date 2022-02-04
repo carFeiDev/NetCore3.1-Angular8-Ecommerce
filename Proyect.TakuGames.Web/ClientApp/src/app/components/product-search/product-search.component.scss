@@ -29,10 +29,16 @@
     border: 10px solid black;
     margin-top:10px ;
   }
-  // .card-game {
+  .card-game-empty {
+    border: 10px solid black;
+    width: 100%;
+    height: auto;
+    margin-top: 35px;
+    padding-top: 208px;
+    padding-bottom:208px ; 
+    text-align: center;
     
-  // }
-  
+  }
   .preview-image-container {
     margin-top:1em;
     margin-bottom: 1em;

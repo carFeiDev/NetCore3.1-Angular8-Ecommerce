@@ -17,13 +17,15 @@
     </div>
     <div class="col">                             
       <div *ngIf="games == 0 ; then thenBlock else elseBlock"></div>              
-        <ng-template #thenBlock>
-          <h1>No se encontraron elementos con el filtro seleccionado</h1>
+        <ng-template #thenBlock> 
+            <mat-card class ="card-game-empty">
+              <h1>No se encontraron elementos con el filtro seleccionado</h1>
+            </mat-card>
         </ng-template> 
         <ng-template #elseBlock>
           <div class="card-game-container">
             <!-- <mat-card  (mouseover)="changeText=true" (mouseout)="changeText=false"> -->
-            <mat-card class="card-game">
+            <mat-card>
               <div *ngFor="let item of games | filterGames: filtergames">      
                 <mat-divider></mat-divider>
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">              
