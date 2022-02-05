@@ -10,11 +10,13 @@
       <div class="card-body">
          <h5 class="card-title">
             {{game.title}}
-            <div class="float-right" >   
-               <app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist>
+            <div class="float-right"> 
+               <app-addtofavoritelist *ngIf="(userData$ | async).isLoggedIn" [gameId]="game.gameId"></app-addtofavoritelist>  
+               <!-- <app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist> -->           
+               <!-- <span *ngIf="changeText"><app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist></span>         -->
                <!-- <span *ngIf="changeText"><app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist></span> -->
                <!-- <div (mouseover)="changeText=true" (mouseout)="changeText=false">
-                  <span *ngIf="!changeText">Hide</span>
+                  Hide</span>
                   <span *ngIf="changeText">Show</span>
                 </div> -->              
             </div> 

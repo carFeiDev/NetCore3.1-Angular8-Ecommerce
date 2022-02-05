@@ -41,8 +41,8 @@
                     </div>                              
                   </div>               
                   <div class="col-2 col-sm-1 col-md-1 game-favorite-container">
-                    <span *ngIf="changeText"><app-addtofavoritelist [gameId]="item.gameId"></app-addtofavoritelist></span>  
-                    <app-addtofavoritelist [gameId]="item.gameId"></app-addtofavoritelist>                 
+                    <app-addtofavoritelist *ngIf="(userData$ | async).isLoggedIn" [gameId]="item.gameId" ></app-addtofavoritelist>
+                    <span *ngIf="changeText"><app-addtofavoritelist [gameId]="item.gameId"></app-addtofavoritelist></span>                  
                   </div>        
                 </div> 
               </div>

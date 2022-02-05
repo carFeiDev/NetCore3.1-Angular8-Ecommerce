@@ -21,7 +21,8 @@ export class GameCardComponent implements OnInit {
 
   ngOnInit() {
     this.userData$ = this.subscriptionService.userData;
-    this.changeText= false;
+    //  this.changeText= false;
+    
   }
 
   goToPage(id: number) {

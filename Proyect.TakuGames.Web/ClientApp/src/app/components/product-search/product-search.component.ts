@@ -4,8 +4,8 @@ import { switchMap } from 'rxjs/operators';
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-
-
+import { Observable } from 'rxjs/internal/Observable';
+import { User } from 'src/app/models/user';
 @Component({
   selector: 'app-product-search',
   templateUrl: './product-search.component.html',
@@ -20,6 +20,7 @@ export class ProductSearchComponent implements OnInit {
   showSpinner: boolean = false;
   isLoading: boolean;
   priceRange = Number.MAX_SAFE_INTEGER;
+  userData$: Observable<User>;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +31,7 @@ export class ProductSearchComponent implements OnInit {
   ngOnInit() {
     this.showSpinner=true;
     this.getAllGameData();
+    this.userData$ = this.subscriptionService.userData;
   }
 
   getAllGameData() {
