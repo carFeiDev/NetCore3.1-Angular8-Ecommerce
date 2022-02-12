@@ -104,8 +104,27 @@ namespace Proyect.TakuGames.Web.Controllers
         public ActionResult<GameVM> Post()
         {
             GameVM gameVm = JsonConvert.DeserializeObject<GameVM>(Request.Form["gameFormData"].ToString());
-            GameVM gameWithImageVm = UploadImage(gameVm);
-            Game game = _mapper.Map<GameVM,Game>(gameWithImageVm);
+            
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                if (file.Length > 0)
+                {
+                    string fileName = Guid.NewGuid() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    string fullPath = Path.Combine(coverImageFolderPath, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    gameVm.CoverFileName = fileName;
+                }
+            }
+            else
+            {
+                gameVm.CoverFileName = config["DefaultCoverImageFile"];
+            }
+    
+            Game game = _mapper.Map<GameVM,Game>(gameVm);
             Game resp = gameBusiness.CreateGame(game);
             GameVM response = _mapper.Map<Game, GameVM>(resp);
             return  Created($"{Request.Path}/{response.GameId}", response);
@@ -125,8 +144,23 @@ namespace Proyect.TakuGames.Web.Controllers
         public ActionResult<GameVM> Put()
         {
             GameVM gameEditedVm = JsonConvert.DeserializeObject<GameVM>(Request.Form["gameFormData"].ToString());
-            GameVM gameEditedWithImageVm = UploadImage(gameEditedVm);
-            Game gameEdited = _mapper.Map<GameVM,Game>(gameEditedWithImageVm);
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+
+                if (file.Length > 0)
+                {
+                    string fileName = Guid.NewGuid() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    string fullPath = Path.Combine(coverImageFolderPath, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    gameEditedVm.CoverFileName = fileName;
+                }
+            }
+            Game gameEdited = _mapper.Map<GameVM,Game>(gameEditedVm);
             Game resp = gameBusiness.UpdateGame(gameEdited);
             GameVM response = _mapper.Map<Game, GameVM>(resp);
             return response;
@@ -187,28 +221,5 @@ namespace Proyect.TakuGames.Web.Controllers
             }
             return 1;
         }
-        private GameVM UploadImage(GameVM gameVm)
-        { 
-            if (Request.Form.Files.Count > 0)
-            {
-                var file = Request.Form.Files[0];
-                if (file.Length > 0)
-                {
-                    string fileName = Guid.NewGuid() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    string fullPath = Path.Combine(coverImageFolderPath, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    gameVm.CoverFileName = fileName;
-                }
-            }
-            else
-            {
-                gameVm.CoverFileName = config["DefaultCoverImageFile"];
-            }
-
-            return gameVm;
-        }  
     }
 }

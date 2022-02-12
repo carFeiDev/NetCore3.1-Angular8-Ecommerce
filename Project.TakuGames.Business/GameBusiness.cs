@@ -43,11 +43,7 @@ namespace Project.TakuGames.Business
             newGameData.Platform = game.Platform;
             newGameData.Category = game.Category;
             newGameData.Price = game.Price;
-
-            if (game.CoverFileName != null)
-            {
-                newGameData.CoverFileName = game.CoverFileName;
-            }
+            newGameData.CoverFileName = game.CoverFileName;
 
             UnitOfWork.GameRepository.Update(newGameData);
             UnitOfWork.Save();

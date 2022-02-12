@@ -24,7 +24,8 @@ export class GameFormComponent implements OnInit, OnDestroy {
   files;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private gameService: GameService,
+  constructor(
+    private gameService: GameService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -39,6 +40,7 @@ export class GameFormComponent implements OnInit, OnDestroy {
         platform: ['', Validators.required],
         category: ['', Validators.required],
         price: ['', [Validators.required, Validators.min(1)]],
+        coverFileName:[''],
     })
       if (this.route.snapshot.params['id']) {
         this.gameId = this.route.snapshot.paramMap.get('id');
@@ -78,8 +80,10 @@ export class GameFormComponent implements OnInit, OnDestroy {
       platform: gameFormData.platform,
       category: gameFormData.category,
       price: gameFormData.price,
+      coverFileName: gameFormData.coverFileName,
     });
-    this.coverImagePath = '/Upload' + gameFormData.coverFileName;
+
+   this.coverImagePath = '/Upload/' + gameFormData.coverFileName;
   }
 
   saveGameData() {
@@ -119,7 +123,6 @@ export class GameFormComponent implements OnInit, OnDestroy {
             console.log('Error ocurred while adding game data :', error);
 
           });
-
     }
   }
   uploadImage(event) {
@@ -161,6 +164,9 @@ export class GameFormComponent implements OnInit, OnDestroy {
   }
   get price() {
     return this.gameForm.get('price');
+  }
+  get coverFileName() {
+    return this.gameForm.get('coverFileName');
   }
 
 }
