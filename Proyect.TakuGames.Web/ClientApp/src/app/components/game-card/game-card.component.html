@@ -1,35 +1,25 @@
- 
 <div class="row row-cols-1 row-cols-md-3 g-4" (mouseover)="changeText=true" (mouseout)="changeText=false">
-   <div class="col">
-    <div class="card h-100">
-      <div>
-         <a [routerLink]="['/games/details/', game.gameId]" matTooltip="{{game.title}}" matTooltipClass="example-tooltip" aria-label="Game title">
-            <img class="preview-image" mar-card-image src="/Upload/{{game.coverFileName}}" alt="Game cover image">
-         </a>
-      </div>
+  <div class="col">
+    <div class="card h-100">           
+      <img class="preview-image"
+          [routerLink]="['/games/details/', game.gameId]"
+          matTooltip="{{game.title}}"
+          matTooltipClass="example-tooltip"
+          aria-label="Game title"
+          mar-card-image src="/Upload/{{game.coverFileName}}"
+          alt="Game cover image">
+      <div class="border-favortie">
+        <div class="favorite">
+          <app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist>
+        </div>
+      </div>  
       <div class="card-body">
-         <h5 class="card-title">
-            {{game.title}}
-            <div class="float-right"> 
-               <app-addtofavoritelist *ngIf="(userData$ | async).isLoggedIn" [gameId]="game.gameId"></app-addtofavoritelist>  
-               <!-- <app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist> -->           
-               <!-- <span *ngIf="changeText"><app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist></span>         -->
-               <!-- <span *ngIf="changeText"><app-addtofavoritelist [gameId]="game.gameId"></app-addtofavoritelist></span> -->
-               <!-- <div (mouseover)="changeText=true" (mouseout)="changeText=false">
-                  Hide</span>
-                  <span *ngIf="changeText">Show</span>
-                </div> -->              
-            </div> 
-         </h5>
-         <div class="price">
-            ${{game.price | currency : 'ARS'}}
-         </div>
-         <div>
-            <app-addtocart [gameId]="game.gameId"></app-addtocart>
-         </div>
+        <h5 class="card-title">{{game.title}}</h5>
+        <div class="price">${{game.price | currency : 'ARS'}}</div>
+        <div><app-addtocart [gameId]="game.gameId"></app-addtocart></div>
       </div>
-     </div>
-   </div>
+    </div>
+  </div>
 </div>
 
 

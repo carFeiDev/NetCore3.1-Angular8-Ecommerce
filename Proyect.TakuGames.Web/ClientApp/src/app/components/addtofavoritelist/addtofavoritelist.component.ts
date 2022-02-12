@@ -5,6 +5,11 @@ import { Game } from 'src/app/models/game';
 import { FavoritelistService } from 'src/app/services/favoritelist.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
+import { User } from 'src/app/models/user';
+import { Observable } from 'rxjs/internal/Observable';
+import { LoginComponent } from '../login/login.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-addtofavoritelist',
@@ -17,32 +22,39 @@ export class AddtofavoritelistComponent implements OnChanges {
   gameId: number;
   @Input()
   showButton = false;
-  userId;
+  userId:any;
   toggle: boolean;
   buttonText: string;
-  public favoritelistItems: Game[];
+  favoritelistItems: Game[];
+  userData$: Observable<User>;
+  userDataSubcription: any;
+  userData = new User();
   
 
   constructor(
     private favoritelistService: FavoritelistService,
     private subscriptionService: SubscriptionService,
-    private snackBarService: SnackbarService) {
-    this.userId = localStorage.getItem('userId');
-  
-  }
+    private snackBarService: SnackbarService,
+    private dialog: MatDialog ) {
+      this.userId = localStorage.getItem('userId');
+    }
 
   ngOnChanges(): void  {
     this.subscriptionService.favoritelistItem$.pipe().subscribe(
       (bookData: Game[]) => {
         this.setFavourite(bookData);
         this.setButtonText();
-      });    
+      });
+      this.userDataSubcription = this.subscriptionService.userData.asObservable()
+      .subscribe(data => {
+        this.userData = data;
+      });   
   }
 
-  setFavourite(bookData: Game[]): void {
-    const favBook = bookData.find(f => f.gameId === this.gameId);
+  setFavourite(gameData: Game[]): void {
+    const favGame = gameData.find(f => f.gameId === this.gameId);
 
-    if (favBook) {
+    if (favGame) {
       this.toggle = true;
     } else {
       this.toggle = false;
@@ -58,6 +70,7 @@ export class AddtofavoritelistComponent implements OnChanges {
   }
 
   toggleValue(): void {
+    if(this.userData.isLoggedIn){
     this.toggle = !this.toggle;
     this.setButtonText();
     this.favoritelistService.toggleFavoritelistItem(this.userId, this.gameId).subscribe(
@@ -70,5 +83,15 @@ export class AddtofavoritelistComponent implements OnChanges {
       }, error => {
         console.log('Error ocurred while adding to favoritelist : ', error);
       });
+    } else{
+      this.opengDialog();
+    }
+    
+  }
+
+  opengDialog(): void{
+    let dialog = this.dialog.open(LoginComponent,{
+      height: '620px',
+    })     
   }
 }

@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
-import { Game } from '../../models/game';
 import { Observable } from 'rxjs/internal/Observable';
+import { Game } from '../../models/game';
 import { User } from 'src/app/models/user';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 
@@ -21,12 +21,9 @@ export class GameCardComponent implements OnInit {
 
   ngOnInit() {
     this.userData$ = this.subscriptionService.userData;
-    //  this.changeText= false;
-    
+    //  this.changeText= false;    
   }
-
   goToPage(id: number) {
     this.router.navigate(['/games/details', id]);
   }
-
 }
