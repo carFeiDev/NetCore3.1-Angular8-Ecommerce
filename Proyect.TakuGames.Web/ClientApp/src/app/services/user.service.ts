@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { User} from '../models/user'
 
 @Injectable({
@@ -18,11 +17,12 @@ export class UserService {
     const url = `${this.baseUrl}${this.apiURL}`;
     return this.http.post<User>(url, userdetails);
   }
-  
+
   getCartItemCount(Id: number): Observable<number> {
     const url = `${this.baseUrl}${this.apiURL}/${Id}`;
     return this.http.get<number>(url);
   }
+  
   getUserById<Use>(UserId:number): Observable<User> {
     const url = `${this.baseUrl}${this.apiURL}/${"GetUser"}/${UserId}`;
     return this.http.get<User>(url);

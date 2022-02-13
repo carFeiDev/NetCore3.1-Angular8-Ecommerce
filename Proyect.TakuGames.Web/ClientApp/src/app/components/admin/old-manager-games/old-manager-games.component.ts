@@ -2,13 +2,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { GameFormComponent } from '../game-form/game-form.component';
-import { GameService } from '../../../services/game.service';
 import { Game } from '../../../models/game';
+import { GameFormComponent } from '../game-form/game-form.component';
+import { DeleteGameComponent } from '../delete-game/delete-game.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DeleteGameComponent } from '../delete-game/delete-game.component';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { GameService } from '../../../services/game.service';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
@@ -18,12 +18,11 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 })
 
 export class OldManagerGamesComponent implements OnInit {
-
+  
   displayedColumns: string[] = ['id','coverFileName', 'title', 'description','developer','publisher','platform','category', 'price', 'operation'];
   dataSource = new MatTableDataSource<Game>();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
   private unsubscribe$ = new Subject<void>();
 
   constructor(private gameService: GameService,
@@ -59,15 +58,15 @@ export class OldManagerGamesComponent implements OnInit {
     }
   }
 
- opengDialogAddGame(): void{
-    let dialog = this.dialog.open(GameFormComponent,{
-      height: '870',
-      width: '600',
-    })
-    dialog.afterClosed().subscribe(()=> {
-      this.refleshGames();
-     });        
-  }
+  opengDialogAddGame(): void{
+      let dialog = this.dialog.open(GameFormComponent,{
+        height: '870',
+        width: '600',
+      })
+      dialog.afterClosed().subscribe(()=> {
+        this.refleshGames();
+      });        
+    }
   opengDialogEditGame(game:Game): void{
     let dialog = this.dialog.open(GameFormComponent,{
       height: '870',
@@ -96,8 +95,5 @@ export class OldManagerGamesComponent implements OnInit {
         })
       }
     });
-  }
-
-   
-  
+  } 
 }

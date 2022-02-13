@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CustomerOrder } from '../models/customerorder';
 
 

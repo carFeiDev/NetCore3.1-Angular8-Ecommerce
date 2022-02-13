@@ -13,6 +13,5 @@ export class CheckoutService {
   placeOrder(userId: number, checkedOutItems: Order) {
     const url = `${this.baseUrl}${this.serviceUrl}/${userId}`;
     return this.http.post<number>(url,checkedOutItems);
-
   }
 }

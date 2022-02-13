@@ -1,15 +1,14 @@
 import { OnChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Input } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
 import { Component } from '@angular/core';
+import { LoginComponent } from '../login/login.component';
 import { Game } from 'src/app/models/game';
-import { FavoritelistService } from 'src/app/services/favoritelist.service';
+import { User } from 'src/app/models/user';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-import { User } from 'src/app/models/user';
-import { Observable } from 'rxjs/internal/Observable';
-import { LoginComponent } from '../login/login.component';
-import { MatDialog } from '@angular/material/dialog';
-
+import { FavoritelistService } from 'src/app/services/favoritelist.service';
 
 @Component({
   selector: 'app-addtofavoritelist',
@@ -29,7 +28,6 @@ export class AddtofavoritelistComponent implements OnChanges {
   userData$: Observable<User>;
   userDataSubcription: any;
   userData = new User();
-  
 
   constructor(
     private favoritelistService: FavoritelistService,
@@ -41,8 +39,8 @@ export class AddtofavoritelistComponent implements OnChanges {
 
   ngOnChanges(): void  {
     this.subscriptionService.favoritelistItem$.pipe().subscribe(
-      (bookData: Game[]) => {
-        this.setFavourite(bookData);
+      (gameData: Game[]) => {
+        this.setFavourite(gameData);
         this.setButtonText();
       });
       this.userDataSubcription = this.subscriptionService.userData.asObservable()
@@ -83,7 +81,7 @@ export class AddtofavoritelistComponent implements OnChanges {
       }, error => {
         console.log('Error ocurred while adding to favoritelist : ', error);
       });
-    } else{
+    } else {
       this.opengDialog();
     }
     

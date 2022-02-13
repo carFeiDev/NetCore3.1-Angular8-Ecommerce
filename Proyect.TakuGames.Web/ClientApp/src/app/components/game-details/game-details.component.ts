@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { User } from 'src/app/models/user';
-import { SubscriptionService } from 'src/app/services/subscription.service';
 import { Game } from '../../models/game';
 import { GameService } from "../../services/game.service";
-
+import { SubscriptionService } from 'src/app/services/subscription.service';
 @Component({
   selector: 'app-game-details',
   templateUrl: './game-details.component.html',
@@ -19,10 +18,10 @@ export class GameDetailsComponent implements OnInit {
   BookDetails$: Observable<Game>;
   userData$: Observable<User>;
 
-  constructor(private gameServices: GameService,
-     private route: ActivatedRoute,
-     private router: Router,
-     private subscriptionService: SubscriptionService,) {
+  constructor(
+    private gameServices: GameService,
+    private route: ActivatedRoute,
+    private subscriptionService: SubscriptionService) {
     this.gameId = this.route.snapshot.paramMap.get('id');
   }
 

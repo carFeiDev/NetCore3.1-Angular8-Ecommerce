@@ -39,13 +39,11 @@ export class FavoritelistComponent implements OnInit {
   clearFavoritelist(): void {
     this.favoritelistService.clearFavoritelist(this.userId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        result => {
+      .subscribe(result => {
           this.subscriptionService.favoritelistItemcount$.next(result);
           this.snackBarService.showSnackBar('Favorios limpio!!!');
         }, error => {
           console.log('Error ocurred while deleting Favorite item : ', error);
         });
   }
-
 }

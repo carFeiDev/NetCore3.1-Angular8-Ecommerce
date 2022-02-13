@@ -17,7 +17,7 @@ export class MyordersComponent implements OnInit {
   isLoading: boolean = false;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private orderService:OrderService,private cartservice:CartService) { }
+  constructor(private orderService: OrderService, private cartservice: CartService) { }
 
   ngOnInit(): void {
     this.isLoading = true;

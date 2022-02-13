@@ -70,6 +70,6 @@ export class AuthenticationService {
     this.subscriptionService.favoritelistItem$.next([]);
     this.subscriptionService.favoritelistItemcount$.next(0);
     this.subscriptionService.cartItemcount$.next(0);
-
   }
+  
 }

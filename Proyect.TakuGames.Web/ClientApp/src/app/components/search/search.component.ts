@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { GameService } from 'src/app/services/game.service';
-import { Game } from 'src/app/models/game';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Game } from 'src/app/models/game';
 import { SubscriptionService } from 'src/app/services/subscription.service';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-search',

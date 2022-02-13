@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 import { takeUntil } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { LoginComponent } from '../login/login.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-registration',

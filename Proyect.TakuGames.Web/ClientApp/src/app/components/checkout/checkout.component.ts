@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShoppingCart } from 'src/app/models/shoppingcart';
+import { Order } from 'src/app/models/order';
 import { CartService } from 'src/app/services/cart.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-import { Order } from 'src/app/models/order';
 import { CheckoutService } from 'src/app/services/checkout.service';
 
 @Component({
@@ -15,6 +15,7 @@ import { CheckoutService } from 'src/app/services/checkout.service';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
+
 export class CheckoutComponent implements OnInit {
 
   userId;
@@ -91,7 +92,6 @@ export class CheckoutComponent implements OnInit {
     pincode: ['', Validators.compose([Validators.required, Validators.pattern('^[1-9][0-9]{5}$')])],
     state: ['', [Validators.required]]
   });
-
 
   get name() {
     return this.checkOutForm.get('name');

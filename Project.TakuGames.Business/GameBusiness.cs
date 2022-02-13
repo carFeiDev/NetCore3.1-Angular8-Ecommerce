@@ -14,9 +14,10 @@ namespace Project.TakuGames.Business
 {
     public class GameBusiness :BaseBusiness, IGameBusiness
     {
-        public GameBusiness(IUnitOfWork unitOfWork, IMapper mapper, ILogger<GameBusiness> logger)
-              : base(unitOfWork, mapper, logger) { }
-
+        public GameBusiness(IUnitOfWork unitOfWork,
+                            IMapper mapper,
+                            ILogger<GameBusiness> logger)
+                            : base(unitOfWork, mapper, logger) { }
         public List<Game> GetAllGames()
         {
             return ListAllFromDatabase();

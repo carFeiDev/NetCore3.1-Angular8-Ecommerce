@@ -3,10 +3,10 @@ import { AbstractControl, FormBuilder,FormGroup, Validators } from '@angular/for
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { CartService } from '../../services/cart.service';
 import { SubscriptionService } from '../../services/subscription.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -26,8 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cartServices: CartService,
     private userServices: UserService,
     private formBuilder: FormBuilder,
-    
-    public dialogRef: MatDialogRef<LoginComponent>){
+    private dialogRef: MatDialogRef<LoginComponent>){
       this.buildForm();
      }
 
@@ -79,6 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', Validators.required]
     });
   }
+
   private closeDialog(): void {
     this.dialogRef.close();
   }
@@ -86,6 +86,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   get username(): AbstractControl {
     return this.loginForm.get('username');
   }
+
   get password(): AbstractControl {
     return this.loginForm.get('password');
   }

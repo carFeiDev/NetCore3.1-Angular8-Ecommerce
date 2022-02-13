@@ -19,9 +19,9 @@ export class GameFormComponent implements OnInit, OnDestroy {
   gameForm: FormGroup;
   game: Game = new Game();
   formTitle = 'Agregar';
-  coverImagePath;
+  coverImagePath:any;
   categoryList: [];
-  files;
+  files:any;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -54,8 +54,7 @@ export class GameFormComponent implements OnInit, OnDestroy {
         this.categoryList = categoryData
       }, error => {
         console.log("Error ocurred while fetching category list", error);
-      }
-      );
+      });
 
     if (this.gameId) {
       this.formTitle = "Editar";
@@ -65,8 +64,7 @@ export class GameFormComponent implements OnInit, OnDestroy {
           this.setGameFormData(result);   
         }, error => {
           console.log('Error ocurred while fetching game data:', error);
-        }
-        );
+        });
     }
   }
 
@@ -101,7 +99,7 @@ export class GameFormComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
           () => {
-            this.snackBar.open('Se edito el juego con exitodd', '', {
+            this.snackBar.open('Se edito el juego con exito', '', {
               duration: 2000
             });
             this.dialogClose();
@@ -111,18 +109,17 @@ export class GameFormComponent implements OnInit, OnDestroy {
     } else {
       this.gameService.addGame(this.formData)
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(
-          () => {
-            this.snackBar.open('Se inserto el juego con exito', '', {
-              duration: 2000
+          .subscribe(
+            () => {
+              this.snackBar.open('Se inserto el juego con exito', '', {
+                duration: 2000
+              });
+              this.dialogClose();
+            }, error => {
+              //reset form data show a toaster
+              this.gameForm.reset();
+              console.log('Error ocurred while adding game data :', error);
             });
-            this.dialogClose();
-          }, error => {
-            //reset form data show a toaster
-            this.gameForm.reset();
-            console.log('Error ocurred while adding game data :', error);
-
-          });
     }
   }
   uploadImage(event) {

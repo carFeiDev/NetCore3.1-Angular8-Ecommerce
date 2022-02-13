@@ -1,13 +1,13 @@
 import { Component, OnDestroy} from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs'
+import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../models/user';
 import { UserType } from '../../models/usertype';
 import { AuthenticationService } from '../../services/authentication.service';
 import { SubscriptionService } from '../../services/subscription.service';
 import { UserService } from '../../services/user.service';
-import { Observable } from 'rxjs'
 import { FavoritelistService } from 'src/app/services/favoritelist.service';
-import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 
 @Component({
@@ -42,6 +42,7 @@ export class NavMenuComponent implements OnDestroy {
     });
    
   }
+  
   ngOnInit(): void {
     this.userDataSubcription = this.subscriptionService.userData.asObservable().subscribe(data => {
       this.userData = data;
@@ -54,17 +55,20 @@ export class NavMenuComponent implements OnDestroy {
     this.authService.logout();
     this.router.navigate(['/']);
   }
+
   ngOnDestroy(): void {
     if (this.userDataSubcription) {
       this.userDataSubcription.unsubscribe();
     }
   }
+
   openDialog(): void {
     this.dialog.open(LoginComponent, {
       height: '620px',
 
     });
   }
+
   getGameDetails() {
     this.userService.getUserById(this.userId).subscribe(
       (result: User) => {
@@ -74,7 +78,6 @@ export class NavMenuComponent implements OnDestroy {
       }
     )
   }
-
 }
 
 

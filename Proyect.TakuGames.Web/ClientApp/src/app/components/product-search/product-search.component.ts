@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
 import { switchMap } from 'rxjs/operators';
+import { User } from 'src/app/models/user';
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
-import { Observable } from 'rxjs/internal/Observable';
-import { User } from 'src/app/models/user';
+
 @Component({
   selector: 'app-product-search',
   templateUrl: './product-search.component.html',
@@ -46,10 +47,10 @@ export class ProductSearchComponent implements OnInit {
       this.subscriptionService.searchItemValue$.next(this.searchItem);
       this.activeSpinner();
       //  this.showSpinner=false;
-      this.filterBookData();
+      this.filterGameData();
     });
  }
- filterBookData() {
+ filterGameData() {
   const filteredData = this.filteredProducts.filter(b => b.price <= this.priceRange).slice();
 
   if (this.category) {

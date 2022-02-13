@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/models/user';
 import { ShoppingCart } from '../../models/shoppingcart';
 import { CartService } from '../../services/cart.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { SubscriptionService } from '../../services/subscription.service';
-import { Router } from '@angular/router';
 import { LoginComponent } from '../login/login.component';
-import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-shopping-cart',
@@ -78,7 +79,6 @@ export class ShoppingCartComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
-  
   }
 
   addOneCartItem(gameId: number): void {

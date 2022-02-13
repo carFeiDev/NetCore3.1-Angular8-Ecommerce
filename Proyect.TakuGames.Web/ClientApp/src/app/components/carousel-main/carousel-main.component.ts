@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { CarouselConfig } from 'ngx-bootstrap/carousel';
 
 
@@ -14,11 +14,8 @@ import { CarouselConfig } from 'ngx-bootstrap/carousel';
 export class CarouselMainComponent implements OnInit {
   title = 'testfunctions';
 
-
   constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-  
 }
