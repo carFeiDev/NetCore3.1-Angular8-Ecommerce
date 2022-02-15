@@ -66,7 +66,7 @@ namespace Proyect.TakuGames.Web.Controllers
         /// <response code="200">Datos del Usuario</response>
         /// <response code="400">No ha pasado las validaciones</response>    
         /// <response code="404">No se encontró al usuario</response>    
-        [HttpGet("GetUser/{gameId}",Name = "GetUser")]
+        [HttpGet("GetUser/{UserId}",Name = "GetUser")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -111,6 +111,42 @@ namespace Proyect.TakuGames.Web.Controllers
             UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(createdUser); 
             return Created($"{Request.Path}/{response.UserId}",response);
         }
+           /// <summary>
+        /// Modifica un usuario en la app
+        /// </summary>
+        /// <returns>Juego modificado</returns>
+        /// <response code="200">usuario modificado</response>
+        /// <response code="400">No ha pasado las validaciones</response>  
+        /// <response code="404">No se encontró  el usuario</response>  
+        [HttpPut("{Id:int}")]
+        //[Authorize(Policy = UserRoles.Admin)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
+        public ActionResult<UserMasterVM> Put()
+        {
+            UserMasterVM userEditedVm = JsonConvert.DeserializeObject<UserMasterVM>(Request.Form["UserFormData"].ToString());
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+
+                if (file.Length > 0)
+                {
+                    string fileName = Guid.NewGuid() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    string fullPath = Path.Combine(coverImageFolderPath, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    userEditedVm.UserImage = fileName;
+                }
+            }
+            UserMaster userEdited = _mapper.Map<UserMasterVM,UserMaster>(userEditedVm);
+            UserMaster resp = userBusiness.EditUser(userEdited);
+            UserMasterVM response = _mapper.Map<UserMaster, UserMasterVM>(resp);
+            return response;
+        }
+
         private UserMasterVM UploadImage(UserMasterVM newUserVm)
         { 
            if (Request.Form.Files.Count > 0)

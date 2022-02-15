@@ -1,9 +1,10 @@
 <div class="container">
+  <h3>{{formTitle}} Usuario</h3>
   <div class="row">
     <div class="col">
       <mat-card>
         <h3>Formulario registro</h3>
-          <form [formGroup]="registerForm" (ngSubmit)="registerUser($event)">              
+          <form [formGroup]="registerForm" (ngSubmit)="saveUserData($event)">              
             <div class="row">
               <div class="col-12 col-sm-9">
                 <div><!--------------------------Nombre------------------------------>

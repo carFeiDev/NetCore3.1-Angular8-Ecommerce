@@ -14,7 +14,7 @@
               <mat-menu #menu="matMenu" [overlapTrigger]="false">
                 <span (mouseleave)="menuTrigger.closeMenu()">
                   <button *ngIf="userData.isLoggedIn" mat-menu-item [routerLink]='["/"]'>
-                    <img class="avatar-image"  mar-card-image src="{{userData.image}}" alt="Avatar User">
+                    <img class="avatar-image"  mar-card-image src="{{userData.userImage}}" alt="Avatar User">
                     <span>{{userData.userName}}</span>
                   </button>
                   <button mat-menu-item [routerLink]='["/"]'>
@@ -24,7 +24,7 @@
                   <button *ngIf="userData.isLoggedIn" mat-menu-item [routerLink]='["/myorders"]'>
                     <mat-icon>shop</mat-icon>
                     <span>Mis compras</span>
-                  </button>
+                  </button>                  
                   <button mat-menu-item  *ngIf="!userData.isLoggedIn" [routerLinkActive]='["link-active"]' (click)="openDialog()">
                     <mat-icon>how_to_reg</mat-icon>
                     <span>Login</span>
@@ -44,7 +44,7 @@
                       business
                     </mat-icon>              
                     <span>Administracion</span>
-                  </button>
+                  </button>                   
                   <button *ngIf="userData.isLoggedIn" mat-menu-item (click)=logout()>
                     <mat-icon>exit_to_app</mat-icon>
                     <span>Cerrar sesión</span>
@@ -92,7 +92,7 @@
         </button>
           <ng-container *ngIf="userData.isLoggedIn">
             <button mat-button [matMenuTriggerFor]="menu">
-              <img class="avatar-image" mar-card-image src="{{userData.image}}" alt="Avatar User">
+              <img class="avatar-image" mar-card-image src="{{userData.userImage}}" alt="Avatar User">
                 {{userData.userName}}
               <mat-icon>
                 arrow_drop_down
@@ -101,10 +101,13 @@
                 <button mat-menu-item [routerLink]='["/myorders"]'>
                   Mis Ordenes
                 </button>
+                <button mat-menu-item [routerLink]="['/register/', userData.userId]">        
+                  editarusuario
+                </button>
                 <button mat-menu-item (click)=logout()>
                   Logout
                 </button>
-              </mat-menu>         
+              </mat-menu>
             </button>          
           </ng-container>  
         </div>

@@ -28,4 +28,9 @@ export class UserService {
     return this.http.get<User>(url);
   }
 
+  updateUserDetails(user: FormData, id:number): Observable<User[]> {
+    const url = `${this.baseUrl}${this.apiURL}/${id}`;
+    return this.http.put<User[]>(url, user);
+  }
+
 }

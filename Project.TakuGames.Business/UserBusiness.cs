@@ -20,7 +20,10 @@ namespace Project.TakuGames.Business
     public class UserBusiness : BaseBusiness, IUserBusiness
     {
         readonly IConfiguration _config;
-        public UserBusiness(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserBusiness> logger, IConfiguration config)
+        public UserBusiness(IUnitOfWork unitOfWork,
+                            IMapper mapper,
+                            ILogger<UserBusiness> logger,
+                            IConfiguration config)
                             : base(unitOfWork, mapper, logger)
         {
             this._config = config;
@@ -40,17 +43,31 @@ namespace Project.TakuGames.Business
             UnitOfWork.UserMasterRepository.Insert(newUser);
             UnitOfWork.Save();
             return newUser;                       
-        }    
+        } 
+        public UserMaster EditUser(UserMaster editUser)
+        {
+            ValidateEditUser(editUser);
+            UserMaster newEditUser = UserSearch(editUser.UserId);   
+            newEditUser.FirstName = editUser.FirstName.Trim();
+            newEditUser.LastName = editUser.LastName.Trim();
+            newEditUser.UserName = editUser.UserName;
+            newEditUser.Password = Encrypt.GetSHA256(editUser.Password);
+            newEditUser.Gender = editUser.Gender;
+            newEditUser.UserTypeId = 2;
+            
+            if(!(editUser.UserImage == null)){
+                newEditUser.UserImage = editUser.UserImage;
+            }
+
+            UnitOfWork.UserMasterRepository.Update(newEditUser);
+            UnitOfWork.Save();
+            return newEditUser;
+        }   
         public UserMaster GetUser(int userId)
         {
             return UserSearch(userId);
         }
-        private  UserMaster UserSearch(int userId)
-        {
-            return ListAllFromDatabase()
-                    .Where(x => x.UserId == userId)
-                    .FirstOrDefault();
-        }
+       
         public string GenerateJSONWebToken(UserMaster userInfo)
         {
             var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
@@ -83,12 +100,30 @@ namespace Project.TakuGames.Business
                 throw new BadRequestException(ComponentError);
             }
         }
+        private void ValidateEditUser(UserMaster usermaster)
+        {
+            ValidateExistId(usermaster);
+            if (!ComponentError.IsValid)
+            {
+                throw new BadRequestException(ComponentError);
+            }
+        }
         private void ValidateUserExists(UserMaster user)
         {
             var userExists = ListAllFromDatabase().Any(b => b.UserName.ToUpperInvariant() == user.UserName.ToUpperInvariant());
             if (userExists)
             {
                 ComponentError.AddModelError(nameof(user.UserName), new ApplicationException($"Ya existe un usuario:{user.UserName}"));
+            }
+        }
+        
+
+          private void ValidateExistId(UserMaster usermaster)
+        {
+            var user = UserSearch(usermaster.UserId);
+            if (user == null)
+            {
+                throw new NotFoundException();
             }
         }
         #endregion
@@ -98,6 +133,12 @@ namespace Project.TakuGames.Business
         {
             var resp = UnitOfWork.UserMasterRepository.Get().ToList();
             return resp;
+        }
+        private  UserMaster UserSearch(int userId)
+        {
+            return ListAllFromDatabase()
+                    .Where(x => x.UserId == userId)
+                    .FirstOrDefault();
         }
         #endregion
     }    

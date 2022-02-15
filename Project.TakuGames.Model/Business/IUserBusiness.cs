@@ -9,6 +9,7 @@ namespace Project.TakuGames.Model.Business
         UserMaster RegisterUser(UserMaster userData);
         string GenerateJSONWebToken(UserMaster userMaster);
         UserMaster GetUser(int userId);
+        UserMaster EditUser(UserMaster usermaster);
         
     }
 }

@@ -20,6 +20,7 @@ const appRoutes: Routes = [
   { path: 'search', component: ProductSearchComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: UserRegistrationComponent },
+  { path: 'register/:id', component: UserRegistrationComponent },
   { path: 'games/details/:id', component: GameDetailsComponent },
   { path: 'myorders', component: MyordersComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },

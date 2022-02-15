@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../../services/snackbar.service';
-import { LoginComponent } from '../login/login.component';
+import { MatDialogRef } from '@angular/material/dialog';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-user-registration',
@@ -18,26 +20,43 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   submitted = false;
   private formData = new FormData();
-  files;
-  coverImagePath;
+  files:any;
+  coverImagePath:any;
+  formTitle = 'Agregar';
+  userId:any
 
   constructor(
     private formBuilder: FormBuilder,
     private useService: UserService,
     private router: Router,
+    private route: ActivatedRoute,
     private snackbarService: SnackbarService,
-    public dialog: MatDialog) 
-    {
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<UserRegistrationComponent>) {
       this.buildForm()
+      if (this.route.snapshot.params['id']) {
+        this.userId = this.route.snapshot.paramMap.get('id');
+      }     
     }
 
   ngOnInit():void {
     this.coverImagePath= '/UserImage/' + 'Default_image.jpg';
+    if (this.userId) {
+      this.formTitle = "Editar";
+      this.useService.getUserById(this.userId)
+        .pipe(takeUntil(this.unsubscribes$))
+        .subscribe((result) => {
+          this.setUserFormData(result);   
+        }, error => {
+          console.log('Error ocurred while fetching game data:', error);
+        });
+    }
   }
   ngOnDestroy(): void {
     this.unsubscribes$.next();
     this.unsubscribes$.complete();
   }
+
   uploadImage(event) {
     this.files = event.target.files;
     const reader = new FileReader();
@@ -46,43 +65,62 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
       this.coverImagePath = (myevent.target as FileReader).result;
     };
   }
-  registerUser(event: Event): void {
+
+  setUserFormData(userFormData) {
+    this.registerForm.setValue({
+      userId: userFormData.userId,
+      firstName: userFormData.firstName,
+      lastName: userFormData.lastName,
+      userName: userFormData.userName,
+      gender: userFormData.gender,
+      password: userFormData.password,
+      confirmPassword: userFormData.password ,
+      check:false,
+      userImage:userFormData.userImage,
+    });
+
+    this.coverImagePath = '/UserImage/' + userFormData.userImage;
+  }
+
+  saveUserData(event: Event): void {
     // preventDefaultCancela comportamiento del html  que viene por defecto
     event.preventDefault();
     this.submitted = true;
-    if (this.registerForm.valid) {
-      if (this.files && this.files.length > 0) {
-        for (let i = 0; i < this.files.length; i++) {
-          this.formData.append('file' + i, this.files[i]);
-        }
+    if (!this.registerForm.valid) {  
+      return this.registerForm.markAllAsTouched(); 
+    }
+    if (this.files && this.files.length > 0) {
+      for (let i = 0; i < this.files.length; i++) {
+        this.formData.append('file' + i, this.files[i]);
       }
-      this.formData.append('UserFormData', JSON.stringify(this.registerForm.value));
+    } 
+    this.formData.append('UserFormData', JSON.stringify(this.registerForm.value));     
+    if (this.userId) {
+      this.useService.updateUserDetails(this.formData, this.userId)
+        .pipe(takeUntil(this.unsubscribes$))
+        .subscribe(() => {
+          this.snackbarService.showSnackBar('Se ha editado con exito');  
+          this.router.navigate(['/']);
+        }, error => {
+          console.log('Error ocurred while updating user data:', error);
+        });
+    } else {
       this.useService.registerUser(this.formData)
         .pipe(takeUntil(this.unsubscribes$))
-          .subscribe
-          (
-            () => {       
-              this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
-              this.router.navigate(['/']);
-            }, error => {
-              this.registerForm.controls['userName'].setErrors({ 'incorrect': true});         
-              this.formData.delete('UserFormData');
-              console.log('Error ocurred while user register: ', error);                  
-            }
-          );
-    } else {
-      this.registerForm.markAllAsTouched();
-    }
+        .subscribe(() => {       
+          this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
+          this.router.navigate(['/']);
+        }, error => {
+          this.registerForm.controls['userName'].setErrors({ 'incorrect': true});         
+          this.formData.delete('UserFormData');
+          console.log('Error ocurred while user register: ', error);                  
+        });
+      }
   }
-
-  openLoginDialog(): void {
-    this.dialog.open(LoginComponent, {
-      height: '770px',
-    })
-  };
 
   private buildForm(): void {
     this.registerForm = this.formBuilder.group({
+      userId: 0,
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       userName: ['', Validators.required],
@@ -90,7 +128,8 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
       gender: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      check:[false, Validators.requiredTrue]
+      check:[false, Validators.requiredTrue],
+      userImage:[''],
     }, {
       validator: this.MustMatch('password', 'confirmPassword')
     });
@@ -114,27 +153,29 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     }
   }
 
-    get firstNameField(): AbstractControl {
-      return this.registerForm.get('firstName');
-    }
-    get lastname(): AbstractControl {
-      return this.registerForm.get('lastName');
-    }
-    get username(): AbstractControl {
-      return this.registerForm.get('userName');
-    }
-    get password(): AbstractControl {
-      return this.registerForm.get('password');
-    }
-    get gender(): AbstractControl {
-      return this.registerForm.get('gender');
-    }
-    get check(): AbstractControl {
-      return this.registerForm.get('check');
-    }
-    get confirmPassword(): AbstractControl {
-      return this.registerForm.get('confirmPassword');
-    }
-    get f() { return this.registerForm.controls; }
- 
+  get firstNameField(): AbstractControl {
+    return this.registerForm.get('firstName');
+  }
+  get lastname(): AbstractControl {
+    return this.registerForm.get('lastName');
+  }
+  get username(): AbstractControl {
+    return this.registerForm.get('userName');
+  }
+  get password(): AbstractControl {
+    return this.registerForm.get('password');
+  }
+  get gender(): AbstractControl {
+    return this.registerForm.get('gender');
+  }
+  get check(): AbstractControl {
+    return this.registerForm.get('check');
+  }
+  get confirmPassword(): AbstractControl {
+    return this.registerForm.get('confirmPassword');
+  }
+  get f() { return this.registerForm.controls; }
+  get userImage() {
+    return this.registerForm.get('userImage');
+  }
 }
