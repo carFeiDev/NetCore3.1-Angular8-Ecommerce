@@ -102,8 +102,7 @@ namespace Proyect.TakuGames.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         public ActionResult<UserMasterVM> Post( )
-        {
-           
+        {  
             UserMasterVM newUserVm = JsonConvert.DeserializeObject<UserMasterVM>(Request.Form["UserFormData"].ToString());
             UserMasterVM newUserWithImageVm = UploadImage(newUserVm);
             UserMaster newUser = _mapper.Map<UserMasterVM, UserMaster>(newUserWithImageVm);

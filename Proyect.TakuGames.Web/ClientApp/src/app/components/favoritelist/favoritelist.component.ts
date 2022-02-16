@@ -41,7 +41,7 @@ export class FavoritelistComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(result => {
           this.subscriptionService.favoritelistItemcount$.next(result);
-          this.snackBarService.showSnackBar('Favorios limpio!!!');
+          this.snackBarService.showSnackBar('Favoritos limpio!!!');
         }, error => {
           console.log('Error ocurred while deleting Favorite item : ', error);
         });

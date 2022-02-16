@@ -14,7 +14,7 @@ import { SubscriptionService } from '../../services/subscription.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  userId;
+  userId:any;
   userDataSubscription: any;
   loginForm: FormGroup;
 
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cartServices: CartService,
     private userServices: UserService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<LoginComponent>){
+    private dialogRef: MatDialogRef<LoginComponent>) {
       this.buildForm();
      }
 

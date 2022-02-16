@@ -42,7 +42,6 @@ export class MyordersComponent implements OnInit {
     this.totalPriceOrder = 0;
     this.listCustomerOrder.forEach(x => x.customerOrderDetails.forEach(item => {
       this.totalPriceOrder += item.totalPrice;
-
     }))
   }
   

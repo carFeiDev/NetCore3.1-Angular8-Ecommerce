@@ -13,7 +13,7 @@ export class UserService {
   private apiURL = "api/user";
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
-  registerUser(userdetails) {
+  addUser(userdetails) {
     const url = `${this.baseUrl}${this.apiURL}`;
     return this.http.post<User>(url, userdetails);
   }
@@ -28,7 +28,7 @@ export class UserService {
     return this.http.get<User>(url);
   }
 
-  updateUserDetails(user: FormData, id:number): Observable<User[]> {
+  updateUser(user: FormData, id:number): Observable<User[]> {
     const url = `${this.baseUrl}${this.apiURL}/${id}`;
     return this.http.put<User[]>(url, user);
   }

@@ -60,7 +60,7 @@ export class ShoppingCartComponent implements OnInit {
         this.getTotalPriceCart();        
         //this.showSpinner=false;     
       }, error => {
-        console.log('Error ocurred while ferching game details:', error);
+        console.log('Error ocurred :', error);
       });
   }
 
@@ -105,7 +105,7 @@ export class ShoppingCartComponent implements OnInit {
           this.getAllCartItems(); 
           this.subscriptionService.cartItemcount$.next(result);
         }, error => {
-          console.log('Error ocurred while fetching game data : ', error);
+          console.log('Error ocurred  : ', error);
         });
   }
 

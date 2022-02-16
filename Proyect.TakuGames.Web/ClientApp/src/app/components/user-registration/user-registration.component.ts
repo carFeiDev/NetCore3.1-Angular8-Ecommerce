@@ -8,7 +8,6 @@ import { takeUntil } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { User } from '../../models/user';
 
 @Component({
   selector: 'app-user-registration',
@@ -27,7 +26,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private useService: UserService,
+    private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private snackbarService: SnackbarService,
@@ -43,7 +42,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     this.coverImagePath= '/UserImage/' + 'Default_image.jpg';
     if (this.userId) {
       this.formTitle = "Editar";
-      this.useService.getUserById(this.userId)
+      this.userService.getUserById(this.userId)
         .pipe(takeUntil(this.unsubscribes$))
         .subscribe((result) => {
           this.setUserFormData(result);   
@@ -52,6 +51,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
         });
     }
   }
+  
   ngOnDestroy(): void {
     this.unsubscribes$.next();
     this.unsubscribes$.complete();
@@ -73,8 +73,8 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
       lastName: userFormData.lastName,
       userName: userFormData.userName,
       gender: userFormData.gender,
-      password: userFormData.password,
-      confirmPassword: userFormData.password ,
+      password: "",
+      confirmPassword: "",
       check:false,
       userImage:userFormData.userImage,
     });
@@ -96,7 +96,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     } 
     this.formData.append('UserFormData', JSON.stringify(this.registerForm.value));     
     if (this.userId) {
-      this.useService.updateUserDetails(this.formData, this.userId)
+      this.userService.updateUser(this.formData, this.userId)
         .pipe(takeUntil(this.unsubscribes$))
         .subscribe(() => {
           this.snackbarService.showSnackBar('Se ha editado con exito');  
@@ -105,7 +105,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
           console.log('Error ocurred while updating user data:', error);
         });
     } else {
-      this.useService.registerUser(this.formData)
+      this.userService.addUser(this.formData)
         .pipe(takeUntil(this.unsubscribes$))
         .subscribe(() => {       
           this.snackbarService.showSnackBar('El usuario se ha registrado con exito');

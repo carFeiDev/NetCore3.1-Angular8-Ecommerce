@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Project.TakuGames.Dal
 {
     public class CartBusiness : BaseBusiness, ICartBusiness

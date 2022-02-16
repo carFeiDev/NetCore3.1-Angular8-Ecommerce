@@ -115,9 +115,7 @@ namespace Project.TakuGames.Business
             {
                 ComponentError.AddModelError(nameof(user.UserName), new ApplicationException($"Ya existe un usuario:{user.UserName}"));
             }
-        }
-        
-
+        }   
           private void ValidateExistId(UserMaster usermaster)
         {
             var user = UserSearch(usermaster.UserId);
