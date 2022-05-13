@@ -62,7 +62,7 @@ export class SimilarGamesComponent implements OnInit {
   }
 
   getCardsPerPage() {
-    return Math.floor(this.container.nativeElement.offsetWidth / 200);
+    return Math.floor(this.container.nativeElement.offsetWidth / 300);
   }
 
   changePage(incrementor) {

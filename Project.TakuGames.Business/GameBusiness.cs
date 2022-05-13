@@ -95,7 +95,7 @@ namespace Project.TakuGames.Business
             Game game = GameSearch(gameid);           
             lstGame = UnitOfWork.GameRepository.Get().Where(x => x.Category == game.Category && x.GameId != game.GameId)
                                                .OrderBy(u => Guid.NewGuid())
-                                               .Take(5)
+                                               .Take(9)
                                                .ToList();
             return lstGame;
         }
@@ -148,9 +148,7 @@ namespace Project.TakuGames.Business
         }
         private Game GameSearch(int gameId)
         {
-            return ListAllFromDatabase()
-                  .Where(x => x.GameId == gameId)
-                  .FirstOrDefault();
+            return UnitOfWork.GameRepository.Get(x => x.GameId == gameId ).FirstOrDefault();
         }
         private List<FavoritelistItems> GetAllFavoritelistItems(){
             return  UnitOfWork.FavoritelistItemsRepository.Get().ToList();

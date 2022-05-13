@@ -1,39 +1,13 @@
-.viewer-body {
-  justify-content: flex-start;
-  padding: 10px;
-}
-
-.card-deck-container {
-  display: flex;
-  flex-flow: row wrap;
-  -webkit-box-orient: horizontal;
-  -ms-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-box-direction: normal;
-  -moz-box-direction: normal;
-
-  flex: 1 1 1;
-  -webkit-box-flex: 1;
-  -ms-box-flex: 1;
-  -moz-box-flex: 1;
-  width: 80%;
-  position: relative;
-  margin: 10px;
-  justify-content: space-between;
-}
-
-.card-item {
-  padding: 5px;
-}
-.w-100 {
-  width: 100%!important;
-}
-
 .container {
   display: flex;
   position: relative;
   justify-content: center;
+}
+.left {
+  left: 0;
+}
+.left:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .cards {
@@ -46,48 +20,61 @@
   transition: left 0.5s ease-in-out;
 }
 
-.card {
-  height: 300px;
-  background-color: #e0e1e2;
-  border-radius: 5px;
-  display: inline-block;
-  margin-right: 10px;
+.w-100 {
+  width: 100%!important;
+}
+
+.card-deck-container {
+  display:  flex;
+  flex: 1 1 1;
+  flex-flow:  row wrap;
+  -webkit-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-flex: 1;
+  -ms-box-flex: 1;
+  -moz-box-flex: 1;
+  width: 100%;
   position: relative;
+  margin: 10px;
+  justify-content: space-between;
 }
 
-.no-right-margin {
-  margin-right: 0px;
-}
-
-.card span {
-  font-size:48px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.left,
-.right {
-  height: 30px;
-  width: 30px;
-  background-color: #0072bc;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.left.disabled, .right.disabled {
-  background-color:#CCC;
-}
-
-.left {
-  left: 0;
+.card-item {
+  padding: 30px;
+  align-items: center;
 }
 
 .right {
   right: 0;
 }
+.right:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.left,.right {
+  top: 40%;
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  background-color: white;
+  width:  64px;
+  height: 64px;
+}
+
+.left.disabled, .right.disabled {
+   visibility: hidden;
+}
+
+.left-icon,.right-icon{
+  padding-left: 23px;
+  padding-top:  23px;  
+}
+
+
 
 
 

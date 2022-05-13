@@ -5,9 +5,9 @@
 </div>
 <div class="container" #container>
 	<div class="left" *ngIf="totalPages > 1" (click)="currentPage != 1 && changePage(-1)" [ngClass]="{'disabled':currentPage === 1}">
-        <mat-icon>
-            arrow_circle_left
-        </mat-icon>
+        <div class="left-icon">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </div>
     </div>
 	<div class="cards" [ngClass]="{'w-100': totalPages === 1}">
 		<div class="overflow" [ngStyle]="{'width': overflowWidth, 'left': pagePosition}">
@@ -19,11 +19,9 @@
 		</div>
 	</div>
 	<div class="right" *ngIf="totalPages > 1" (click)="currentPage != totalPages && changePage(+1)"[ngClass]="{'disabled':currentPage === totalPages}">
-        <span class="material-icons-outlined">
-            <mat-icon>
-                arrow_circle_right
-            </mat-icon>
-        </span>
+        <div class="right-icon">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
     </div>
 </div>
 
