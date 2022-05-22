@@ -34,6 +34,7 @@ import { AddtofavoritelistComponent } from './components/addtofavoritelist/addto
 import { SearchComponent } from './components/search/search.component';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { LogInterceptorService } from './services/log-interceptor.service';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
   providers: [GamesService,CartService,OrderService,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService , multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LogInterceptorService , multi: true },
   ],
 
   bootstrap: [AppComponent]
