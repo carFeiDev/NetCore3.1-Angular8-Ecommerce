@@ -18,57 +18,70 @@ export class GameFormComponent implements OnInit, OnDestroy {
   private formData = new FormData();
   gameForm: FormGroup;
   game: Game = new Game();
-  formTitle = 'Agregar';
+  formTitle:string;
   coverImagePath:any;
   categoryList: [];
   files:any;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(
-    private gameService: GameService,
+  constructor(private gameService: GameService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<GameFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public gameId: any) {         
-      this.gameForm = this.fb.group({
-        gameId: 0,
-        title: ['', Validators.required],
-        description: ['', Validators.required],
-        developer: ['', Validators.required],
-        publisher: ['', Validators.required],
-        platform: ['', Validators.required],
-        category: ['', Validators.required],
-        price: ['', [Validators.required, Validators.min(1)]],
-        coverFileName:[''],
-    })
-      if (this.route.snapshot.params['id']) {
-        this.gameId = this.route.snapshot.paramMap.get('id');
-      }
-  }
+    @Inject(MAT_DIALOG_DATA) public gameId: any) {}
 
   ngOnInit() {
-    this.gameService.getCategories()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((categoryData: []) => {
-        this.categoryList = categoryData
-      }, error => {
-        console.log("Error ocurred while fetching category list", error);
-      });
-
-    if (this.gameId) {
-      this.formTitle = "Editar";
-      this.gameService.getGameById(this.gameId)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((result: Game) => {
-          this.setGameFormData(result);   
-        }, error => {
-          console.log('Error ocurred while fetching game data:', error);
-        });
-    }
+    this.loadForm();
+    this.loadFormType();   
+    this.loadCategories();  
   }
 
-  setGameFormData(gameFormData) {
+  loadForm() {
+    this.gameForm = this.fb.group({
+      gameId: 0,
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      developer: ['', Validators.required],
+      publisher: ['', Validators.required],
+      platform: ['', Validators.required],
+      category: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(1)]],
+      coverFileName:[''],
+    })
+  }
+
+  loadCategories() {
+    this.gameService.getCategories()
+      .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((categoryData: []) => {
+          this.categoryList = categoryData
+        }, error => {
+          console.log("Error ocurred while fetching category list", error);
+        });
+  }
+
+  loadFormType() {
+    if (this.route.snapshot.params['id']) {
+      this.gameId = this.route.snapshot.paramMap.get('id');
+    }
+
+    if (!this.gameId) {
+      this.formTitle = "Agregar";
+      return; 
+    }
+
+    this.formTitle = "Editar";
+      this.gameService.getGameById(this.gameId)
+        .pipe(takeUntil(this.unsubscribe$))
+          .subscribe((result: Game) => {
+            this.editForm(result);   
+          }, error => {
+            console.log('Error ocurred while fetching game data:', error);
+          });
+  }
+
+  editForm(gameFormData) {
     this.gameForm.setValue({
       gameId: gameFormData.gameId,
       title: gameFormData.title,
@@ -80,8 +93,7 @@ export class GameFormComponent implements OnInit, OnDestroy {
       price: gameFormData.price,
       coverFileName: gameFormData.coverFileName,
     });
-
-   this.coverImagePath = '/Upload/' + gameFormData.coverFileName;
+    this.coverImagePath = '/Upload/' + gameFormData.coverFileName;
   }
 
   saveGameData() {
@@ -97,15 +109,14 @@ export class GameFormComponent implements OnInit, OnDestroy {
     if (this.gameId) {
       this.gameService.updateGameDetails(this.formData, this.gameId)
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(
-          () => {
+          .subscribe(() => {
             this.snackBar.open('Se edito el juego con exito', '', {
               duration: 2000
             });
             this.dialogClose();
-          }, error => {
-            console.log('Error ocurred while updating game data:', error);
-          });
+            }, error => {
+              console.log('Error ocurred while updating game data:', error);
+            });
     } else {
       this.gameService.addGame(this.formData)
         .pipe(takeUntil(this.unsubscribe$))
@@ -122,6 +133,7 @@ export class GameFormComponent implements OnInit, OnDestroy {
             });
     }
   }
+
   uploadImage(event) {
     this.files = event.target.files;
     const reader = new FileReader();
