@@ -148,7 +148,7 @@ namespace Project.TakuGames.Business
         }
         private Game GameSearch(int gameId)
         {
-            return UnitOfWork.GameRepository.Get(x => x.GameId == gameId ).FirstOrDefault();
+            return UnitOfWork.GameRepository.Get().Where(x => x.GameId == gameId ).FirstOrDefault();
         }
         private List<FavoritelistItems> GetAllFavoritelistItems(){
             return  UnitOfWork.FavoritelistItemsRepository.Get().ToList();
