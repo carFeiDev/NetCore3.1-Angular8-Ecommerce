@@ -18,43 +18,66 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   private unsubscribes$ = new Subject<void>();
   registerForm: FormGroup;
   submitted = false;
-  private formData = new FormData();
+  formData = new FormData();
   files:any;
   coverImagePath:any;
-  formTitle = 'Agregar';
+  formTitle :string;
   userId:any
 
-  constructor(
-    private formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private snackbarService: SnackbarService,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<UserRegistrationComponent>) {
-      this.buildForm()
-      if (this.route.snapshot.params['id']) {
-        this.userId = this.route.snapshot.paramMap.get('id');
-      }     
-    }
+    public dialogRef: MatDialogRef<UserRegistrationComponent>) {}
 
   ngOnInit():void {
     this.coverImagePath= '/UserImage/' + 'Default_image.jpg';
-    if (this.userId) {
-      this.formTitle = "Editar";
-      this.userService.getUserById(this.userId)
-        .pipe(takeUntil(this.unsubscribes$))
+    this.buildForm();
+    this.selectTypeForm();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribes$.next();
+    this.unsubscribes$.complete();
+  }
+
+  buildForm(): void {
+    this.registerForm = this.formBuilder.group({
+      userId: 0,
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      userName: ['', Validators.required],
+      /*email: ['', [Validators.required, Validators.email]],*/
+      gender: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      check:[false, Validators.requiredTrue],
+      userImage:[''],
+    }, {
+      validator: this.MustMatch('password', 'confirmPassword')
+    });
+  }
+
+  selectTypeForm() {
+    if (this.route.snapshot.params['id']) {
+      this.userId = this.route.snapshot.paramMap.get('id');
+    }
+
+    if (!this.userId) {
+      this.formTitle ="Agregar";
+      return 
+    }
+
+    this.formTitle = "Editar";
+    this.userService.getUserById(this.userId)
+      .pipe(takeUntil(this.unsubscribes$))
         .subscribe((result) => {
           this.setUserFormData(result);   
         }, error => {
           console.log('Error ocurred while fetching game data:', error);
         });
-    }
-  }
-  
-  ngOnDestroy(): void {
-    this.unsubscribes$.next();
-    this.unsubscribes$.complete();
   }
 
   uploadImage(event) {
@@ -98,41 +121,24 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
     if (this.userId) {
       this.userService.updateUser(this.formData, this.userId)
         .pipe(takeUntil(this.unsubscribes$))
-        .subscribe(() => {
-          this.snackbarService.showSnackBar('Se ha editado con exito');  
-          this.router.navigate(['/']);
-        }, error => {
-          console.log('Error ocurred while updating user data:', error);
-        });
+          .subscribe(() => {
+            this.snackbarService.showSnackBar('Se ha editado con exito');  
+            this.router.navigate(['/']);
+          }, error => {
+            console.log('Error ocurred while updating user data:', error);
+          });
     } else {
       this.userService.addUser(this.formData)
         .pipe(takeUntil(this.unsubscribes$))
-        .subscribe(() => {       
-          this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
-          this.router.navigate(['/']);
-        }, error => {
-          this.registerForm.controls['userName'].setErrors({ 'incorrect': true});         
-          this.formData.delete('UserFormData');
-          console.log('Error ocurred while user register: ', error);                  
-        });
+          .subscribe(() => {       
+            this.snackbarService.showSnackBar('El usuario se ha registrado con exito');
+            this.router.navigate(['/']);
+          }, error => {
+            this.registerForm.controls['userName'].setErrors({ 'incorrect': true});         
+            this.formData.delete('UserFormData');
+            console.log('Error ocurred while user register: ', error);                  
+          });
       }
-  }
-
-  private buildForm(): void {
-    this.registerForm = this.formBuilder.group({
-      userId: 0,
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      userName: ['', Validators.required],
-      /*email: ['', [Validators.required, Validators.email]],*/
-      gender: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required],
-      check:[false, Validators.requiredTrue],
-      userImage:[''],
-    }, {
-      validator: this.MustMatch('password', 'confirmPassword')
-    });
   }
 
   private MustMatch(controlName: string, matchingControlName: string) {
