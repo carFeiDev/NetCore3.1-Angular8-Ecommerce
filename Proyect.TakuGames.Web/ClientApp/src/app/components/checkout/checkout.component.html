@@ -1,185 +1,136 @@
-<div class="">
-    <div class="">
-        <div class="">
-            <h2>Check Out</h2>
-        </div>
-    </div>
-    <form [formGroup]="checkOutForm" (ngSubmit)="placeOrder()">
-        <div class="row">
-            <!-- --------------------------------------------------Primera columna Principal----------------------------------------------------->
-            <div class="col  offset-md-2">
-                <div class="row">  
-                    <div class="col">             
-                        <mat-card class="card-list-item-containe">
-            <!-----------------------------------------------------Datos del envio--------------------------------------------------------------->
-                            <mat-card-title>
-                                Datos de envio
-                            </mat-card-title>
-                            <mat-divider></mat-divider>
-                            <mat-card-content>
-                                    <mat-form-field class="">
-                                        <input matInput placeholder="Nombre" formControlName="name" required>
-                                        <mat-error *ngIf="name.touched && name.invalid">Nombre es requerido</mat-error>
-                                    </mat-form-field>
 
-                                    <mat-form-field class="">
-                                        <input matInput placeholder="Dirrección" formControlName="addressLine1" required>
-                                        <mat-error *ngIf="addressLine1.touched && addressLine1.invalid">Dirección es requerida
-                                        </mat-error>
-                                    </mat-form-field>
+<form [formGroup]="checkOutForm" (ngSubmit)="placeOrder()">
+	<div class="row"><!-- --------------------------------------------------Primera columna Principal----------------------------------------------------->
+		<div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 offset-md-2 offset-lg-2 offset-xl-2" >
+			<div class=""><h2>Check Out</h2></div>
+			<div class="row">  
+				<div class="col">             
+					<mat-card class="card-list-item-containe"><!--------------------Datos del envio---------------------------------------------------------------->
+						<mat-card-title>Datos de envio</mat-card-title>
+							<mat-divider></mat-divider>
+								<mat-card-content>
+									<mat-form-field class="">
+										<input matInput placeholder="Nombre" formControlName="name" required>
+										<mat-error *ngIf="name.touched && name.invalid">Nombre es requerido</mat-error>
+									</mat-form-field>
+									<mat-form-field class="">
+										<input matInput placeholder="Dirrección" formControlName="addressLine1" required>
+										<mat-error *ngIf="addressLine1.touched && addressLine1.invalid">Dirección es requerida</mat-error>
+									</mat-form-field>
+									<mat-form-field class="">
+										<input matInput placeholder="Dirección secundaria" formControlName="addressLine2" required>
+										<mat-error *ngIf="addressLine2.touched && addressLine2.invalid">Dirección es requerida</mat-error>
+									</mat-form-field>
+									<mat-form-field class="">
+										<input matInput placeholder="Código postal" formControlName="pincode" required>
+										<mat-error *ngIf="pincode.touched && pincode.hasError('required')">Codigo postal es requerido</mat-error>
+										<mat-error *ngIf="pincode.touched && pincode.hasError('pattern')">El codigo postal debe tener al menos 6 numeros, no puede empezar con 0</mat-error>
+									</mat-form-field>
+									<mat-form-field class="">
+										<input matInput placeholder="Provincia" formControlName="state" required>
+										<mat-error *ngIf="state.touched && state.invalid">Provincia es requerida</mat-error>
+									</mat-form-field>
+									<mat-card-actions></mat-card-actions>					
+								</mat-card-content>
+					</mat-card>
+				</div>
+			</div>    
+			<!--------------------------------------------------------------Orden de compra----------------------------------------------------------------> 
+			<div class="row">
+				<div class="col">
+					<mat-card>
+						<div style="padding-bottom:1em"></div>                         
+							<div class="row">
+								<div class="col"><strong>Orden de compra</strong></div>
+								<div class="col" align="right">30000</div>
+							</div>    
+								<div style="padding-top:2em"></div>                       
+								<mat-divider></mat-divider>
+								<div *ngIf="listItems == 0 ; then thenBlock else elseBlock"></div>
+									<ng-template #thenBlock>
+										<div class="row" *ngFor="let item of listItems" style="padding-top:2em"><mat-divider></mat-divider></div>
+											<div class="row">
+												<div class="col">
+													<div style="padding-top:2em"><mat-divider></mat-divider></div>
+													<div class="m-0 vh-10 row justify-content-center align-items-center">
+														<h1 style="padding-top:2em">Datos de envio vacio</h1>
+													</div>
+												</div>
+													<div style="padding-top:2em"><mat-divider></mat-divider></div>
+											</div>
+											<div style="padding-top:10em; padding-bottom:3em"><mat-divider></mat-divider></div>
+											<div style="padding-top:3em; padding-bottom:3em">
+												<button type="button" class="btn-primary btn-sm float-right" [routerLink]='["/"]' style="height:4em;width:20em">
+													<h2>Volver</h2>
+												</button>
+											</div>
+									</ng-template>
+									<ng-template #elseBlock>
+										<div class="row" *ngFor="let item of checkOutItems.orderDetails" style="padding-top:2em">
+											<div class="col-sm-2" style="padding-top:2em">
+												<a [routerLink]="['/games/details/',item.game.gameId]">
+													<img class="preview-image ; rounded-circle"
+														mar-card-image src="/Upload/{{item.game.coverFileName}}"
+														alt="Game cover image"
+														>
+												</a>
+											</div>
+											<div class="col" style="padding-top:2em;">
+												<div>{{item.game.title}}</div>
+												<div>Cantidad: {{item.quantity}}</div>
+												<div>${{item.game.price}} c/u</div>
+											</div>                   
+										</div>                  
+									</ng-template>
+					</mat-card>
+				</div>    
+			</div>  				
+			<div class="row"><!-----------------------------------------------------Costo de envio---------------------------------------------------------------->          
+				<div class="col">
+					<mat-card class="shipping-cost">
+						<div class="col" align="right">Costo de envio  $2000</div>
+					</mat-card>
+				</div>
+			</div>							 
+			<div class="row"><!-----------------------------------------------------Aceptar la compra-------------------------------------------------------------->
+				<div class="col">
+					<div class="buttom-action" align="right" >        
+						<button type="submit"  mat-raised-button  class="btn btn-success">Aceptar la compra</button>
+					</div>              
+				</div>
+			</div>
+		</div>
+			<!----------------------------------------------------------------------Segunda columna principal-------------------------------------------------------->
+			<div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3"><!--------------Resumen de compra--------------------------------------------------------------->	
+				<mat-card class="card-purchase-summary"> 
+					<div class="purchase-summary-sticky-position">       
+						<mat-card-title>Resumen de compra</mat-card-title>                
+							<div class="row" >
+								<div class="col">
+									<div style="padding-top:1em"><mat-divider></mat-divider></div>                      
+										<div class="row" style="padding-top:1em">
+											<div class="col">Productos({{totalProducts}})</div>
+											<div class="col">{{totalPrice | currency : 'USD' }}</div>
+										</div>
+										<div class="row" style="padding-top:1em">
+											<div class="col">Envio</div>
+											<div class="col">{{0 | currency : 'USD' }}</div>
+										</div>                  
+								</div>
+							</div>
+							<div class="row" style="padding-top:1em">
+								<div class="col">
+									<div><mat-divider></mat-divider></div>                                    
+										<div class="row" style="padding-top:1em">
+											<div class="col">Total</div>
+												<div class="col">{{totalPrice | currency : 'USD' }}</div>                               
+										</div>
+								</div>
+							</div>                 
+					</div>
+				</mat-card>                  
+			</div>
+		</div>
+</form>   
 
-                                    <mat-form-field class="">
-                                        <input matInput placeholder="Dirección secundaria" formControlName="addressLine2" required>
-                                        <mat-error *ngIf="addressLine2.touched && addressLine2.invalid">Dirección es requerida
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                    <mat-form-field class="">
-                                        <input matInput placeholder="Código postal" formControlName="pincode" required>
-                                        <mat-error *ngIf="pincode.touched && pincode.hasError('required')">Codigo postal es requerido
-                                        </mat-error>
-                                        <mat-error *ngIf="pincode.touched && pincode.hasError('pattern')">
-                                            El codigo postal debe tener al menos 6 numeros, no puede empezar con 0
-                                        </mat-error>
-                                    </mat-form-field>
-                                    <mat-form-field class="">
-                                        <input matInput placeholder="Provincia" formControlName="state" required>
-                                        <mat-error *ngIf="state.touched && state.invalid">Provincia es requerida</mat-error>
-                                    </mat-form-field>
-                                    <mat-card-actions align="right">
-                                        <div fxFlex></div>
-                                        <!-- <button type="submit" mat-raised-button color="primary">Ordenar</button>
-                                        <button type="button" mat-raised-button color="warn"
-                                            [routerLink]='["/shopping-cart"]'>Cancelar</button> -->
-                                    </mat-card-actions>
-                                
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-                </div>    
-            <!-----------------------------------------------------Orden de compra----------------------------------------------------------------> 
-                <div class="row">
-                    <div class="col">
-                        <mat-card>
-                            <div style="padding-bottom:1em"></div>                         
-                            <div class="row">
-                                <div class="col">
-                                    <strong>
-                                        Orden de compra
-                                    </strong>
-                                </div>
-                                <div class="col" align="right">
-                                    30000
-                                </div>
-                            </div>    
-                            <div style="padding-top:2em"></div>                       
-                            <mat-divider></mat-divider>
-                            <div *ngIf="listItems == 0 ; then thenBlock else elseBlock"></div>
-                            <ng-template #thenBlock>
-                                <div class="row" *ngFor="let item of listItems" style="padding-top:2em">
-                                    <mat-divider></mat-divider>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div style="padding-top:2em">
-                                            <mat-divider></mat-divider>
-                                        </div>
-                                        <div class="m-0 vh-10 row justify-content-center align-items-center">
-                                            <h1 style="padding-top:2em">Datos de envio vacio</h1>
-                                        </div>
-                                    </div>
-                                    <div style="padding-top:2em">
-                                        <mat-divider></mat-divider>
-                                    </div>
-                                </div>
-                                <div style="padding-top:10em; padding-bottom:3em">
-                                    <mat-divider></mat-divider>
-                                </div>
-                                <div style="padding-top:3em; padding-bottom:3em">
-                                    <button type="button" class="btn-primary btn-sm float-right" [routerLink]='["/"]' style="height:4em;width:20em">
-                                    <h2>Volver</h2>
-                                    </button>
-                                </div>
-                            </ng-template>
-                            <ng-template #elseBlock>
-                                <div class="row" *ngFor="let item of checkOutItems.orderDetails" style="padding-top:2em">
-                                    <div class="col-sm-2" style="padding-top:2em">
-                                        <a [routerLink]="['/games/details/',item.game.gameId]">
-                                            <img class="preview-image ; rounded-circle"
-                                            mar-card-image src="/Upload/{{item.game.coverFileName}}"
-                                            alt="Game cover image">
-                                        </a>
-                                    </div>
-                                    <div class="col" style="padding-top:2em;">
-                                        <div>{{item.game.title}}</div>
-                                        <div>Cantidad: {{item.quantity}}</div>
-                                        <div>${{item.game.price}} c/u</div>
-                                    </div>                   
-                                </div>                  
-                            </ng-template>
-                        </mat-card>
-                    </div>    
-                </div>  
-                
-                <!-----------------------------------------------------Costo de envio---------------------------------------------------------------->          
-                <div class="row">
-                    <div class="col">
-                        <mat-card class="shipping-cost">
-                            <div class="col" align="right">
-                                Costo de envio  $2000
-                            </div>
-                        </mat-card>
-                    </div>
-                </div>
-                <!-----------------------------------------------------Aceptar la compra----------------------------------------------------------------> 
-                <div class="row">
-                    <div class="col">
-                        <div class="buttom-action" align="right" >        
-                            <button type="submit"  mat-raised-button  class="btn btn-success">
-                                Aceptar la compra
-                            </button>
-                        </div>              
-                    </div>
-                </div>
-            </div>
-            <!-----------------------------------------------------Segunda columna principal-------------------------------------------------------->
-            <div class="col ">
-            <!-----------------------------------------------------Resumen de compra---------------------------------------------------------------->
-                <mat-card  class="card-purchase-summary"> 
-                    <div class="purchase-summary-sticky-position">       
-                            <mat-card-title>
-                                Resumen de compra
-                            </mat-card-title>                
-                            <div class="row" >
-                                <div class="col">
-                                    <div style="padding-top:1em">
-                                        <mat-divider></mat-divider>
-                                    </div>                      
-                                    <div class="row" style="padding-top:1em">
-                                        <div class="col">Productos({{totalProducts}})</div>
-                                        <div class="col">{{totalPrice | currency : 'USD' }}</div>
-                                    </div>
-                                    <div class="row" style="padding-top:1em">
-                                        <div class="col">Envio</div>
-                                        <div class="col">{{0 | currency : 'USD' }}</div>
-                                    </div>                  
-                                </div>
-                            </div>
-                            <div class="row" style="padding-top:1em">
-                                <div class="col">
-                                    <div>
-                                        <mat-divider></mat-divider>
-                                    </div>                                    
-                                    <div class="row" style="padding-top:1em">
-                                        <div class="col">Total</div>
-                                        <div class="col">{{totalPrice | currency : 'USD' }}</div>                               
-                                    </div>
-                                </div>
-                            </div>                 
-                    </div>
-                </mat-card>                  
-            </div>
-        </div>
-    </form>   
-</div>
 
