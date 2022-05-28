@@ -16,11 +16,10 @@ export class FavoritelistComponent implements OnInit {
 
   favoritelistItems$: Observable<Game[]>;
   isLoading: boolean;
-  userId;
+  userId:any;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(
-    private subscriptionService: SubscriptionService,
+  constructor(private subscriptionService: SubscriptionService,
     private favoritelistService: FavoritelistService,
     private snackBarService: SnackbarService) {
     this.userId = localStorage.getItem('userId');
@@ -39,7 +38,7 @@ export class FavoritelistComponent implements OnInit {
   clearFavoritelist(): void {
     this.favoritelistService.clearFavoritelist(this.userId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(result => {
+        .subscribe(result => {
           this.subscriptionService.favoritelistItemcount$.next(result);
           this.snackBarService.showSnackBar('Favoritos limpio!!!');
         }, error => {

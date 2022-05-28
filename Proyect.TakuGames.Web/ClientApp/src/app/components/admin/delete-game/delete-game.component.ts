@@ -12,14 +12,13 @@ import { GameService } from '../../../services/game.service';
 export class DeleteGameComponent implements OnInit {
   public gameData = new Game();
 
-  constructor(
-    public dialogRef: MatDialogRef<DeleteGameComponent>,
+  constructor(public dialogRef: MatDialogRef<DeleteGameComponent>,
     @Inject(MAT_DIALOG_DATA) public gameId: number,
     private gameService: GameService) { }
     
   ngOnInit(): void {
-    this.gameService.getGameById(this.gameId).subscribe(
-      (result: Game) => {
+    this.gameService.getGameById(this.gameId)
+      .subscribe((result: Game) => {
         this.gameData = result;
       }, error => {
         console.log('Error ocurred while fetcing game datos:', error)

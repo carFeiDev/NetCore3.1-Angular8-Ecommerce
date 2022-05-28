@@ -44,11 +44,11 @@ export class OldManagerGamesComponent implements OnInit {
   refleshGames(): void  {
     this.gameService.getAllGames()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((data: Game[]) => {
-        this.dataSource.data = Object.values(data);
-      }, error => {
-        console.log('Error ocurred while ferching game details:', error);
-      });
+        .subscribe((data: Game[]) => {
+          this.dataSource.data = Object.values(data);
+        }, error => {
+          console.log('Error ocurred while ferching game details:', error);
+        });
   }
 
   applyFilter(filterValue: string) {
@@ -59,14 +59,14 @@ export class OldManagerGamesComponent implements OnInit {
   }
 
   opengDialogAddGame(): void{
-      let dialog = this.dialog.open(GameFormComponent,{
-        height: '870',
-        width: '600',
-      })
-      dialog.afterClosed().subscribe(()=> {
-        this.refleshGames();
-      });        
-    }
+    let dialog = this.dialog.open(GameFormComponent,{
+      height: '870',
+      width: '600',
+    })
+    dialog.afterClosed().subscribe(()=> {
+      this.refleshGames();
+    });        
+  }
   opengDialogEditGame(game:Game): void{
     let dialog = this.dialog.open(GameFormComponent,{
       height: '870',
@@ -86,12 +86,12 @@ export class OldManagerGamesComponent implements OnInit {
     })
     dialog.afterClosed().subscribe(result => {
       if (result) {
-        this.gameService.deleteGame(game.gameId).subscribe(response => {
-          if (response) {
-            this.snackbarService.showSnackBar('El juego se ha eliminado correctamente');
-            this.refleshGames();
-
-          }
+        this.gameService.deleteGame(game.gameId)
+          .subscribe(response => {
+            if (response) {
+              this.snackbarService.showSnackBar('El juego se ha eliminado correctamente');
+              this.refleshGames();
+            }
         })
       }
     });

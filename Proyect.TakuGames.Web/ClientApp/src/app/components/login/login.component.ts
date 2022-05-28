@@ -18,8 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   userDataSubscription: any;
   loginForm: FormGroup;
 
-  constructor(
-    private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private router: Router,
     private authenticationServices: AuthenticationService,
     private subscriptionService: SubscriptionService,
@@ -31,8 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
      }
 
   ngOnInit(): void {
-    this.userDataSubscription = this.subscriptionService.userData.asObservable().subscribe(
-      (data: User) => {
+    this.userDataSubscription = this.subscriptionService.userData.asObservable()
+      .subscribe((data: User) => {
         this.userId = data.userId;
       }
     )

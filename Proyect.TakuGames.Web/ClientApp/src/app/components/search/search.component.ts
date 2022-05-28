@@ -48,8 +48,8 @@ export class SearchComponent implements OnInit {
   }
 
   private setSearchControlValue() {
-    this.subscriptionService.searchItemValue$.subscribe(
-      data => {
+    this.subscriptionService.searchItemValue$
+      .subscribe(data => {
         if (data) {
           this.searchControl.setValue(data);
         } else {

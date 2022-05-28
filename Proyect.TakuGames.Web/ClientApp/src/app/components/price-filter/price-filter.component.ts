@@ -25,8 +25,8 @@ export class PriceFilterComponent implements OnInit {
   }
 
   setPriceFilterProperties() {
-    this.gameService.games$.pipe().subscribe(
-      (data: Game[]) => {
+    this.gameService.games$.pipe()
+      .subscribe((data: Game[]) => {
         this.setMinValue(data);
         this.setMaxValue(data);
       }

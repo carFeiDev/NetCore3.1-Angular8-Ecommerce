@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { GamesService } from './services/games.service';
 import { NgMaterialModule } from './ng-material/ng-material.module';
 import { GameCardComponent } from './components/game-card/game-card.component';
 import { GameDetailsComponent } from './components/game-details/game-details.component';
@@ -35,6 +34,7 @@ import { SearchComponent } from './components/search/search.component';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LogInterceptorService } from './services/log-interceptor.service';
+import { GameService } from './services/game.service';
 
 
 @NgModule({
@@ -72,7 +72,7 @@ import { LogInterceptorService } from './services/log-interceptor.service';
     AppRoutingModule,
     CarouselModule.forRoot(),
   ],
-  providers: [GamesService,CartService,OrderService,
+  providers: [GameService,CartService,OrderService,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService , multi: true },

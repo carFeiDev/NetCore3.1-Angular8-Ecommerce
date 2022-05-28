@@ -11,7 +11,7 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./myorders.component.scss']
 })
 export class MyordersComponent implements OnInit {
-  userId;
+  userId:any;
   listCustomerOrder: CustomerOrder[]
   totalPriceOrder: number
   isLoading: boolean = false;
@@ -29,13 +29,13 @@ export class MyordersComponent implements OnInit {
   getAllOrderItems(): void {
     this.orderService.getAllCustomerOrderUser(this.userId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((customerorder: CustomerOrder[]) => {
-        this.listCustomerOrder = customerorder;
-        this.getTotalPiceOrder();
-        this.isLoading = false;
-      }, error => {
-        console.log('Error ocurred while ferching order details:', error);
-      });
+        .subscribe((customerorder: CustomerOrder[]) => {
+          this.listCustomerOrder = customerorder;
+          this.getTotalPiceOrder();
+          this.isLoading = false;
+        }, error => {
+          console.log('Error ocurred while ferching order details:', error);
+        });
   }
 
   getTotalPiceOrder(): void {
@@ -45,7 +45,7 @@ export class MyordersComponent implements OnInit {
     }))
   }
   
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

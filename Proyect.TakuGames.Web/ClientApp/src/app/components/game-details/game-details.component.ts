@@ -27,18 +27,17 @@ export class GameDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(param => {
-      this.route.params.subscribe(
-        params => {
-          this.gameId = +params['id'];
-          this.getGameDetails();
+      this.route.params.subscribe(params => {
+        this.gameId = +params['id'];
+        this.getGameDetails();
         }
       )
     });
     this.userData$ = this.subscriptionService.userData;
   }
   getGameDetails() {
-    this.gameServices.getGameById(this.gameId).subscribe(
-      (result: Game) => {
+    this.gameServices.getGameById(this.gameId)
+      .subscribe((result: Game) => {
         this.game = result;
       }, error => {
         console.log("Error ocurred while fetching game data:", error);

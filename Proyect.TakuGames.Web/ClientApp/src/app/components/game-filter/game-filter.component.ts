@@ -13,8 +13,8 @@ export class GameFilterComponent implements OnInit {
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    this.gameService.getCategories().subscribe(
-      (categoryData: []) => {
+    this.gameService.getCategories()
+      .subscribe((categoryData: []) => {
         this.categoryList = categoryData;
       }, error => {
         console.log('Error ocurred  while fetching category list :', error);

@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,8 +18,7 @@ export class GamesComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   public games: Game[];
 
-  constructor(
-    private gameService: GameService,
+  constructor(private gameService: GameService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     public snackbarService: SnackbarService ) {}
@@ -58,12 +56,13 @@ export class GamesComponent implements OnInit {
     })
     dialog.afterClosed().subscribe(result => {
       if (result) {
-        this.gameService.deleteGame(game.gameId).subscribe(response => {
-          if (response) {
-            this.snackbarService.showSnackBar('El juego se ha eliminado correctamente');
-            this.refleshGames();
-          }
-        })
+        this.gameService.deleteGame(game.gameId)
+          .subscribe(response => {
+            if (response) {
+              this.snackbarService.showSnackBar('El juego se ha eliminado correctamente');
+              this.refleshGames();
+            }
+          })
       }
     });
   }
@@ -71,11 +70,11 @@ export class GamesComponent implements OnInit {
   refleshGames(): void  {
     this.gameService.getAllGames()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((data: Game[]) => {
-        this.games = Object.values(data);
-      }, error => {
-        console.log('Error ocurred while ferching game details:', error);
-      });
+        .subscribe((data: Game[]) => {
+          this.games = Object.values(data);
+        }, error => {
+          console.log('Error ocurred while ferching game details:', error);
+        });
   }
 }
 

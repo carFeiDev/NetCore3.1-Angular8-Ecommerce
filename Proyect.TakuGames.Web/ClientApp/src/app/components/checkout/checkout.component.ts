@@ -18,14 +18,13 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 
 export class CheckoutComponent implements OnInit {
 
-  userId;
+  userId:any;
   totalPrice: number;
   totalProducts: number;
   checkOutItems = new Order();
   private unsubscribe$ = new Subject<void>();
 
-  constructor(
-    private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private router: Router,
     private cartService: CartService,
     private checkOutService: CheckoutService,
@@ -45,28 +44,28 @@ export class CheckoutComponent implements OnInit {
   getCheckOutItems() {
     this.cartService.getCartItems(this.userId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        (result: ShoppingCart[]) => {
+        .subscribe((result: ShoppingCart[]) => {
           this.checkOutItems.orderDetails = result;
           this.getTotalPrice();
           this.getTotalProducts();
         }, error => {
           console.log('Error ocurred while fetching shopping cart item : ', error);
-        });
+        }
+      );
   }
   
   placeOrder() {
     if (this.checkOutForm.valid) {
       this.checkOutService.placeOrder(this.userId, this.checkOutItems)
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(
-          result => {
+          .subscribe(result => {
             this.subscriptionService.cartItemcount$.next(result);
             this.router.navigate(['/myorders']);
             this.snackBarService.showSnackBar('Order placed successfully!!!');
           }, error => {
             console.log('Error ocurred while placing order : ', error);
-          });
+          }
+      );
     }
   }
 

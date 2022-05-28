@@ -29,7 +29,7 @@
         </ng-template> 
       </div>
         <ng-template #elseBlock>  
-          <mat-card class="card-game " (click)="onSelectedGame(game)">
+          <mat-card class="card-game">
             <div class="row">
               <div class="col-12">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"[(ngModel)]="adminfiltergames">
@@ -51,7 +51,7 @@
                   </div>    
                 </div>
               </div>
-              <div class="col-4 col-sm-2  col-md-2 ">              
+              <div class="col-4 col-sm-2 col-md-2 ">              
                 <button type="button" mat-icon-button color="accent" (click)="openDialogDeleteGame(game)">
                   <mat-icon>delete</mat-icon>Eliminar
                 </button>

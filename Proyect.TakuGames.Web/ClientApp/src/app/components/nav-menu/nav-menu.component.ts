@@ -38,17 +38,16 @@ export class NavMenuComponent implements OnDestroy {
     this.userId = localStorage.getItem('userId');
     this.favoritelistService.getFavoritelistItems(this.userId).subscribe();
     this.userService.getCartItemCount(this.userId).subscribe((data: number) => {
-    this.subscriptionService.cartItemcount$.next(data);
+      this.subscriptionService.cartItemcount$.next(data);
     });
-   
   }
   
   ngOnInit(): void {
-    this.userDataSubcription = this.subscriptionService.userData.asObservable().subscribe(data => {
-      this.userData = data;
-    });
+    this.userDataSubcription = this.subscriptionService.userData.asObservable()
+      .subscribe(data => {
+        this.userData = data;
+      });
     this.cartItemCount$ = this.subscriptionService.cartItemcount$;
-    console.log(this.userData);
   }
 
   logout(): void {
@@ -70,8 +69,8 @@ export class NavMenuComponent implements OnDestroy {
   }
 
   getGameDetails() {
-    this.userService.getUserById(this.userId).subscribe(
-      (result: User) => {
+    this.userService.getUserById(this.userId)
+      .subscribe((result: User) => {
         this.userImage = result;
       }, error => {
         console.log("Error ocurred while fetching game data:", error);

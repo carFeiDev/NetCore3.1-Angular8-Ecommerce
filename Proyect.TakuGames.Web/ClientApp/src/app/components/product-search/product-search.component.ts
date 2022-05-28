@@ -36,12 +36,10 @@ export class ProductSearchComponent implements OnInit {
   }
 
   getAllGameData() {
-    this.gameService.getAllGames().pipe(switchMap(
-      (data: Game[]) => {
-        this.filteredProducts = data;
-        return this.route.queryParams;
-      }
-    )).subscribe(params => {
+    this.gameService.getAllGames().pipe(switchMap((data: Game[]) => {
+      this.filteredProducts = data;
+      return this.route.queryParams;
+    })).subscribe(params => {
       this.category = params.category;
       this.searchItem = params.item;
       this.subscriptionService.searchItemValue$.next(this.searchItem);

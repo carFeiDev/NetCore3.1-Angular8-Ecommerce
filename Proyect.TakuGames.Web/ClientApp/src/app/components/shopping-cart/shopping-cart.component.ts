@@ -27,8 +27,7 @@ export class ShoppingCartComponent implements OnInit {
   showSpinner: boolean = false;
   showSpinnerIncr: boolean= false;
   
-  constructor(
-    private cartService: CartService,
+  constructor(private cartService: CartService,
     private snackbarService: SnackbarService,
     private snackBarService: SnackbarService,
     private subscriptionService: SubscriptionService,
@@ -55,26 +54,26 @@ export class ShoppingCartComponent implements OnInit {
   getAllCartItems() :void {
     this.cartService.getCartItems(this.userId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((data: ShoppingCart[]) => {               
-        this.listItems = data;
-        this.getTotalPriceCart();        
-        //this.showSpinner=false;     
-      }, error => {
-        console.log('Error ocurred :', error);
-      });
+        .subscribe((data: ShoppingCart[]) => {               
+          this.listItems = data;
+          this.getTotalPriceCart();        
+          //this.showSpinner=false;     
+        }, error => {
+          console.log('Error ocurred :', error);
+        });
   }
 
   purchaseOrder(): void {
     if(this.userData.isLoggedIn){      
       this.cartService.BuyCart(this.userId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(result => {   
-        this.cartService.clearCart(this.userId)
-          .subscribe((response) => {
-            this.subscriptionService.cartItemcount$.next(response); 
-            this.snackbarService.showSnackBar('La orden de compra se completo');
-            this.getAllCartItems();
-      });
+        .subscribe(result => {   
+          this.cartService.clearCart(this.userId)
+            .subscribe((response) => {
+              this.subscriptionService.cartItemcount$.next(response); 
+              this.snackbarService.showSnackBar('La orden de compra se completo');
+              this.getAllCartItems();
+        });
     });
     } else {
       this.router.navigate(['/login']);
@@ -84,8 +83,7 @@ export class ShoppingCartComponent implements OnInit {
   addOneCartItem(gameId: number): void {
     this.cartService.addItemToCart(this.userId, gameId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        result => {
+        .subscribe(result => {
           this.subscriptionService.cartItemcount$.next(result);
           this.snackBarService.showSnackBar('Se agrego una unidad al  carrito');
           this.getAllCartItems();
@@ -98,8 +96,7 @@ export class ShoppingCartComponent implements OnInit {
   deleteOneCartItem(gameId: number): void {
     this.cartService.deleteOneCartItem(this.userId, gameId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        result => {       
+        .subscribe(result => {       
           this.subscriptionService.cartItemcount$.next(result);      
           this.snackBarService.showSnackBar('Una unidad  se ha eliminado del producto');
           this.getAllCartItems(); 
@@ -112,8 +109,7 @@ export class ShoppingCartComponent implements OnInit {
   deleteCartItem(gameId: number): void {
     this.cartService.removeCartItems(this.userId, gameId)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        result => {
+        .subscribe(result => {
           this.subscriptionService.cartItemcount$.next(result);
           this.snackBarService.showSnackBar('Producto eliminado del carrito');
           this.getAllCartItems();

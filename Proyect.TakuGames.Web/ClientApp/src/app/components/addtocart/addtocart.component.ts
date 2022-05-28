@@ -19,12 +19,10 @@ export class AddtocartComponent {
   userData = new User();
   showSpinner: boolean;
 
-  constructor(
-    private cartService: CartService,
+  constructor(private cartService: CartService,
     private snackBarService: SnackbarService,
     private subscriptionService: SubscriptionService,
-    private router: Router)
-    {
+    private router: Router) {
       this.userId = localStorage.getItem('userId');
       this.userDataSubcription = this.subscriptionService.userData.asObservable().subscribe(data => {
         this.userData = data;
@@ -32,8 +30,8 @@ export class AddtocartComponent {
     }
 
   addOneItemToCart(): void {
-    this.cartService.addItemToCart(this.userId, this.gameId).subscribe(
-      result => {
+    this.cartService.addItemToCart(this.userId, this.gameId)
+      .subscribe(result => {
         this.subscriptionService.cartItemcount$.next(result);
         this.snackBarService.showSnackBar('Un producto se ha agregado al carrito de compras');
         this.activeSpinner();
@@ -43,8 +41,8 @@ export class AddtocartComponent {
   }
 
   addToCartAndGo(): void {
-    this.cartService.addItemToCart(this.userId, this.gameId).subscribe(
-      result => {
+    this.cartService.addItemToCart(this.userId, this.gameId)
+      .subscribe(result => {
         this.subscriptionService.cartItemcount$.next(result);
         this.router.navigate(['/shopping-cart']);
       }, error => {
