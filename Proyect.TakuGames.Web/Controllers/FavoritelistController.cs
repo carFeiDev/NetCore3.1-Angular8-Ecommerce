@@ -45,13 +45,14 @@ namespace Proyect.TakuGames.Web.Controllers
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<List<GameVM>>> Get(int userId)
         {
-            var resp = favoritelistBusiness.GetUserFavoritelist(userId);
-            List<GameVM> response = _mapper.Map<List<Game>, List<GameVM>>(resp);
-            return await Task.FromResult(response).ConfigureAwait(true);
+            var listFavorite = favoritelistBusiness.GetUserFavoritelist(userId);
+            List<GameVM> listFavoriteVM = _mapper.Map<List<Game>, List<GameVM>>(listFavorite);
+            return await Task.FromResult(listFavoriteVM).ConfigureAwait(true);
         }
 
         /// <summary>
-        /// Alterna los elementos en la lista de favoritos. Si el elemento no existe, se agregará a la lista de favoritos; de lo contrario, se eliminará.
+        /// Agregar o elimina un item de la lista de favoritos.
+        /// Si el elemento no existe, se agregará a la lista de favoritos; de lo contrario, se eliminará.
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="gameId"></param>
@@ -63,10 +64,10 @@ namespace Proyect.TakuGames.Web.Controllers
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<List<GameVM>>> Post(int userId, int gameId)
         {          
-            favoritelistBusiness.ToggleFavoritelistItem(userId, gameId);
-            var resp = favoritelistBusiness.GetUserFavoritelist(userId);
-            List<GameVM> response = _mapper.Map<List<Game>, List<GameVM>>(resp);
-            return await Task.FromResult(response).ConfigureAwait(true);
+            favoritelistBusiness.AddOrDeleteFavoriteListItem(userId, gameId);
+            var listFavorite = favoritelistBusiness.GetUserFavoritelist(userId);
+            List<GameVM> listFavoriteVm = _mapper.Map<List<Game>, List<GameVM>>(listFavorite);
+            return await Task.FromResult(listFavoriteVm).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace Proyect.TakuGames.Web.Controllers
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         public ActionResult<int> Delete(int userId)
         {
-            var response =favoritelistBusiness.ClearFavoritelist(userId);
+            var response = favoritelistBusiness.ClearFavoritelist(userId);
             return Ok(response);
         }
     }

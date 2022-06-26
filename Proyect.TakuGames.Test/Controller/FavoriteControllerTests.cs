@@ -65,7 +65,7 @@ namespace Proyect.TakuGames.Test.Controller
                 new Game(){GameId = 2,Title= "tittle1"},
             };
 
-            mockFavoriteBusiness.Setup(b => b.ToggleFavoritelistItem(user1.UserId, game1.GameId));
+            mockFavoriteBusiness.Setup(b => b.AddOrDeleteFavoriteListItem(user1.UserId, game1.GameId));
             mockFavoriteBusiness.Setup(b => b.GetUserFavoritelist(user1.UserId)).Returns(list);
             var ctl = new FavoritelistController( mockFavoriteBusiness.Object, mapper, logger.Object);
 

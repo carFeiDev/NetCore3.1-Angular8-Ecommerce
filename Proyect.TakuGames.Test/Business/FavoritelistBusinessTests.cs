@@ -72,7 +72,7 @@ namespace Proyect.TakuGames.Test.Business
             var favoritelistBusiness = new FavoritelistBusiness(unitOfWork, mapper,mockGameBusiness.Object,mockUserBusiness.Object, mocklogger.Object);
             
             //action    
-            favoritelistBusiness.ToggleFavoritelistItem(user1.UserId, favoritelistItem1.ProductId);
+            favoritelistBusiness.AddOrDeleteFavoriteListItem(user1.UserId, favoritelistItem1.ProductId);
 
             var result = unitOfWork.FavoritelistItemsRepository.Get().Where(x => x.ProductId == favoritelistItem1.ProductId && x.FavoritelistId == favoritelist1.FavoritelistId).FirstOrDefault();
             //assert
@@ -94,7 +94,7 @@ namespace Proyect.TakuGames.Test.Business
             var favoritelistBusiness = new FavoritelistBusiness(unitOfWork, mapper,mockGameBusiness.Object,mockUserBusiness.Object, mocklogger.Object);
             
             //action    
-            favoritelistBusiness.ToggleFavoritelistItem(user1.UserId, favoritelistItem1.ProductId);
+            favoritelistBusiness.AddOrDeleteFavoriteListItem(user1.UserId, favoritelistItem1.ProductId);
 
             var result = unitOfWork.FavoritelistItemsRepository.Get().Where(x => x.ProductId == favoritelistItem1.ProductId && x.FavoritelistId == favoritelist1.FavoritelistId).FirstOrDefault();
             //assert
