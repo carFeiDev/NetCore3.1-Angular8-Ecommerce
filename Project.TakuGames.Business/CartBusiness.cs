@@ -12,12 +12,59 @@ namespace Project.TakuGames.Dal
 {
     public class CartBusiness : BaseBusiness, ICartBusiness
     {      
-        public CartBusiness(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            ILogger<CartBusiness> logger)
-            : base(unitOfWork, mapper, logger) { }
+        public CartBusiness(IUnitOfWork unitOfWork,
+                            IMapper mapper,
+                            ILogger<CartBusiness> logger)
+                            : base(unitOfWork, mapper, logger){ }
+                            
+        public void MergeTempUserCartWithLoggedUserCart(int tempUserId, int permUserId)
+        {
+            try
+            {
+                if (tempUserId != permUserId && tempUserId > 0 && permUserId > 0)
+                {
+                    string tempCartId = GetCartId(tempUserId);
+                    string permCartId = GetCartId(permUserId);
+                    List<CartItems> tempCartItems = UnitOfWork.CartItemsRepository
+                                                    .Get(x => x.CartId == tempCartId)
+                                                    .ToList();
 
+                    foreach (CartItems tempItem in tempCartItems)
+                    {                                         
+                        CartItems existingItem = UnitOfWork.CartItemsRepository
+                                                    .Get(x => x.ProductId == tempItem.ProductId && x.CartId == permCartId)
+                                                    .FirstOrDefault();
+
+                        if (existingItem != null)
+                        {
+                            existingItem.Quantity += tempItem.Quantity;
+                            UnitOfWork.CartItemsRepository.Update(existingItem);
+                        }
+                        else
+                        {
+                            CartItems newCartItem = new CartItems
+                            {
+                                CartId = permCartId,
+                                ProductId = tempItem.ProductId,
+                                Quantity = tempItem.Quantity
+                            };
+                            
+                            UnitOfWork.CartItemsRepository.Insert(newCartItem);
+                        }
+
+                        UnitOfWork.CartItemsRepository.Delete(tempItem);
+                        UnitOfWork.Save();
+                    }
+                    
+                    DeleteTempCart(tempCartId);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        
         public void AddGameToCart(int userId, int gameId)
         {
             string cartId = GetCartId(userId);
@@ -26,9 +73,8 @@ namespace Project.TakuGames.Dal
             CartItems existingCartItem = GetCartItem(gameId, cartId);
             if (existingCartItem != null)
             {
-                existingCartItem.Quantity += 1;
+                existingCartItem.Quantity += quantity;
                 UnitOfWork.CartItemsRepository.Update(existingCartItem);
-                UnitOfWork.Save();
             }
             else
             {
@@ -40,10 +86,12 @@ namespace Project.TakuGames.Dal
 
                 };
 
-                UnitOfWork.CartItemsRepository.Insert(cartItems);
-                UnitOfWork.Save();
+                UnitOfWork.CartItemsRepository.Insert(cartItems);                
             }
+
+            UnitOfWork.Save();
         }
+
         public string CreateCart(int userId)
         {
             try
@@ -87,7 +135,8 @@ namespace Project.TakuGames.Dal
                 throw;
             }
         }
-        public void DeleteCart(string cartId)
+      
+        public void DeleteTempCart(string cartId)
         {           
             Cart cart = UnitOfWork.CartRepository.GetByID(cartId);         
             UnitOfWork.CartRepository.Delete(cart);
@@ -110,6 +159,7 @@ namespace Project.TakuGames.Dal
             }
 
         }
+ 
         public int GetCartItemCount(int userId)
         {
             string cartId = GetCartId(userId);
@@ -121,48 +171,7 @@ namespace Project.TakuGames.Dal
 
             return 0;
         }
-
-        public void MergeCart(int tempUserId, int permUserId)
-        {
-            try
-            {
-                if (tempUserId != permUserId && tempUserId > 0 && permUserId > 0)
-                {
-                    string tempCartId = GetCartId(tempUserId);
-                    string permCartId = GetCartId(permUserId);
-                    List<CartItems> tempCartItems = UnitOfWork.CartItemsRepository.Get(x => x.CartId == tempCartId).ToList();
-                    foreach (CartItems item in tempCartItems)
-                    {                                         
-                        CartItems cartItem = UnitOfWork.CartItemsRepository.Get(x => x.ProductId == item.ProductId && x.CartId == item.CartId).FirstOrDefault();
-                        if (cartItem != null)
-                        {
-                            cartItem.Quantity += item.Quantity;
-                            UnitOfWork.CartItemsRepository.Update(cartItem);
-                        }
-                        else
-                        {
-                            CartItems newCartItem = new CartItems
-                            {
-                                CartId = permCartId,
-                                ProductId = item.ProductId,
-                                Quantity = item.Quantity
-                            };
-                            
-                            UnitOfWork.CartItemsRepository.Insert(newCartItem);
-                        }
-
-                        UnitOfWork.CartItemsRepository.Delete(item);
-                        UnitOfWork.Save();
-                    }
-                    
-                    DeleteCart(tempCartId);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
+ 
         public void RemoveCartItem(int userId, int gameId)
         {
             try
@@ -177,6 +186,7 @@ namespace Project.TakuGames.Dal
                 throw;
             }
         }
+        
         #region helper
         public string GetCartId(int userId)
         {
@@ -197,22 +207,33 @@ namespace Project.TakuGames.Dal
                 throw;
             }
         }
+    
         private Cart GetCart(int userId)
         {
-            return UnitOfWork.CartRepository.Get(x => x.UserId == userId).FirstOrDefault();     
+            return UnitOfWork.CartRepository
+                    .Get(x => x.UserId == userId)
+                    .FirstOrDefault();     
         }
 
         private CartItems GetCartItem(int gameId, string cartId)
         {            
-            return UnitOfWork.CartItemsRepository.Get(x => x.ProductId == gameId && x.CartId == cartId).FirstOrDefault();
+            return UnitOfWork.CartItemsRepository
+                    .Get(x => x.ProductId == gameId && x.CartId == cartId)
+                    .FirstOrDefault();
         }
+     
         private List<CartItems> ListCartItems(string cartId)
         {
-            return UnitOfWork.CartItemsRepository.Get(x => x.CartId == cartId).ToList();
+            return UnitOfWork.CartItemsRepository
+                    .Get(x => x.CartId == cartId)
+                    .ToList();
         }
+    
         private int SumCartItem(string cartId)
         {
-            return UnitOfWork.CartItemsRepository.Get(x => x.CartId == cartId).Sum(x => x.Quantity);
+            return UnitOfWork.CartItemsRepository
+                    .Get(x => x.CartId == cartId)
+                    .Sum(x => x.Quantity);
         }
 
         #endregion

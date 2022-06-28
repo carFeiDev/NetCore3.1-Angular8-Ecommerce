@@ -129,7 +129,7 @@ namespace Proyect.TakuGames.Test.Business
             var cartbusiness = new CartBusiness(unitOfWork, mapper, logger.Object);
             
             //action
-            cartbusiness.DeleteCart("1");
+            cartbusiness.DeleteTempCart("1");
             var resp = unitOfWork.CartRepository.Get().Where(x => x.CartId == "1");
 
             //assert

@@ -30,11 +30,11 @@ namespace Proyect.TakuGames.Web.Controllers
         /// <param name="mapper"></param>
         /// <param name="logger"></param> 
     
-        public ShoppingCartController(
-            ICartBusiness cartBusiness,
-            IGameBusiness gameBusiness,
-            IMapper mapper,
-            ILogger<ShoppingCartController> logger) : base(logger, mapper)
+        public ShoppingCartController(ICartBusiness cartBusiness,
+                                      IGameBusiness gameBusiness,
+                                      IMapper mapper,
+                                      ILogger<ShoppingCartController> logger) 
+                                      : base(logger, mapper)
         {
             this.cartBusiness = cartBusiness;
             this.gameBusiness = gameBusiness;
@@ -53,7 +53,7 @@ namespace Proyect.TakuGames.Web.Controllers
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
         public ActionResult<int> Get(int oldUserId, int newUserId)
         {
-            cartBusiness.MergeCart(oldUserId, newUserId);
+            cartBusiness.MergeTempUserCartWithLoggedUserCart(oldUserId, newUserId);
             var response = cartBusiness.GetCartItemCount(newUserId); 
             return response;
         }
