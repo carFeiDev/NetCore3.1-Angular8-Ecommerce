@@ -36,7 +36,8 @@ namespace Proyect.TakuGames.Web
             services.AddControllersWithViews();
             services.AddAutoMapper(Assembly.GetAssembly(typeof(Project.TakuGames.Model.ViewModels.AutomapperProfile)));
             services.AddMvc();
-
+            services.AddMemoryCache();
+            
             DependenciesInjection.ConfigureServices(services, Configuration);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

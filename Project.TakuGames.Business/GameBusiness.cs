@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Dal;
 using Project.TakuGames.Model.Domain;
@@ -9,19 +10,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Project.TakuGames.Business
 {
     public class GameBusiness :BaseBusiness, IGameBusiness
     {
+        private static string CacheKeyAll = "games-all";
+        private readonly IMemoryCache memoryCache;
         public GameBusiness(IUnitOfWork unitOfWork,
                             IMapper mapper,
+                            IMemoryCache memoryCache,
                             ILogger<GameBusiness> logger)
-                            : base(unitOfWork, mapper, logger) { }
+                            : base(unitOfWork, mapper, logger)
+        {
+            this.memoryCache = memoryCache;
+        }
         public List<Game> GetAllGames()
         {
-            return ListAllFromDatabase();
+            return ListAllGamesFromCache();
         }
+        
         public Game GetGame(int GameId)
         {
             return GameSearch(GameId);
@@ -31,8 +38,11 @@ namespace Project.TakuGames.Business
         {
             UnitOfWork.GameRepository.Insert(game);
             UnitOfWork.Save();
+
+            RefrescarCache();
             return game;
         }
+
         public Game UpdateGame(Game game)
         {
             ValidateUpdateGame(game);
@@ -48,6 +58,8 @@ namespace Project.TakuGames.Business
 
             UnitOfWork.GameRepository.Update(newGameData);
             UnitOfWork.Save();
+
+            RefrescarCache();
             return game;
         }
     
@@ -56,6 +68,8 @@ namespace Project.TakuGames.Business
             var gam = GameSearch(id);
             UnitOfWork.GameRepository.Delete(gam);
             UnitOfWork.Save();
+            
+            RefrescarCache();
             return (gam.CoverFileName);
         }
 
@@ -89,15 +103,15 @@ namespace Project.TakuGames.Business
             listCategories = UnitOfWork.CategoriesRepository.Get().ToList();
             return listCategories;
         }
+
         public List<Game> GetSimilarGames(int gameid)
         {
-            List<Game> lstGame = new List<Game>();
             Game game = GameSearch(gameid);           
-            lstGame = UnitOfWork.GameRepository.Get().Where(x => x.Category == game.Category && x.GameId != game.GameId)
-                                               .OrderBy(u => Guid.NewGuid())
-                                               .Take(9)
-                                               .ToList();
-            return lstGame;
+            return ListAllGamesFromCache()
+                    .Where(x => x.Category == game.Category && x.GameId != game.GameId)
+                    .OrderBy(u => Guid.NewGuid())
+                    .Take(9)
+                    .ToList();
         }
 
         public List<Game> GetGamesAvailableInFavoritelist(string favoritelistId)
@@ -141,19 +155,36 @@ namespace Project.TakuGames.Business
         #endregion
         
         #region Helper
-        private List<Game> ListAllFromDatabase()
+        private List<Game> ListAllGamesFromDatabase()
         {
             var resp = UnitOfWork.GameRepository.Get().ToList();
             return resp;
         }
+
         private Game GameSearch(int gameId)
         {
-            return UnitOfWork.GameRepository.Get().Where(x => x.GameId == gameId ).FirstOrDefault();
+            return ListAllGamesFromCache().Where(x => x.GameId == gameId ).FirstOrDefault();
         }
-        private List<FavoritelistItems> GetAllFavoritelistItems(){
+
+        private List<FavoritelistItems> GetAllFavoritelistItems()
+        {
             return  UnitOfWork.FavoritelistItemsRepository.Get().ToList();
         }
-      
+
+        private List<Game> ListAllGamesFromCache()
+        {
+            var response = memoryCache.GetOrCreate(CacheKeyAll, entry =>
+                {
+                    entry.SetSlidingExpiration(TimeSpan.FromDays(1));
+                    return ListAllGamesFromDatabase();
+                });
+            return response;
+        }
+
+        private void RefrescarCache()
+        {
+            memoryCache.Set(CacheKeyAll, ListAllGamesFromDatabase(), TimeSpan.FromDays(1));
+        }
         #endregion
     }
 }
