@@ -1,12 +1,15 @@
-﻿using Project.TakuGames.Model.Dal;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using Project.TakuGames.Model.Dal;
 using Proyect.TakuGames.Test.Helpers;
 using Project.TakuGames.Business;
 using Project.TakuGames.Model.Domain;
-using Microsoft.Extensions.Logging;
 using AutoMapper;
 using Moq;
 using Xunit;
-using System;
 
 namespace Proyect.TakuGames.Test.Business
 {
@@ -16,9 +19,14 @@ namespace Proyect.TakuGames.Test.Business
         private readonly IMapper mapper;     
         private readonly Mock<ILogger<GameBusiness>> logger;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMemoryCache memoryCache;
         public GameBusinessTests(MapperFixture mapperFixture)
         {
             mapper = mapperFixture.mapper;
+            var services = new ServiceCollection();
+            services.AddMemoryCache();
+            var serviceProvider = services.BuildServiceProvider();
+            memoryCache = serviceProvider.GetService<IMemoryCache>();
             logger = new Mock<ILogger<GameBusiness>>();
             unitOfWork = new FakeDAL.FakeUnitOfWork();
         }
@@ -27,11 +35,65 @@ namespace Proyect.TakuGames.Test.Business
         public void ListarGamesTest()
         {
             //arrange
-            var game1 = new Game() { GameId = 1, Title = "Title1" };
-            var game2 = new Game() { GameId = 2, Title = "Title2" };
-            var game3 = new Game() { GameId = 3, Title = "Title3" };
-            var game4 = new Game() { GameId = 4, Title = "Title4" };
-            var game5 = new Game() { GameId = 5, Title = "Title5" };
+            var game1 = new Game()
+            {   GameId = 1,
+                Title = "Title1",
+                Description = "description1",
+                Developer = "developer1",
+                Publisher = "publisher1",
+                Platform = "platform1",
+                Category = "category1",
+                Price = 1000,
+                CoverFileName = "coverfilname1"
+            };
+
+            var game2 = new Game()
+            {   GameId = 2,
+                Title = "Title2",
+                Description = "description2",
+                Developer = "developer2",
+                Publisher = "publisher2",
+                Platform = "platform2",
+                Category = "category2",
+                Price = 2000,
+                CoverFileName = "coverfilname2"
+             };
+
+            var game3 = new Game() 
+            {   GameId = 3,
+                Title = "Title3",
+                Description = "description3",
+                Developer = "developer3",
+                Publisher = "publisher3",
+                Platform = "platform3",
+                Category = "category3",
+                Price = 3000,
+                CoverFileName = "coverfilname3"
+             };
+
+            var game4 = new Game()
+            {   GameId = 4,
+                Title = "Title4",
+                Description = "description4",
+                Developer = "developer4",
+                Publisher = "publisher4",
+                Platform = "platform4",
+                Category = "category4",
+                Price = 4000,
+                CoverFileName = "coverfilname4"
+             };
+
+            var game5 = new Game()
+            {   GameId = 5,
+                Title = "Title5",
+                Description = "description5",
+                Developer = "developer5",
+                Publisher = "publisher5",
+                Platform = "platform5",
+                Category = "category5",
+                Price = 5000,
+                CoverFileName = "coverfilname5"
+             };
             
             unitOfWork.GameRepository.Insert(game1);
             unitOfWork.GameRepository.Insert(game2);
@@ -39,13 +101,19 @@ namespace Proyect.TakuGames.Test.Business
             unitOfWork.GameRepository.Insert(game4);
             unitOfWork.GameRepository.Insert(game5);
 
-            var gameBusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var gameBusiness = new GameBusiness(unitOfWork, mapper,memoryCache, logger.Object);
             
             //action
             var resp = gameBusiness.GetAllGames();
             
             //assert
             Assert.NotEmpty(resp);
+            Assert.IsType<List<Game>>(resp);
+            Assert.Equal(game1,resp[0]);
+            Assert.Equal(game2,resp[1]);
+            Assert.Equal(game3,resp[2]);
+            Assert.Equal(game4,resp[3]);
+            Assert.Equal(game5,resp[4]); 
         }
 
         [Fact]
@@ -59,7 +127,7 @@ namespace Proyect.TakuGames.Test.Business
             unitOfWork.GameRepository.Insert(game1);
             unitOfWork.GameRepository.Insert(game2);
 
-            var gameBusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var gameBusiness = new GameBusiness(unitOfWork, mapper,memoryCache, logger.Object);
             
             //action
             var resp = gameBusiness.GetGame(idgame);
@@ -87,7 +155,7 @@ namespace Proyect.TakuGames.Test.Business
                 CoverFileName = "coverfilname"
             };
 
-            var gameBusiness = new GameBusiness(unitOfWork, mapper, logger.Object);            
+            var gameBusiness = new GameBusiness(unitOfWork, mapper,memoryCache, logger.Object);            
             
             //action
             var resp = gameBusiness.CreateGame(game);
@@ -135,7 +203,7 @@ namespace Proyect.TakuGames.Test.Business
             };
 
             unitOfWork.GameRepository.Insert(game);
-            var gamebusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var gamebusiness = new GameBusiness(unitOfWork, mapper, memoryCache, logger.Object);
 
             //action
             var resp = gamebusiness.UpdateGame(newgame);
@@ -183,7 +251,7 @@ namespace Proyect.TakuGames.Test.Business
             };
             
             unitOfWork.GameRepository.Insert(game);
-            var gamebusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var gamebusiness = new GameBusiness(unitOfWork, mapper, memoryCache, logger.Object);
 
 
             //action
@@ -221,7 +289,7 @@ namespace Proyect.TakuGames.Test.Business
             };
 
             unitOfWork.GameRepository.Insert(game);           
-            var bis = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var bis = new GameBusiness(unitOfWork, mapper, memoryCache, logger.Object);
 
             //action
             var returnImage = bis.DeleteGame(gameId);
@@ -244,7 +312,7 @@ namespace Proyect.TakuGames.Test.Business
             unitOfWork.CategoriesRepository.Insert(categorie1);
             unitOfWork.CategoriesRepository.Insert(categorie2);
             
-            var gameBusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var gameBusiness = new GameBusiness(unitOfWork, mapper, memoryCache, logger.Object);
             
             //action
             var listCategories = gameBusiness.GetCategories();
@@ -295,7 +363,7 @@ namespace Proyect.TakuGames.Test.Business
             unitOfWork.CartItemsRepository.Insert(cartItems2);
             unitOfWork.CartRepository.Insert(cart);
 
-            var gameBusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var gameBusiness = new GameBusiness(unitOfWork, mapper, memoryCache, logger.Object);
             
             //action
             var listCart = gameBusiness.GetGameAvailableInCart("1");
@@ -320,7 +388,7 @@ namespace Proyect.TakuGames.Test.Business
             unitOfWork.GameRepository.Insert(game2);
             unitOfWork.GameRepository.Insert(game3);
 
-            var gameBusiness = new GameBusiness(unitOfWork, mapper, logger.Object);
+            var gameBusiness = new GameBusiness(unitOfWork, mapper, memoryCache, logger.Object);
             
             //action
             var resp = gameBusiness.GetSimilarGames(game1.GameId);

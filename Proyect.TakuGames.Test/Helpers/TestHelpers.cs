@@ -24,9 +24,7 @@ namespace Proyect.TakuGames.Test.Helpers
 
         public void Dispose()
         {
-            //  Mapper.Reset();
-            
-               
+            //  Mapper.Reset();            
         }
 
 
