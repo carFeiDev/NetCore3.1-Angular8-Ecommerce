@@ -1,22 +1,22 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 using Project.TakuGames.Model.Business;
 using Project.TakuGames.Model.Dal;
 using Project.TakuGames.Model.Domain;
 using Project.TakuGames.Model.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Project.TakuGames.Business
 {
     public class OrderBusiness: BaseBusiness, IOrderBusiness
     {
-        public OrderBusiness(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            ILogger<OrderBusiness> logger): base(unitOfWork, mapper, logger
-            ){}
+        public OrderBusiness(IUnitOfWork unitOfWork,
+                             IMapper mapper,
+                             ILogger<OrderBusiness> logger)
+                             : base(unitOfWork, mapper, logger)
+                             {}
 
         public void CreateOrder(int userId, OrdersDto orderDetails)
         {
@@ -61,25 +61,26 @@ namespace Project.TakuGames.Business
 
         public List<CustomerOrders> GetListCustumerOrderUser(int userId)
         {
-            return GetAllCustumerOrdersWithUserId(userId);
+            return GetAllOrdersOfUser(userId);
         }
+
         public List<OrdersUserDto> GetOrdenUserDto(int userId)
         {
             try
             {                
-                List<CustomerOrders> custumerOrdersList = GetAllCustumerOrdersWithUserId(userId);
-                List<OrdersUserDto> orderUserList = new List<OrdersUserDto>();
-                foreach (CustomerOrders item in custumerOrdersList)
+                List<CustomerOrders> orders = GetAllOrdersOfUser(userId);
+                List<OrdersUserDto> userOrderslistDto  = new List<OrdersUserDto>();
+                foreach (CustomerOrders order in orders)
                 {                  
-                    List<CustomerOrderDetails> custumerOrdersDetailsList = GetAllCustomerOrderDetailsWithUserId(item.OrderId);
-                    OrdersUserDto orderUserDto = new OrdersUserDto
+                    List<CustomerOrderDetails> ordersDetails = GetAllOrdersDetailsOfUser(order.OrderId);
+                    OrdersUserDto userOrderDto = new OrdersUserDto
                     {
-                        CustomerOrderDetails = custumerOrdersDetailsList,
-                        DateCreated = item.DateCreated,
+                        CustomerOrderDetails = ordersDetails,
+                        DateCreated = order.DateCreated,
                     };
-                    orderUserList.Add(orderUserDto);
+                    userOrderslistDto.Add(userOrderDto);
                 }
-                return orderUserList;
+                return userOrderslistDto;
             }
             catch
             {
@@ -95,30 +96,34 @@ namespace Project.TakuGames.Business
             Random rnd = new Random();
             return rnd.Next(Convert.ToInt32(Math.Pow(10, length - 1)), Convert.ToInt32(Math.Pow(10, length)));
         }
+
         private List<CustomerOrderDetails> ListAllCustomerOrdersDetailsFromDatabase()
         {
-            var resp = UnitOfWork.CustomerOrderDetailsRepository.Get().ToList();
-            return resp;
+            return UnitOfWork.CustomerOrderDetailsRepository.Get().ToList();            
         }
-        private List<CustomerOrderDetails> GetAllCustomerOrderDetailsWithUserId(string orderId)
+
+        private List<CustomerOrderDetails> GetAllOrdersDetailsOfUser(string orderId)
         {
-            return ListAllCustomerOrdersDetailsFromDatabase()
-                .Where(x => x.OrderId == orderId)
-                .ToList();
+            return UnitOfWork.CustomerOrderDetailsRepository
+                    .Get()
+                    .Where(x => x.OrderId == orderId)
+                    .ToList();            
         }
+
         private List<CustomerOrders> ListAllCustumerOrdersFromDatabase()
         {
-            return  UnitOfWork.CustomerOrdersRepository.Get().ToList();
-            
+            return UnitOfWork.CustomerOrdersRepository.Get().ToList();            
         }
-        private List<CustomerOrders> GetAllCustumerOrdersWithUserId(int userId)
+
+        private List<CustomerOrders> GetAllOrdersOfUser(int userId)
         {
-            return ListAllCustumerOrdersFromDatabase()
-                    .Where( x => x.UserId == userId )
-                    .OrderByDescending( x => x.DateCreated )
-                    .ToList();
+            return UnitOfWork.CustomerOrdersRepository
+                    .Get()
+                    .Where(x => x.UserId == userId)
+                    .OrderByDescending(b => b.DateCreated)
+                    .ToList();                
         }
-        
+     
         #endregion
     }
 }

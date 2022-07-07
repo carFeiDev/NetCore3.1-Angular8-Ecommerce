@@ -43,11 +43,10 @@ namespace Proyect.TakuGames.Web.Controllers
         [HttpGet("{userId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ComponentError), (int)HttpStatusCode.BadRequest)]
-        public ActionResult<List<OrdersUserDtoVM>> Get(int userId)
+        public ActionResult<List<OrdersUserDto>> Get(int userId)
         {
             var resp = orderBusiness.GetOrdenUserDto(userId);
-            List<OrdersUserDtoVM> response = _mapper.Map<List<OrdersUserDto>, List<OrdersUserDtoVM>>(resp);
-            return response;
+            return resp;
         }
     }
 }

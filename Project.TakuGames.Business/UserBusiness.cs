@@ -28,6 +28,7 @@ namespace Project.TakuGames.Business
         {
             this._config = config;
         }
+
         public UserMaster AuthenticateUser(UserMaster loginCredentials)
         {
             return  UnitOfWork.UserMasterRepository
@@ -35,7 +36,8 @@ namespace Project.TakuGames.Business
                                       && user.Password == Encrypt.GetSHA256(loginCredentials.Password))
                             .FirstOrDefault();                                         
         }
-         public UserMaster RegisterUser(UserMaster newUser)
+
+        public UserMaster RegisterUser(UserMaster newUser)
         {                   
             ValidateUserCreate(newUser);          
             newUser.UserTypeId = 2;
@@ -43,7 +45,8 @@ namespace Project.TakuGames.Business
             UnitOfWork.UserMasterRepository.Insert(newUser);
             UnitOfWork.Save();
             return newUser;                       
-        } 
+        }
+
         public UserMaster EditUser(UserMaster editUser)
         {
             ValidateEditUser(editUser);
@@ -62,7 +65,8 @@ namespace Project.TakuGames.Business
             UnitOfWork.UserMasterRepository.Update(newEditUser);
             UnitOfWork.Save();
             return newEditUser;
-        }   
+        }
+
         public UserMaster GetUser(int userId)
         {
             return UserSearch(userId);
@@ -92,6 +96,7 @@ namespace Project.TakuGames.Business
         }
 
         #region Validations
+
         private void ValidateUserCreate(UserMaster user)
         {
             ValidateUserExists(user);
@@ -100,6 +105,7 @@ namespace Project.TakuGames.Business
                 throw new BadRequestException(ComponentError);
             }
         }
+
         private void ValidateEditUser(UserMaster usermaster)
         {
             ValidateExistId(usermaster);
@@ -108,6 +114,7 @@ namespace Project.TakuGames.Business
                 throw new BadRequestException(ComponentError);
             }
         }
+
         private void ValidateUserExists(UserMaster user)
         {
             var userExists = ListAllFromDatabase().Any(b => b.UserName.ToUpperInvariant() == user.UserName.ToUpperInvariant());
@@ -115,7 +122,8 @@ namespace Project.TakuGames.Business
             {
                 ComponentError.AddModelError(nameof(user.UserName), new ApplicationException($"Ya existe un usuario:{user.UserName}"));
             }
-        }   
+        }
+
           private void ValidateExistId(UserMaster usermaster)
         {
             var user = UserSearch(usermaster.UserId);
@@ -124,20 +132,22 @@ namespace Project.TakuGames.Business
                 throw new NotFoundException();
             }
         }
+
         #endregion
 
         #region helpers
+
         private List<UserMaster> ListAllFromDatabase()
         {
             var resp = UnitOfWork.UserMasterRepository.Get().ToList();
             return resp;
         }
+
         private  UserMaster UserSearch(int userId)
         {
-            return ListAllFromDatabase()
-                    .Where(x => x.UserId == userId)
-                    .FirstOrDefault();
+            return ListAllFromDatabase().Where(x => x.UserId == userId).FirstOrDefault();
         }
+        
         #endregion
     }    
 }
